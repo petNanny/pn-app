@@ -3,7 +3,8 @@ import { render, screen } from "@testing-library/react";
 import App from "../App";
 
 test("renders learn react link", () => {
+  //FIXME: this one need rewrite when the project run
   render(<App />);
-  const linkElement = screen.getByText(/pet/i);
+  const linkElement = screen.getByText(/GoogleMap/i);
   expect(linkElement).toBeInTheDocument();
 });
