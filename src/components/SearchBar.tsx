@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Box,
   Heading,
@@ -15,6 +15,7 @@ import {
   MenuDivider,
   Text,
   Img,
+  Button,
 } from "@chakra-ui/react";
 import { MdOutlineSearch, MdArrowDropDown } from "react-icons/md";
 import homeDogBoarding from "../assets/Icons/homeDogBoarding.svg";
@@ -22,11 +23,16 @@ import doggyDayCare from "../assets/Icons/doggyDayCare.svg";
 import dogWalking from "../assets/Icons/dogWalking.svg";
 import homeVisits from "../assets/Icons/homeVisits.svg";
 import houseSitting from "../assets/Icons/houseSitting.svg";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import type { Value } from "react-multi-date-picker";
+import "./datepicker.css";
 
 const SearchBar = () => {
   const [serviceText, setServiceText] = useState(<Box>Looking for</Box>);
   const [serviceH1, setServiceH1] = useState("");
   const [serviceDetail, setServiceDetail] = useState("");
+  const [dates, setDates] = useState<Value>(null);
+  const [petsNum, setPetsNum] = useState("pets");
 
   const changeServiceText = (img: string, text: string) => {
     setServiceText(
@@ -47,6 +53,16 @@ const SearchBar = () => {
     setServiceDetail(value);
   };
 
+  const datePickerRef = useRef<any>();
+
+  const handleClear = () => {
+    setDates(null);
+  };
+
+  const handleApply = () => {
+    datePickerRef.current.closeCalendar();
+  };
+
   return (
     <>
       <Box
@@ -60,29 +76,27 @@ const SearchBar = () => {
       >
         <Heading
           as="h1"
-          fontSize="2rem"
           color="rgb(79, 79, 79)"
           fontWeight="normal"
           display="inline-block"
-          lineHeight="40px"
           marginBottom="1rem"
+          variant="1"
         >
           {serviceH1} Adelaide SA, Australia
         </Heading>
         <Heading
           as="h2"
-          fontSize="1.5rem"
           color="rgb(116, 116, 116)"
           fontWeight="normal"
           display="inline"
           marginLeft="1rem"
-          lineHeight="40px"
+          variant="2"
         >
           {serviceDetail}
         </Heading>
         <HStack spacing="1rem" marginBottom="1rem">
-          <Box minWidth="30rem">
-            <InputGroup>
+          <Box>
+            <InputGroup minWidth="30rem">
               <InputLeftElement height="50px">
                 <Icon
                   as={MdOutlineSearch}
@@ -105,23 +119,19 @@ const SearchBar = () => {
               />
             </InputGroup>
           </Box>
-          <Box minWidth="12rem">
+          <Box>
             <Menu autoSelect={false}>
               <MenuButton
                 border="1px solid rgb(206, 206, 206)"
                 borderRadius="4px"
                 height="50px"
+                minWidth="12rem"
                 padding="10px"
                 _expanded={{ borderColor: "rgb(0, 195, 138)" }}
               >
-                <Box display="flex" alignItems="center">
+                <Box display="flex" alignItems="center" justifyContent="space-around">
                   <Box color="rgb(116, 116, 116)">{serviceText}</Box>
-                  <Icon
-                    as={MdArrowDropDown}
-                    fontSize="24px"
-                    color="rgb(116, 116, 116)"
-                    marginLeft="5px"
-                  />
+                  <Icon as={MdArrowDropDown} fontSize="24px" color="rgb(116, 116, 116)" />
                 </Box>
               </MenuButton>
               <MenuList padding="0" width="400px" borderColor="rgb(206, 206, 206)">
@@ -259,6 +269,74 @@ const SearchBar = () => {
                     </Box>
                   </MenuItemOption>
                 </MenuOptionGroup>
+              </MenuList>
+            </Menu>
+          </Box>
+          <Box minWidth="12rem" height="50px" cursor="pointer">
+            <DatePicker
+              value={dates}
+              onChange={setDates}
+              range
+              minDate={new DateObject().subtract(0, "days")}
+              placeholder="Start date   >   End date"
+              inputClass="custom-input"
+              ref={datePickerRef}
+              className="custom-calendar"
+            >
+              <Box display="flex" justifyContent="space-between">
+                <Button
+                  fontSize="1rem"
+                  color="rgb(116, 116, 116)"
+                  backgroundColor="transparent"
+                  fontWeight="light"
+                  _hover={{ bg: "none", textDecoration: "underline rgb(116, 116, 116)" }}
+                  onClick={handleClear}
+                >
+                  Clear
+                </Button>
+                <Button
+                  fontSize="1rem"
+                  color="rgb(0, 195, 138)"
+                  backgroundColor="transparent"
+                  fontWeight="light"
+                  _hover={{ bg: "none", textDecoration: "underline rgb(0, 195, 138)" }}
+                  onClick={handleApply}
+                >
+                  Apply
+                </Button>
+              </Box>
+            </DatePicker>
+          </Box>
+          <Box>
+            <Menu autoSelect={false}>
+              <MenuButton
+                border="1px solid rgb(206, 206, 206)"
+                borderRadius="4px"
+                height="50px"
+                minWidth="7rem"
+                padding="10px"
+                _expanded={{ borderColor: "rgb(0, 195, 138)" }}
+              >
+                <Box display="flex" alignItems="center" justifyContent="space-around">
+                  <Box color="rgb(116, 116, 116)">{petsNum}</Box>
+                  <Icon as={MdArrowDropDown} fontSize="24px" color="rgb(116, 116, 116)" />
+                </Box>
+              </MenuButton>
+              <MenuList padding="0" width="400px" borderColor="rgb(206, 206, 206)">
+                <Box display="flex" padding="1rem" justifyContent="space-between">
+                  <Box display="flex" flexDirection="column">
+                    <Box>
+                      <Text>Small Dog</Text>
+                    </Box>
+                    <Box>
+                      <Text>0-10 kg</Text>
+                    </Box>
+                  </Box>
+                  <Box>0</Box>
+                </Box>
+                <Box>test2</Box>
+                <Box>test3</Box>
+                <Box>test4</Box>
               </MenuList>
             </Menu>
           </Box>

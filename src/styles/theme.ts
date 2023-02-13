@@ -1,7 +1,8 @@
 import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import { StyleFunctionProps } from "@chakra-ui/theme-tools";
 import buttonStyles from "./components/buttonStyles";
-import { fonts } from "./components/heading";
+import { theme as chakraTheme } from "@chakra-ui/react";
+import Heading from "./components/heading";
 
 const config: ThemeConfig = {
   initialColorMode: "light",
@@ -65,11 +66,20 @@ const colors = {
   },
 };
 
+const fonts = {
+  ...chakraTheme.fonts,
+  body: `Roboto, "Helvetica Neue", sans-serif`,
+  heading: `Roboto, "Helvetica Neue", sans-serif`,
+};
+
 const theme = extendTheme({
   colors,
   config,
   styles,
   fonts,
+  components: {
+    Heading,
+  },
 });
 
 export default theme;

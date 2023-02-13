@@ -1,0 +1,60 @@
+.custom-input {
+    border-radius: 4px;
+    border: 1px solid rgb(206, 206, 206);
+    padding: 10px;
+    background-color: white;
+    height: 50px;
+    text-align: center;
+    color: rgb(116, 116, 116);
+    cursor: pointer;
+    caret-color: transparent;
+  }
+
+  .custom-input::-webkit-input-placeholder {
+    color: rgb(116, 116, 116);
+  }
+
+  .custom-input:focus, .custom-input:focus-visible {
+    outline: none;
+    border: 1px solid rgb(0, 195, 138);
+  }
+
+.custom-calendar .rmdp-week-day {
+  color:rgb(139, 152, 152)
+}
+
+  .custom-calendar .rmdp-day {
+    color: rgb(116, 116, 116);
+  }
+
+  .custom-calendar .rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+    background-color: rgb(240, 248, 255);
+    color: rgb(116, 116, 116);
+  }
+
+  .custom-calendar .rmdp-day span {
+    font-size: 1rem;
+  }
+
+  .custom-calendar .rmdp-range {
+    background-color:rgb(0, 195, 138);
+    color: rgb(240, 248, 255);
+  }
+
+  .custom-calendar .rmdp-range.rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+    background-color: rgb(0, 195, 138);
+    color: rgb(240, 248, 255);
+  }
+
+  .custom-calendar .rmdp-disabled {
+    color: rgb(220, 224, 224);
+    background-color: white;
+  }
+
+  .custom-calendar .rmdp-today>span {
+    background-color: white;
+    color: rgb(116, 116, 116);
+    font-weight: bold;
+  }
+
+
