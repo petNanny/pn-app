@@ -1,6 +1,6 @@
 //FIXME: will delete, is an example, only for create folder structure
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { RootState } from "..";
 export interface AdminState {
   userId: string;
   email: string;
@@ -25,8 +25,8 @@ export const AdminSlice = createSlice({
   },
 });
 
-export const defaultUser = initialState;
 export const { updateAdminInfo } = AdminSlice.actions;
-export const adminData = (state: RootState) => state.user;
 
 export default AdminSlice.reducer;
+
+export const adminData = (state: RootState) => state.admin;
