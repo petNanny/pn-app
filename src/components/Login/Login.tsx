@@ -13,7 +13,7 @@ import {
   Flex,
   useToast,
 } from "@chakra-ui/react";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, FieldProps } from "formik";
 import { useDispatch } from "react-redux";
 import { setCredential } from "../../store/reducer/authSlice";
 import { useLoginMutation } from "../../redux/authApi";
@@ -63,17 +63,26 @@ const Login = () => {
         <Box width="480px">
           <Form>
             <Field name="email">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.email && form.touched.email}>
+              {({ field, form }: FieldProps) => (
+                <FormControl isInvalid={Boolean(form.errors.email && form.touched.email)}>
                   <FormLabel htmlFor="email"></FormLabel>
-                  <Input {...field} type="email" id="email" placeholder="Email" height="50px" />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                  <Input
+                    {...field}
+                    type="email"
+                    id="email"
+                    placeholder="Email"
+                    height="50px"
+                    aria-label="emailInput"
+                  />
+                  <FormErrorMessage data-testid="emailError">
+                    {form.errors.email as string}
+                  </FormErrorMessage>
                 </FormControl>
               )}
             </Field>
             <Field name="password">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.password && form.touched.password}>
+              {({ field, form }: FieldProps) => (
+                <FormControl isInvalid={Boolean(form.errors.password && form.touched.password)}>
                   <FormLabel htmlFor="password"></FormLabel>
                   <InputGroup>
                     <Input
@@ -83,6 +92,7 @@ const Login = () => {
                       placeholder="Password"
                       height="50px"
                       autoComplete="off"
+                      aria-label="passwordInput"
                     />
                     <InputRightElement
                       cursor="pointer"
@@ -96,6 +106,7 @@ const Login = () => {
                       )}
                     </InputRightElement>
                   </InputGroup>
+                  <FormErrorMessage>{form.errors.password as string}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>

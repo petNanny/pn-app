@@ -75,7 +75,7 @@ const RegisterPage = () => {
           _hover={{ textDecoration: "underline" }}
           onClick={() => navigate("/login")}
         >
-          Log in
+          Login
         </Text>
       </Stack>
     </Container>

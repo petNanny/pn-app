@@ -11,7 +11,7 @@ import {
   Box,
   useToast,
 } from "@chakra-ui/react";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, FieldProps } from "formik";
 import { useRegisterMutation } from "../../redux/authApi";
 import SignUpValidator from "./SignUpValidator";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -38,7 +38,7 @@ const SignUp = () => {
       validationSchema={SignUpValidator}
       onSubmit={async ({ firstName, lastName, userName, email, password, phone }, actions) => {
         try {
-          const { signUpUser }: any = await register({
+          await register({
             firstName,
             lastName,
             userName,
@@ -46,7 +46,6 @@ const SignUp = () => {
             password,
             phone,
           }).unwrap();
-          console.log(signUpUser);
           toast({
             title: "Account created.",
             description: "We've created your account for you.",
@@ -55,7 +54,6 @@ const SignUp = () => {
             isClosable: true,
             containerStyle: { fontSize: "20px", width: "480px", padding: "10px" },
           });
-          //localStorage.setItem("PetUserInfo", JSON.stringify(signUpUser));
           navigate("/chat");
           actions.setSubmitting(false);
         } catch (err: any) {
@@ -75,8 +73,8 @@ const SignUp = () => {
         <Box width="480px">
           <Form>
             <Field name="firstName">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.firstName && form.touched.firstName}>
+              {({ field, form }: FieldProps) => (
+                <FormControl isInvalid={Boolean(form.errors.firstName && form.touched.firstName)}>
                   <FormLabel htmlFor="firstName"></FormLabel>
                   <Input
                     {...field}
@@ -84,14 +82,17 @@ const SignUp = () => {
                     id="firstName"
                     placeholder="First name"
                     height="50px"
+                    aria-label="firstName"
                   />
-                  <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
+                  <FormErrorMessage data-testid="firstNameError">
+                    {form.errors.firstName as string}
+                  </FormErrorMessage>
                 </FormControl>
               )}
             </Field>
             <Field name="lastName">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.lastName && form.touched.lastName}>
+              {({ field, form }: FieldProps) => (
+                <FormControl isInvalid={Boolean(form.errors.lastName && form.touched.lastName)}>
                   <FormLabel htmlFor="lastName"></FormLabel>
                   <Input
                     {...field}
@@ -99,15 +100,18 @@ const SignUp = () => {
                     id="lastName"
                     placeholder="Last name"
                     height="50px"
+                    aria-label="lastName"
                   />
-                  <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
+                  <FormErrorMessage data-testid="lastNameError">
+                    {form.errors.lastName as string}
+                  </FormErrorMessage>
                 </FormControl>
               )}
             </Field>
 
             <Field name="userName">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.userName && form.touched.userName}>
+              {({ field, form }: FieldProps) => (
+                <FormControl isInvalid={Boolean(form.errors.userName && form.touched.userName)}>
                   <FormLabel htmlFor="userName"></FormLabel>
                   <Input
                     {...field}
@@ -115,23 +119,33 @@ const SignUp = () => {
                     id="userName"
                     placeholder="User name"
                     height="50px"
+                    aria-label="userName"
                   />
-                  <FormErrorMessage>{form.errors.userName}</FormErrorMessage>
+                  <FormErrorMessage>{form.errors.userName as string}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
             <Field name="email">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.email && form.touched.email}>
+              {({ field, form }: FieldProps) => (
+                <FormControl isInvalid={Boolean(form.errors.email && form.touched.email)}>
                   <FormLabel htmlFor="email"></FormLabel>
-                  <Input {...field} type="email" id="email" placeholder="Email" height="50px" />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                  <Input
+                    {...field}
+                    type="email"
+                    id="email"
+                    placeholder="Email"
+                    height="50px"
+                    aria-label="email"
+                  />
+                  <FormErrorMessage data-testid="emailError">
+                    {form.errors.email as string}
+                  </FormErrorMessage>
                 </FormControl>
               )}
             </Field>
             <Field name="password">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.password && form.touched.password}>
+              {({ field, form }: FieldProps) => (
+                <FormControl isInvalid={Boolean(form.errors.password && form.touched.password)}>
                   <FormLabel htmlFor="password"></FormLabel>
                   <InputGroup>
                     <Input
@@ -140,6 +154,7 @@ const SignUp = () => {
                       id="password"
                       placeholder="Password"
                       height="50px"
+                      aria-label="password"
                     />
                     <InputRightElement
                       cursor="pointer"
@@ -153,16 +168,25 @@ const SignUp = () => {
                       )}
                     </InputRightElement>
                   </InputGroup>
-                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                  <FormErrorMessage data-testid="passwordError">
+                    {form.errors.password as string}
+                  </FormErrorMessage>
                 </FormControl>
               )}
             </Field>
             <Field name="phone">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.phone && form.touched.phone}>
+              {({ field, form }: FieldProps) => (
+                <FormControl isInvalid={Boolean(form.errors.phone && form.touched.phone)}>
                   <FormLabel htmlFor="phone"></FormLabel>
-                  <Input {...field} type="text" id="phone" placeholder="Phone" height="50px" />
-                  <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
+                  <Input
+                    {...field}
+                    type="text"
+                    id="phone"
+                    placeholder="Phone"
+                    height="50px"
+                    aria-label="phone"
+                  />
+                  <FormErrorMessage>{form.errors.phone as string}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>

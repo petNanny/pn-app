@@ -6,6 +6,7 @@ type Props = {
   strategyName: string;
   color: string;
 };
+
 const StrategiesLoginButton: React.FC<Props> = ({ icon, backgroundColor, strategyName, color }) => {
   return (
     <Button
@@ -17,6 +18,7 @@ const StrategiesLoginButton: React.FC<Props> = ({ icon, backgroundColor, strateg
       boxShadow="base"
       width="480px"
       height="50px"
+      data-testid="strategiesLoginButton"
     >
       <Box flexGrow={1}>Continue with {strategyName}</Box>
     </Button>

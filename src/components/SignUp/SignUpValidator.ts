@@ -30,7 +30,7 @@ const SignUpSchema = Yup.object().shape({
     .min(4, "4 to 24 characters.")
     .max(24, "4 to 24 characters."),
 
-  email: Yup.string().email("Must a valid email address").required("Required"),
+  email: Yup.string().email("Please input a valid email").required("Required"),
   password: Yup.string()
     .matches(
       passwordRegExp,
