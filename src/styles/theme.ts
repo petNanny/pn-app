@@ -64,6 +64,9 @@ const colors = {
     courtCategory: "#7c9fdf",
     courtType: "#E18E11",
   },
+  checkbox: {
+    500: "rgb(0, 195, 138)",
+  },
 };
 
 const fonts = {
