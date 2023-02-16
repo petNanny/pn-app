@@ -12,7 +12,19 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+
+type AdvancedFormValues = {
+  "Sitter has no dogs": boolean;
+  "Sitter has no children": boolean;
+  "Sitter has a fully fenced backyard": boolean;
+};
+
+type AdvancedFormCheckBoxNames =
+  | "Sitter has no dogs"
+  | "Sitter has no children"
+  | "Sitter has a fully fenced backyard";
 
 const AdvancedCheckItemText = chakra(Text, {
   baseStyle: {
@@ -31,6 +43,47 @@ const advancedCheckList = [
 
 const AdvancedInput = () => {
   const [advancedText, setAdvancedText] = useState(<Box>Advanced filters</Box>);
+  const [isActive, setIsActive] = useState(false);
+  const [activeItemsCount, setActiveItemsCount] = useState(0);
+
+  // const handleText = () => {
+  //   setIsActive(!isActive);
+  // };
+  // useEffect(() => {
+  //   if (!isActive) {
+  //     setActiveItemsCount((prevCount) => {
+  //       if (prevCount !== 0) {
+  //         return prevCount - 1;
+  //       }
+  //       return prevCount;
+  //     });
+  //   }
+  //   if (isActive) {
+  //     setActiveItemsCount((prevCount) => {
+  //       return prevCount + 1;
+  //     });
+  //   }
+  // }, [isActive, setActiveItemsCount]);
+
+  const {
+    handleSubmit: handleAdvanceInputSubmit,
+    control,
+    reset,
+  } = useForm({
+    defaultValues: {
+      "Sitter has no dogs": false,
+      "Sitter has no children": false,
+      "Sitter has a fully fenced backyard": false,
+    },
+  });
+
+  const handleAdvancedFormReset = () => {
+    reset();
+  };
+
+  const onAdvancedSubmit: SubmitHandler<AdvancedFormValues> = (data) => {
+    console.log(data);
+  };
 
   return (
     <>
@@ -45,7 +98,10 @@ const AdvancedInput = () => {
             _expanded={{ borderColor: "rgb(0, 195, 138)" }}
           >
             <Box display="flex" alignItems="center" justifyContent="space-around">
-              <Box color="rgb(116, 116, 116)">{advancedText}</Box>
+              <Box color="rgb(116, 116, 116)">
+                {advancedText}
+                {activeItemsCount}
+              </Box>
               <Icon as={MdArrowDropDown} fontSize="24px" color="rgb(116, 116, 116)" />
             </Box>
           </MenuButton>
@@ -58,22 +114,35 @@ const AdvancedInput = () => {
                 <Stack spacing="1rem">
                   {advancedCheckList.map((item) => {
                     return (
-                      <Checkbox
-                        margin="0"
-                        size="lg"
-                        colorScheme="white"
-                        iconColor="rgb(0, 195, 138)"
-                        sx={{
-                          "> span: first-of-type": {
-                            boxShadow: "unset",
-                          },
-                          "[date-checked]": { borderColor: "rgb(0, 195, 138)" },
-                        }}
+                      <Controller
+                        control={control}
+                        name={item.content as AdvancedFormCheckBoxNames}
                         key={item.id}
-                        _hover={{ borderColor: "rgb(0, 195, 138)" }}
-                      >
-                        <AdvancedCheckItemText>{item.content}</AdvancedCheckItemText>
-                      </Checkbox>
+                        defaultValue={false}
+                        render={({ field: { onChange, value, ref } }) => (
+                          <Checkbox
+                            margin="0"
+                            size="lg"
+                            colorScheme="white"
+                            iconColor="rgb(0, 195, 138)"
+                            sx={{
+                              "> span: first-of-type": {
+                                boxShadow: "unset",
+                              },
+                              "> .[date-checked]": { borderColor: "rgb(0, 195, 138)" },
+                            }}
+                            _hover={{ borderColor: "rgb(0, 195, 138)" }}
+                            onChange={(e) => {
+                              onChange(e);
+                              // handleText();
+                            }}
+                            ref={ref}
+                            isChecked={value}
+                          >
+                            <AdvancedCheckItemText>{item.content}</AdvancedCheckItemText>
+                          </Checkbox>
+                        )}
+                      />
                     );
                   })}
                 </Stack>
@@ -87,6 +156,7 @@ const AdvancedInput = () => {
                     backgroundColor="transparent"
                     fontWeight="light"
                     _hover={{ bg: "none", textDecoration: "underline rgb(116, 116, 116)" }}
+                    onClick={handleAdvancedFormReset}
                   >
                     Clear
                   </Button>
@@ -103,6 +173,7 @@ const AdvancedInput = () => {
                       background: "none",
                       textDecoration: "underline rgb(0, 195, 138)",
                     }}
+                    onClick={handleAdvanceInputSubmit(onAdvancedSubmit)}
                   >
                     Apply
                   </MenuItem>

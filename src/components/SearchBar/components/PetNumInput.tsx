@@ -169,7 +169,7 @@ const PetNumInput = () => {
     giantDog: giantDogNum,
     cat: catNum,
     smallAnimal: smallAnimalNum,
-    pets: totalPetsNum,
+    totalPets: totalPetsNum,
   };
 
   const onPetNumSubmit: SubmitHandler<PetNumFormValues> = () => {
