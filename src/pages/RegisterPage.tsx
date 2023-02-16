@@ -7,15 +7,15 @@ import { AiFillFacebook, AiFillApple } from "react-icons/ai";
 import SignUp from "../components/SignUp/SignUp";
 
 const RegisterPage = () => {
-  const navigate = useNavigate();
   const [showSignUpForm, setShowSignUpForm] = useState(false);
+  const navigate = useNavigate();
   return (
     <Container maxWidth="5xl" display="flex" justifyContent="center">
       <Stack display="flex" flexDirection="column" alignItems="center">
-        <Text textColor="#4F4F4F" fontSize="28">
+        <Text textColor="#4F4F4F" fontSize={{ base: "20", sm: "28" }}>
           Sign up for Pawshake
         </Text>
-        <Text textColor="#4F4F4F" fontSize="20">
+        <Text textColor="#4F4F4F" fontSize={{ base: "16", sm: "20" }}>
           {`It's free!`}
         </Text>
         <Box
@@ -53,7 +53,7 @@ const RegisterPage = () => {
               type="button"
               backgroundColor="#00C38A"
               color="#ffffff"
-              width="480px"
+              width={{ base: "300px", sm: "480px" }}
               height="50px"
               onClick={() => setShowSignUpForm(true)}
             >
@@ -64,13 +64,13 @@ const RegisterPage = () => {
           )}
         </Box>
         <Divider paddingY="4" />
-        <Text textColor="#4F4F4F" fontSize="28">
+        <Text textColor="#4F4F4F" fontSize={{ base: "20", sm: "28" }}>
           Already have a Pawshake account?
         </Text>
 
         <Text
           textColor="#00AFED"
-          fontSize="16"
+          fontSize={{ base: "16", sm: "20" }}
           cursor="pointer"
           _hover={{ textDecoration: "underline" }}
           onClick={() => navigate("/login")}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FormControl,
@@ -16,12 +16,62 @@ import { useRegisterMutation } from "../../redux/authApi";
 import SignUpValidator from "./SignUpValidator";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
+type FormikValueInputType = {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  password: string;
+  phone: string;
+};
+
+type FormikSubmitActionType = {
+  setSubmitting: (value: boolean) => void;
+};
+
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
+  const navigate = useNavigate();
   const toast = useToast();
-
+  const handleFormikSubmit = useCallback(
+    async (
+      { firstName, lastName, userName, email, password, phone }: FormikValueInputType,
+      actions: FormikSubmitActionType
+    ) => {
+      try {
+        await register({
+          firstName,
+          lastName,
+          userName,
+          email,
+          password,
+          phone,
+        }).unwrap();
+        toast({
+          title: "Account created.",
+          description: "We've created your account for you.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+        navigate("/chat");
+        actions.setSubmitting(false);
+      } catch (err: any) {
+        toast({
+          title: "Register failure.",
+          description: `We cannot create account. Reason: ${err.data?.message}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+        actions.setSubmitting(false);
+      }
+    },
+    []
+  );
   if (isLoading) return <div>Loading</div>;
 
   return (
@@ -33,44 +83,12 @@ const SignUp = () => {
         email: "",
         password: "",
         phone: "",
-        avatar: "",
       }}
       validationSchema={SignUpValidator}
-      onSubmit={async ({ firstName, lastName, userName, email, password, phone }, actions) => {
-        try {
-          await register({
-            firstName,
-            lastName,
-            userName,
-            email,
-            password,
-            phone,
-          }).unwrap();
-          toast({
-            title: "Account created.",
-            description: "We've created your account for you.",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-            containerStyle: { fontSize: "20px", width: "480px", padding: "10px" },
-          });
-          navigate("/chat");
-          actions.setSubmitting(false);
-        } catch (err: any) {
-          toast({
-            title: "Register failure.",
-            description: `We cannot create account. Reason: ${err.data?.message}`,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-            containerStyle: { fontSize: "20px", width: "480px", padding: "10px" },
-          });
-          actions.setSubmitting(false);
-        }
-      }}
+      onSubmit={handleFormikSubmit}
     >
       {(props) => (
-        <Box width="480px">
+        <Box width={{ base: "300px", sm: "480px" }}>
           <Form>
             <Field name="firstName">
               {({ field, form }: FieldProps) => (
@@ -196,7 +214,7 @@ const SignUp = () => {
               type="submit"
               backgroundColor="#00C38A"
               color="#ffffff"
-              width="480px"
+              width={{ base: "300px", sm: "480px" }}
               height="50px"
             >
               Create account

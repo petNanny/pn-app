@@ -16,7 +16,7 @@ const StrategiesLoginButton: React.FC<Props> = ({ icon, backgroundColor, strateg
       variant="solid"
       fontSize="lg"
       boxShadow="base"
-      width="480px"
+      width={{ base: "300px", sm: "480px" }}
       height="50px"
       data-testid="strategiesLoginButton"
     >

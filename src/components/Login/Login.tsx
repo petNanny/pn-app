@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FormControl,
@@ -20,47 +20,59 @@ import { useLoginMutation } from "../../redux/authApi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import LoginValidator from "./LoginValidator";
 
+type FormikValueInputType = {
+  email: string;
+  password: string;
+};
+
+type FormikSubmitActionType = {
+  setSubmitting: (value: boolean) => void;
+};
+
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
   const toast = useToast();
-
+  const handleFormikSubmit = useCallback(
+    async ({ email, password }: FormikValueInputType, actions: FormikSubmitActionType) => {
+      try {
+        const accessToken = await login({ email, password }).unwrap();
+        dispatch(setCredential({ accessToken }));
+        toast({
+          title: "Login success.",
+          description: "You've been successful login your account",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+        navigate("/chat");
+        actions.setSubmitting(false);
+      } catch (err) {
+        toast({
+          title: "Login failure.",
+          description: "Email or password is incorrect.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+        actions.setSubmitting(false);
+      }
+    },
+    []
+  );
   if (isLoading) return <div>Loading</div>;
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={LoginValidator}
-      onSubmit={async ({ email, password }, actions) => {
-        try {
-          const accessToken = await login({ email, password }).unwrap();
-          dispatch(setCredential({ accessToken }));
-          toast({
-            title: "Login success.",
-            description: "You've been successful login your account",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-            containerStyle: { fontSize: "20px", width: "480px", padding: "10px" },
-          });
-          navigate("/chat");
-          actions.setSubmitting(false);
-        } catch (err) {
-          toast({
-            title: "Login failure.",
-            description: "Email or password is incorrect.",
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-            containerStyle: { fontSize: "20px", width: "480px", padding: "10px" },
-          });
-          actions.setSubmitting(false);
-        }
-      }}
+      onSubmit={handleFormikSubmit}
     >
       {(props) => (
-        <Box width="480px">
+        <Box width={{ base: "300px", sm: "480px" }}>
           <Form>
             <Field name="email">
               {({ field, form }: FieldProps) => (
@@ -116,7 +128,7 @@ const Login = () => {
               type="submit"
               backgroundColor="#00C38A"
               color="#ffffff"
-              width="480px"
+              width={{ base: "300px", sm: "480px" }}
               height="50px"
             >
               Login
@@ -124,7 +136,7 @@ const Login = () => {
             <Flex justifyContent="flex-end">
               <Text
                 textColor="#00AFED"
-                fontSize="16"
+                fontSize={{ base: "16", sm: "20" }}
                 cursor="pointer"
                 _hover={{ textDecoration: "underline" }}
               >
