@@ -5,7 +5,6 @@ import ServiceInput from "./components/ServiceInput";
 import DateInput from "./components/DateInput";
 import PetNumInput from "./components/PetNumInput";
 import AdvancedInput from "./components/AdvancedInput";
-import Ad from "./components/Ad";
 
 const SearchBar = () => {
   const [serviceH1, setServiceH1] = useState("");
@@ -58,7 +57,7 @@ const SearchBar = () => {
           />
           <DateInput />
           <PetNumInput />
-          <Ad />
+          <AdvancedInput />
         </HStack>
       </Box>
     </>
