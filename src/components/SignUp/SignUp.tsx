@@ -208,15 +208,7 @@ const SignUp = () => {
                 </FormControl>
               )}
             </Field>
-            <Button
-              marginY={4}
-              isLoading={props.isSubmitting}
-              type="submit"
-              backgroundColor="#00C38A"
-              color="#ffffff"
-              width={{ base: "300px", sm: "480px" }}
-              height="50px"
-            >
+            <Button isLoading={props.isSubmitting} type="submit" variant="submitBtn">
               Create account
             </Button>
           </Form>

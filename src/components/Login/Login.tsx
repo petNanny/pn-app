@@ -122,26 +122,11 @@ const Login = () => {
                 </FormControl>
               )}
             </Field>
-            <Button
-              marginY={4}
-              isLoading={props.isSubmitting}
-              type="submit"
-              backgroundColor="#00C38A"
-              color="#ffffff"
-              width={{ base: "300px", sm: "480px" }}
-              height="50px"
-            >
+            <Button isLoading={props.isSubmitting} type="submit" variant="submitBtn">
               Login
             </Button>
             <Flex justifyContent="flex-end">
-              <Text
-                textColor="#00AFED"
-                fontSize={{ base: "16", sm: "20" }}
-                cursor="pointer"
-                _hover={{ textDecoration: "underline" }}
-              >
-                Forgot your password?
-              </Text>
+              <Text variant="LinkText">Forgot your password?</Text>
             </Flex>
           </Form>
         </Box>

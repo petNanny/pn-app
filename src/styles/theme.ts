@@ -1,6 +1,7 @@
 import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import { StyleFunctionProps } from "@chakra-ui/theme-tools";
 import buttonStyles from "./components/buttonStyles";
+import fontStyles from "./components/fontStyles";
 
 const config: ThemeConfig = {
   initialColorMode: "light",
@@ -18,56 +19,32 @@ const styles = {
 };
 
 const colors = {
-  brand: {
-    primary: "#344C5C",
-    secondary: "#40B484",
-    primaryLight: "#496A80",
-    lightGray: "#B6B6B6",
-  },
   background: {
-    primary: "#2C4E8A",
-    secondary: "#7088B1",
-    tertiary: "#FFFFFF",
-    secondaryLight: "#2c5282",
-    lightOrange: "#DD6B20",
-    veryLightOrange: "#E18E11",
-    darkRed: "#9F100F",
-    lightblue: "#E2E8F0",
+    primary: "#5CACE2",
+    secondary: "#00C38A",
+    tertiary: "#F9F9F9",
+    quaternary: "#5197C6",
   },
   fontcolor: {
     primary: "#FFFFFF",
-    secondary: "#1A202C",
-    tertiary: "#4285f4",
+    secondary: "#4F4F4F",
+    tertiary: "#00AFED",
     quaternary: "#C8C5C5",
-    tealishBlue: "#2C4E8A",
     black: "#000000",
-    green: "#40B383",
-    red: "#EB4335",
-    deepDark: "#000000",
-    lightDark: "#344C5C",
+    green: "#00C38A",
+    ok: "#EB4335",
   },
-  CourtSizecolor: {
-    btc: "#40B484",
-    bt: "#FFFFFF",
-    border: "#344C5C",
-  },
-  button: {
-    hover: "#40B484",
-    active: "#699D88",
-  },
-  footerSwitch: {
-    500: "#40B484",
-  },
-  tag: {
-    courtCategory: "#7c9fdf",
-    courtType: "#E18E11",
-  },
+};
+const components = {
+  Button: { ...buttonStyles },
+  Text: { ...fontStyles },
 };
 
 const theme = extendTheme({
   colors,
   config,
   styles,
+  components,
 });
 
 export default theme;

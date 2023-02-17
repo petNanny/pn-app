@@ -12,12 +12,8 @@ const RegisterPage = () => {
   return (
     <Container maxWidth="5xl" display="flex" justifyContent="center">
       <Stack display="flex" flexDirection="column" alignItems="center">
-        <Text textColor="#4F4F4F" fontSize={{ base: "20", sm: "28" }}>
-          Sign up for Pawshake
-        </Text>
-        <Text textColor="#4F4F4F" fontSize={{ base: "16", sm: "20" }}>
-          {`It's free!`}
-        </Text>
+        <Text variant="headerPrimary">Sign up for Pawshake</Text>
+        <Text variant="headerSecondary">{`It's free!`}</Text>
         <Box
           display="flex"
           flexDirection="column"
@@ -49,14 +45,7 @@ const RegisterPage = () => {
 
         <Box paddingTop="3">
           {!showSignUpForm ? (
-            <Button
-              type="button"
-              backgroundColor="#00C38A"
-              color="#ffffff"
-              width={{ base: "300px", sm: "480px" }}
-              height="50px"
-              onClick={() => setShowSignUpForm(true)}
-            >
+            <Button type="button" variant="submitBtn" onClick={() => setShowSignUpForm(true)}>
               Sign up with email
             </Button>
           ) : (
@@ -64,17 +53,9 @@ const RegisterPage = () => {
           )}
         </Box>
         <Divider paddingY="4" />
-        <Text textColor="#4F4F4F" fontSize={{ base: "20", sm: "28" }}>
-          Already have a Pawshake account?
-        </Text>
+        <Text variant="headerPrimary">Already have a Pawshake account?</Text>
 
-        <Text
-          textColor="#00AFED"
-          fontSize={{ base: "16", sm: "20" }}
-          cursor="pointer"
-          _hover={{ textDecoration: "underline" }}
-          onClick={() => navigate("/login")}
-        >
+        <Text variant="LinkText" onClick={() => navigate("/login")}>
           Login
         </Text>
       </Stack>

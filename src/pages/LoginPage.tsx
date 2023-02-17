@@ -10,12 +10,8 @@ const LoginPage = () => {
   return (
     <Container maxWidth="5xl" display="flex" justifyContent="center">
       <Stack display="flex" flexDirection="column" alignItems="center">
-        <Text textColor="#4F4F4F" fontSize={{ base: "20", sm: "28" }}>
-          Already a Pawshake member?
-        </Text>
-        <Text textColor="#4F4F4F" fontSize={{ base: "16", sm: "20" }}>
-          Log in below!
-        </Text>
+        <Text variant="headerPrimary">Already a Pawshake member?</Text>
+        <Text variant="headerSecondary">Log in below!</Text>
         <Box
           display="flex"
           flexDirection="column"
@@ -49,17 +45,9 @@ const LoginPage = () => {
         </Box>
 
         <Divider paddingY="4" />
-        <Text textColor="#4F4F4F" fontSize={{ base: "20", sm: "28" }}>
-          Not signed up on Pawshake yet?
-        </Text>
+        <Text variant="headerPrimary">Not signed up on Pawshake yet?</Text>
 
-        <Text
-          textColor="#00AFED"
-          fontSize={{ base: "16", sm: "20" }}
-          cursor="pointer"
-          _hover={{ textDecoration: "underline" }}
-          onClick={() => navigate("/register")}
-        >
+        <Text variant="LinkText" onClick={() => navigate("/register")}>
           Sign up
         </Text>
       </Stack>

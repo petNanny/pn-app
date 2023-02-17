@@ -13,11 +13,7 @@ const StrategiesLoginButton: React.FC<Props> = ({ icon, backgroundColor, strateg
       leftIcon={icon}
       backgroundColor={backgroundColor}
       color={color}
-      variant="solid"
-      fontSize="lg"
-      boxShadow="base"
-      width={{ base: "300px", sm: "480px" }}
-      height="50px"
+      variant="strategiesLoginButton"
       data-testid="strategiesLoginButton"
     >
       <Box flexGrow={1}>Continue with {strategyName}</Box>
