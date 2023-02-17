@@ -13,6 +13,7 @@ import {
   Flex,
   useToast,
 } from "@chakra-ui/react";
+import { StyledLoginBox, StyledButton } from "./styledLogin";
 import { Formik, Field, Form, FieldProps } from "formik";
 import { useDispatch } from "react-redux";
 import { setCredential } from "../../store/reducer/authSlice";
@@ -72,7 +73,7 @@ const Login = () => {
       onSubmit={handleFormikSubmit}
     >
       {(props) => (
-        <Box width={{ base: "300px", sm: "480px" }}>
+        <StyledLoginBox>
           <Form>
             <Field name="email">
               {({ field, form }: FieldProps) => (
@@ -122,29 +123,16 @@ const Login = () => {
                 </FormControl>
               )}
             </Field>
-            <Button
-              marginY={4}
-              isLoading={props.isSubmitting}
-              type="submit"
-              backgroundColor="#00C38A"
-              color="#ffffff"
-              width={{ base: "300px", sm: "480px" }}
-              height="50px"
-            >
+            <StyledButton isLoading={props.isSubmitting} type="submit">
               Login
-            </Button>
-            <Flex justifyContent="flex-end">
-              <Text
-                textColor="#00AFED"
-                fontSize={{ base: "16", sm: "20" }}
-                cursor="pointer"
-                _hover={{ textDecoration: "underline" }}
-              >
+            </StyledButton>
+            <Flex justifyContent="center">
+              <Text cursor="pointer" _hover={{ textDecoration: "underline" }}>
                 Forgot your password?
               </Text>
             </Flex>
           </Form>
-        </Box>
+        </StyledLoginBox>
       )}
     </Formik>
   );
