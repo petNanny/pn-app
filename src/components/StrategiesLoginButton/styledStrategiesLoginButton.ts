@@ -5,7 +5,7 @@ import { devices } from "../../styles/breakPoints";
 export const StyledStrategiesButton = styled(Button)`
   width: 300px;
   font-size: 1rem;
-  height: 50px;
+  height: 50px !important;
   .chakra-button__icon {
     font-size: 30px;
   }
