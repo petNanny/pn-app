@@ -7,8 +7,6 @@ import {
   InputGroup,
   InputRightElement,
   FormErrorMessage,
-  Button,
-  Box,
   Text,
   Flex,
   useToast,
@@ -84,7 +82,6 @@ const Login = () => {
                     type="email"
                     id="email"
                     placeholder="Email"
-                    height="50px"
                     aria-label="emailInput"
                   />
                   <FormErrorMessage data-testid="emailError">
@@ -103,20 +100,14 @@ const Login = () => {
                       type={showPassword ? "text" : "password"}
                       id="password"
                       placeholder="Password"
-                      height="50px"
                       autoComplete="off"
                       aria-label="passwordInput"
                     />
                     <InputRightElement
                       cursor="pointer"
-                      marginTop="1"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? (
-                        <AiOutlineEyeInvisible fontSize="28" color="#4F4F4F" />
-                      ) : (
-                        <AiOutlineEye fontSize="28" color="#4F4F4F" />
-                      )}
+                      {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage>{form.errors.password as string}</FormErrorMessage>
@@ -127,9 +118,7 @@ const Login = () => {
               Login
             </StyledButton>
             <Flex justifyContent="center">
-              <Text cursor="pointer" _hover={{ textDecoration: "underline" }}>
-                Forgot your password?
-              </Text>
+              <Text cursor="pointer">Forgot your password?</Text>
             </Flex>
           </Form>
         </StyledLoginBox>

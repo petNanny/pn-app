@@ -10,6 +10,14 @@ export const StyledLoginBox = styled(Box)`
         text-decoration: underline;
       }
     }
+    .chakra-input {
+      height: 50px;
+    }
+    .chakra-input__right-element {
+      margin-top: 0.25rem;
+      font-size: 1.75rem;
+      color: #4f4f4f;
+    }
     @media (min-width: 576px) {
       width: 480px;
       .chakra-text {
