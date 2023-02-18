@@ -23,14 +23,14 @@ type PetServiceValues = {
   petService: string;
 };
 
-interface ServiceInputProps {
-  serviceH1: string;
+type ServiceInputProps = {
+  // serviceH1: string;
   changeServiceH1: (value: string) => void;
   changeServiceDetail: (value: string) => void;
-}
+};
 
 const ServiceInput: React.FC<ServiceInputProps> = ({
-  serviceH1,
+  // serviceH1,
   changeServiceH1,
   changeServiceDetail,
 }) => {
@@ -49,16 +49,16 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
 
   const { handleSubmit: handlePetServiceSubmit } = useForm({
     defaultValues: {
-      petService: serviceH1,
+      petService: "",
     },
   });
 
-  const submitPetServiceMessage = {
-    petService: serviceH1,
-  };
+  // const submitPetServiceMessage = {
+  //   petService: serviceH1,
+  // };
 
-  const onPetServiceSubmit: SubmitHandler<PetServiceValues> = () => {
-    console.log(submitPetServiceMessage);
+  const onPetServiceSubmit: SubmitHandler<PetServiceValues> = (value) => {
+    console.log(value);
   };
 
   return (
@@ -78,12 +78,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
               <Icon as={MdArrowDropDown} fontSize="24px" color="rgb(116, 116, 116)" />
             </Box>
           </MenuButton>
-          <MenuList
-            padding="0"
-            width="400px"
-            borderColor="rgb(206, 206, 206)"
-            onClick={handlePetServiceSubmit(onPetServiceSubmit)}
-          >
+          <MenuList padding="0" width="400px" borderColor="rgb(206, 206, 206)">
             <MenuOptionGroup type="radio">
               <Box padding="1rem">
                 <Text color="rgb(147, 147, 147)">At the sitter&apos;s home</Text>
@@ -97,6 +92,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceText(homeDogBoarding, "Dog boarding");
                   changeServiceH1("Dog Boarding");
                   changeServiceDetail("Overnight stay at the sitter's home.");
+                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "Dog boarding" }))();
                 }}
               >
                 <Box display="flex">
@@ -121,6 +117,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceText(doggyDayCare, "Doggy day care");
                   changeServiceH1("Doggy Day Care");
                   changeServiceDetail("Daytime care for your dog at the sitter's home.");
+                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "Doggy day care" }))();
                 }}
               >
                 <Box display="flex">
@@ -151,6 +148,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceDetail(
                     "An experienced dog walker will pick up your dog from your home for a 30 mins walk."
                   );
+                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "Dog Walking" }))();
                 }}
               >
                 <Box display="flex">
@@ -175,6 +173,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceText(homeVisits, "Home visits");
                   changeServiceH1("Home Visits");
                   changeServiceDetail("Drop in visits at your home for your pet.");
+                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "Home visits" }))();
                 }}
               >
                 <Box display="flex">
@@ -201,6 +200,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceDetail(
                     "A sitter stays overnight in your home and cares for your pet."
                   );
+                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "House Sitting" }))();
                 }}
               >
                 <Box display="flex">

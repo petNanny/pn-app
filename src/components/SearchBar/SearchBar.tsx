@@ -9,12 +9,17 @@ import AdvancedInput from "./components/AdvancedInput";
 const SearchBar = () => {
   const [serviceH1, setServiceH1] = useState("");
   const [serviceDetail, setServiceDetail] = useState("");
+  const [location, setLocation] = useState("");
 
   const changeServiceH1 = (value: string) => {
     setServiceH1(value);
   };
   const changeServiceDetail = (value: string) => {
     setServiceDetail(value);
+  };
+
+  const changeLocation = (value: string) => {
+    setLocation(value);
   };
 
   return (
@@ -36,7 +41,7 @@ const SearchBar = () => {
           marginBottom="1rem"
           variant="1"
         >
-          {serviceH1} Adelaide SA, Australia
+          {serviceH1} {location}
         </Heading>
         <Heading
           as="h2"
@@ -49,9 +54,9 @@ const SearchBar = () => {
           {serviceDetail}
         </Heading>
         <HStack spacing="1rem" marginBottom="1rem">
-          <AddressInput />
+          <AddressInput changeLocation={changeLocation} />
           <ServiceInput
-            serviceH1={serviceH1}
+            // serviceH1={serviceH1}
             changeServiceH1={changeServiceH1}
             changeServiceDetail={changeServiceDetail}
           />
