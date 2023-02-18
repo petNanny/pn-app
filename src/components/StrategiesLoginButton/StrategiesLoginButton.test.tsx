@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import StrategiesLoginButton from "../../../components/Login/StrategiesLoginButton";
+import StrategiesLoginButton from "./StrategiesLoginButton";
 import { AiFillGithub } from "react-icons/ai";
 describe("Strategies login button", () => {
   const mockData = {

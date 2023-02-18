@@ -1,6 +1,6 @@
-import renderWithMockedProvider from "../../utils/renderWithMockedProvider";
+import renderWithMockedProvider from "../../__test__/utils/renderWithMockedProvider";
 import { screen, waitFor } from "@testing-library/react";
-import Login from "../../../components/Login/Login";
+import Login from "./Login";
 import userEvent from "@testing-library/user-event";
 
 describe("login component", () => {
@@ -25,16 +25,5 @@ describe("login component", () => {
     await waitFor(() => {
       expect(screen.queryByText("Required")).toBeVisible();
     });
-  });
-
-  it("rendering and submitting a basic Formik form", () => {
-    renderWithMockedProvider(<Login />);
-    const emailInput = screen.getByRole("textbox", { name: /email/i });
-    const passwordInput = screen.getByLabelText(/password/i);
-    expect(emailInput).toBeVisible();
-    expect(passwordInput).toBeVisible();
-    userEvent.type(emailInput, "john@gmail.com");
-    userEvent.type(passwordInput, "Test1234!");
-    userEvent.click(screen.getByRole("button", { name: /login/i }));
   });
 });

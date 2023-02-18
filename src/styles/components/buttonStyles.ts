@@ -9,11 +9,6 @@ const buttonStyles = {
       width: { base: "300px", sm: "480px" },
       _hover: { bg: "background.secondary", opacity: "0.80" },
     },
-    deleteBtn: {
-      bg: "#C13D46",
-      color: "white",
-      _hover: { bg: "#C13D46", opacity: "0.80" },
-    },
     strategiesLoginButton: {
       variant: "solid",
       fontSize: "lg",

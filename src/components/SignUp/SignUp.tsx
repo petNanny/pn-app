@@ -7,10 +7,9 @@ import {
   Input,
   InputRightElement,
   FormErrorMessage,
-  Button,
-  Box,
   useToast,
 } from "@chakra-ui/react";
+import { StyledSignUpBox, StyledButton } from "./styledSignUp";
 import { Formik, Field, Form, FieldProps } from "formik";
 import { useRegisterMutation } from "../../redux/authApi";
 import SignUpValidator from "./SignUpValidator";
@@ -88,7 +87,7 @@ const SignUp = () => {
       onSubmit={handleFormikSubmit}
     >
       {(props) => (
-        <Box width={{ base: "300px", sm: "480px" }}>
+        <StyledSignUpBox>
           <Form>
             <Field name="firstName">
               {({ field, form }: FieldProps) => (
@@ -99,7 +98,6 @@ const SignUp = () => {
                     type="text"
                     id="firstName"
                     placeholder="First name"
-                    height="50px"
                     aria-label="firstName"
                   />
                   <FormErrorMessage data-testid="firstNameError">
@@ -117,7 +115,6 @@ const SignUp = () => {
                     type="text"
                     id="lastName"
                     placeholder="Last name"
-                    height="50px"
                     aria-label="lastName"
                   />
                   <FormErrorMessage data-testid="lastNameError">
@@ -136,7 +133,6 @@ const SignUp = () => {
                     type="text"
                     id="userName"
                     placeholder="User name"
-                    height="50px"
                     aria-label="userName"
                   />
                   <FormErrorMessage>{form.errors.userName as string}</FormErrorMessage>
@@ -152,7 +148,6 @@ const SignUp = () => {
                     type="email"
                     id="email"
                     placeholder="Email"
-                    height="50px"
                     aria-label="email"
                   />
                   <FormErrorMessage data-testid="emailError">
@@ -171,19 +166,10 @@ const SignUp = () => {
                       type={showPassword ? "text" : "password"}
                       id="password"
                       placeholder="Password"
-                      height="50px"
                       aria-label="password"
                     />
-                    <InputRightElement
-                      cursor="pointer"
-                      marginTop="1"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <AiOutlineEyeInvisible fontSize="28" color="#4F4F4F" />
-                      ) : (
-                        <AiOutlineEye fontSize="28" color="#4F4F4F" />
-                      )}
+                    <InputRightElement onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage data-testid="passwordError">
@@ -196,23 +182,16 @@ const SignUp = () => {
               {({ field, form }: FieldProps) => (
                 <FormControl isInvalid={Boolean(form.errors.phone && form.touched.phone)}>
                   <FormLabel htmlFor="phone"></FormLabel>
-                  <Input
-                    {...field}
-                    type="text"
-                    id="phone"
-                    placeholder="Phone"
-                    height="50px"
-                    aria-label="phone"
-                  />
+                  <Input {...field} type="text" id="phone" placeholder="Phone" aria-label="phone" />
                   <FormErrorMessage>{form.errors.phone as string}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
-            <Button isLoading={props.isSubmitting} type="submit" variant="submitBtn">
+            <StyledButton isLoading={props.isSubmitting} type="submit">
               Create account
-            </Button>
+            </StyledButton>
           </Form>
-        </Box>
+        </StyledSignUpBox>
       )}
     </Formik>
   );

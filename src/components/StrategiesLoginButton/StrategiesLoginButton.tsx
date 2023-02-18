@@ -1,5 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
-
+import { StyledStrategiesButton, StyledStrategiesTextBox } from "./styledStrategiesLoginButton";
 type Props = {
   icon: JSX.Element;
   backgroundColor: string;
@@ -9,15 +8,15 @@ type Props = {
 
 const StrategiesLoginButton: React.FC<Props> = ({ icon, backgroundColor, strategyName, color }) => {
   return (
-    <Button
+    <StyledStrategiesButton
       leftIcon={icon}
       backgroundColor={backgroundColor}
       color={color}
-      variant="strategiesLoginButton"
+      boxShadow="md"
       data-testid="strategiesLoginButton"
     >
-      <Box flexGrow={1}>Continue with {strategyName}</Box>
-    </Button>
+      <StyledStrategiesTextBox>Continue with {strategyName}</StyledStrategiesTextBox>
+    </StyledStrategiesButton>
   );
 };
 

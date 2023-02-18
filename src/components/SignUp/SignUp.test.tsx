@@ -1,10 +1,10 @@
-import renderWithMockedProvider from "../../utils/renderWithMockedProvider";
+import renderWithMockedProvider from "../../__test__/utils/renderWithMockedProvider";
 import { screen, waitFor } from "@testing-library/react";
-import SignUp from "../../../components/SignUp/SignUp";
+import SignUp from "./SignUp";
 import userEvent from "@testing-library/user-event";
 
-describe("login component", () => {
-  it("should render the login component correctly", () => {
+describe("sign up component", () => {
+  it("should render the sign up component correctly", () => {
     renderWithMockedProvider(<SignUp />);
     expect(screen.queryByPlaceholderText(/First name/i)).toBeInTheDocument();
     expect(screen.queryByPlaceholderText(/Last name/i)).toBeInTheDocument();

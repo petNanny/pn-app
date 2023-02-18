@@ -7,12 +7,11 @@ import {
   InputGroup,
   InputRightElement,
   FormErrorMessage,
-  Button,
-  Box,
   Text,
   Flex,
   useToast,
 } from "@chakra-ui/react";
+import { StyledLoginBox, StyledButton } from "./styledLogin";
 import { Formik, Field, Form, FieldProps } from "formik";
 import { useDispatch } from "react-redux";
 import { setCredential } from "../../store/reducer/authSlice";
@@ -72,7 +71,7 @@ const Login = () => {
       onSubmit={handleFormikSubmit}
     >
       {(props) => (
-        <Box width={{ base: "300px", sm: "480px" }}>
+        <StyledLoginBox>
           <Form>
             <Field name="email">
               {({ field, form }: FieldProps) => (
@@ -83,7 +82,6 @@ const Login = () => {
                     type="email"
                     id="email"
                     placeholder="Email"
-                    height="50px"
                     aria-label="emailInput"
                   />
                   <FormErrorMessage data-testid="emailError">
@@ -102,34 +100,25 @@ const Login = () => {
                       type={showPassword ? "text" : "password"}
                       id="password"
                       placeholder="Password"
-                      height="50px"
                       autoComplete="off"
                       aria-label="passwordInput"
                     />
-                    <InputRightElement
-                      cursor="pointer"
-                      marginTop="1"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <AiOutlineEyeInvisible fontSize="28" color="#4F4F4F" />
-                      ) : (
-                        <AiOutlineEye fontSize="28" color="#4F4F4F" />
-                      )}
+                    <InputRightElement onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage>{form.errors.password as string}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
-            <Button isLoading={props.isSubmitting} type="submit" variant="submitBtn">
+            <StyledButton isLoading={props.isSubmitting} type="submit">
               Login
-            </Button>
+            </StyledButton>
             <Flex justifyContent="flex-end">
-              <Text variant="LinkText">Forgot your password?</Text>
+              <Text cursor="pointer">Forgot your password?</Text>
             </Flex>
           </Form>
-        </Box>
+        </StyledLoginBox>
       )}
     </Formik>
   );
