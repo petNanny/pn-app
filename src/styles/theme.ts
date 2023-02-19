@@ -2,7 +2,6 @@ import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import { StyleFunctionProps } from "@chakra-ui/theme-tools";
 import buttonStyles from "./components/buttonStyles";
 import { theme as chakraTheme } from "@chakra-ui/react";
-import Heading from "./components/heading";
 import fontStyles from "./components/fontStyles";
 
 const config: ThemeConfig = {
@@ -50,7 +49,6 @@ const fonts = {
 const components = {
   Button: { ...buttonStyles },
   Text: { ...fontStyles },
-  Heading,
 };
 
 const theme = extendTheme({

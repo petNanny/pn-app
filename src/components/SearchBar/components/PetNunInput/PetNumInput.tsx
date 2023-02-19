@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuList,
-  Text,
-  Button,
-  chakra,
-  MenuItem,
-} from "@chakra-ui/react";
+import { Box, Menu, Text } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import { useForm, SubmitHandler } from "react-hook-form";
+import {
+  PetTypeText,
+  PetSizeText,
+  PetSelectItem,
+  PetTypeContainer,
+  PetSelectItemNum,
+  ClearBtn,
+  IncreaseBtn,
+  DecreaseBtn,
+  StyledMenuButton,
+  BoxInMenuButton,
+  MenuBtnIcon,
+  StyledMenuList,
+  PetNumSetBox,
+  ApplyBtn,
+} from "./styledPetNumInput";
 
 type PetNumFormValues = {
   smallDog: number;
@@ -21,94 +27,6 @@ type PetNumFormValues = {
   cat: number;
   smallAnimal: number;
   totalPets: number;
-};
-
-const PetTypeText = chakra(Text, {
-  baseStyle: {
-    color: "rgb(92, 92, 92)",
-    marginBottom: "0.5rem",
-    lineHeight: "30px",
-  },
-});
-
-const PetSizeText = chakra(Text, {
-  baseStyle: {
-    color: "rgb(147, 147, 147)",
-    fontSize: "0.9rem",
-  },
-});
-
-const PetSelectItem = chakra(Box, {
-  baseStyle: {
-    display: "flex",
-    padding: "1rem",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-});
-
-const PetTypeContainer = chakra(Box, {
-  baseStyle: {
-    display: "flex",
-    flexDirection: "column",
-  },
-});
-
-const PetSelectItemNum = chakra(Text, {
-  baseStyle: {
-    lineHeight: "40px",
-    width: "2rem",
-    height: "2rem",
-    fontSize: "1.2rem",
-    color: "rgb(116, 116, 116)",
-    textAlign: "center",
-  },
-});
-
-const ClearBtn = chakra(Button, {
-  baseStyle: {
-    fontSize: "1rem",
-    color: "rgb(116, 116, 116)",
-    backgroundColor: "transparent",
-    fontWeight: "light",
-    _hover: { bg: "none", textDecoration: "underline rgb(116, 116, 116)" },
-  },
-});
-
-const IncreaseBtn = chakra(Button, {
-  baseStyle: {
-    border: "1px solid rgb(0, 195, 138)",
-    color: "rgb(0, 195, 138)",
-    background: "rgb(255, 255, 255)",
-    width: "40px",
-    height: "40px",
-    borderRadius: "100%",
-    padding: "0",
-    _hover: { background: "rgb(255, 255, 255)" },
-  },
-});
-
-const DecreaseBtn = chakra(Button, {
-  baseStyle: {
-    border: "1px solid",
-    color: "rgb(206, 206, 206)",
-    background: "rgb(255, 255, 255)",
-    width: "40px",
-    height: "40px",
-    borderRadius: "100%",
-    padding: "0",
-    _hover: { background: "rgb(255, 255, 255)" },
-  },
-});
-
-const colorChange = (value: number) => {
-  let color;
-  if (value > 0) {
-    color = "rgb(0, 195, 138)";
-  } else {
-    color = "rgb(206, 206, 206)";
-  }
-  return color;
 };
 
 const PetNumInput = () => {
@@ -199,35 +117,27 @@ const PetNumInput = () => {
     <>
       <Box>
         <Menu autoSelect={false}>
-          <MenuButton
-            border="1px solid rgb(206, 206, 206)"
-            borderRadius="4px"
-            height="50px"
-            minWidth="7rem"
-            padding="10px"
-            _expanded={{ borderColor: "rgb(0, 195, 138)" }}
-          >
-            <Box display="flex" alignItems="center" justifyContent="space-around">
-              <Box color="rgb(116, 116, 116)">
+          <StyledMenuButton>
+            <BoxInMenuButton>
+              <Box>
                 {totalPetsNum > 1 ? (
                   <Text>{totalPetsNum} pets</Text>
                 ) : (
                   <Text>{totalPetsNum} pet</Text>
                 )}
               </Box>
-              <Icon as={MdArrowDropDown} fontSize="24px" color="rgb(116, 116, 116)" />
-            </Box>
-          </MenuButton>
-          <MenuList padding="0" width="400px" borderColor="rgb(206, 206, 206)">
+              <MenuBtnIcon as={MdArrowDropDown} />
+            </BoxInMenuButton>
+          </StyledMenuButton>
+          <StyledMenuList>
             <PetSelectItem>
               <PetTypeContainer>
                 <PetTypeText>Small Dog</PetTypeText>
                 <PetSizeText>0-10 kg</PetSizeText>
               </PetTypeContainer>
-              <Box display="flex" flexDirection="row">
+              <PetNumSetBox>
                 <DecreaseBtn
-                  borderColor={colorChange(smallDogNum)}
-                  color={colorChange(smallDogNum)}
+                  changeColor={smallDogNum}
                   onClick={() => handleDecreasePet(smallDogNum, setSmallDogNum)}
                 >
                   -
@@ -236,17 +146,16 @@ const PetNumInput = () => {
                 <IncreaseBtn onClick={() => handleIncreasePet(smallDogNum, setSmallDogNum)}>
                   +
                 </IncreaseBtn>
-              </Box>
+              </PetNumSetBox>
             </PetSelectItem>
             <PetSelectItem>
               <PetTypeContainer>
                 <PetTypeText>Medium Dog</PetTypeText>
                 <PetSizeText>10-20 kg</PetSizeText>
               </PetTypeContainer>
-              <Box display="flex" flexDirection="row">
+              <PetNumSetBox>
                 <DecreaseBtn
-                  borderColor={colorChange(mediumDogNum)}
-                  color={colorChange(mediumDogNum)}
+                  changeColor={mediumDogNum}
                   onClick={() => handleDecreasePet(mediumDogNum, setMediumDogNum)}
                 >
                   -
@@ -255,17 +164,16 @@ const PetNumInput = () => {
                 <IncreaseBtn onClick={() => handleIncreasePet(mediumDogNum, setMediumDogNum)}>
                   +
                 </IncreaseBtn>
-              </Box>
+              </PetNumSetBox>
             </PetSelectItem>
             <PetSelectItem>
               <PetTypeContainer>
                 <PetTypeText>Large Dog</PetTypeText>
                 <PetSizeText>20-40 kg</PetSizeText>
               </PetTypeContainer>
-              <Box display="flex" flexDirection="row">
+              <PetNumSetBox>
                 <DecreaseBtn
-                  borderColor={colorChange(largeDogNum)}
-                  color={colorChange(largeDogNum)}
+                  changeColor={largeDogNum}
                   onClick={() => handleDecreasePet(largeDogNum, setLargeDogNum)}
                 >
                   -
@@ -274,17 +182,16 @@ const PetNumInput = () => {
                 <IncreaseBtn onClick={() => handleIncreasePet(largeDogNum, setLargeDogNum)}>
                   +
                 </IncreaseBtn>
-              </Box>
+              </PetNumSetBox>
             </PetSelectItem>
             <PetSelectItem>
               <PetTypeContainer>
                 <PetTypeText>Giant Dog</PetTypeText>
                 <PetSizeText>+40 kg</PetSizeText>
               </PetTypeContainer>
-              <Box display="flex" flexDirection="row">
+              <PetNumSetBox>
                 <DecreaseBtn
-                  borderColor={colorChange(giantDogNum)}
-                  color={colorChange(giantDogNum)}
+                  changeColor={giantDogNum}
                   onClick={() => handleDecreasePet(giantDogNum, setGiantDogNum)}
                 >
                   -
@@ -293,34 +200,32 @@ const PetNumInput = () => {
                 <IncreaseBtn onClick={() => handleIncreasePet(giantDogNum, setGiantDogNum)}>
                   +
                 </IncreaseBtn>
-              </Box>
+              </PetNumSetBox>
             </PetSelectItem>
             <PetSelectItem>
               <PetTypeContainer>
                 <PetTypeText>Cat</PetTypeText>
                 <PetSizeText>All</PetSizeText>
               </PetTypeContainer>
-              <Box display="flex" flexDirection="row">
+              <PetNumSetBox>
                 <DecreaseBtn
-                  borderColor={colorChange(catNum)}
-                  color={colorChange(catNum)}
+                  changeColor={catNum}
                   onClick={() => handleDecreasePet(catNum, setCatNum)}
                 >
                   -
                 </DecreaseBtn>
                 <PetSelectItemNum>{catNum}</PetSelectItemNum>
                 <IncreaseBtn onClick={() => handleIncreasePet(catNum, setCatNum)}>+</IncreaseBtn>
-              </Box>
+              </PetNumSetBox>
             </PetSelectItem>
             <PetSelectItem>
               <PetTypeContainer>
                 <PetTypeText>Small Animal</PetTypeText>
                 <PetSizeText>Bird, rabbit, ferret</PetSizeText>
               </PetTypeContainer>
-              <Box display="flex" flexDirection="row">
+              <PetNumSetBox>
                 <DecreaseBtn
-                  borderColor={colorChange(smallAnimalNum)}
-                  color={colorChange(smallAnimalNum)}
+                  changeColor={smallAnimalNum}
                   onClick={() => handleDecreasePet(smallAnimalNum, setSmallAnimalNum)}
                 >
                   -
@@ -329,7 +234,7 @@ const PetNumInput = () => {
                 <IncreaseBtn onClick={() => handleIncreasePet(smallAnimalNum, setSmallAnimalNum)}>
                   +
                 </IncreaseBtn>
-              </Box>
+              </PetNumSetBox>
             </PetSelectItem>
             {/* {list.map((item) => {
               return (
@@ -338,7 +243,7 @@ const PetNumInput = () => {
                     <PetTypeText>{item.petType}</PetTypeText>
                     <PetSizeText>{item.petSize}</PetSizeText>
                   </PetTypeContainer>
-                  <Box display="flex" flexDirection="row">
+                  <PetNumSetBox>
                     <DecreaseBtn
                       onClick={() => {
                         item.handleDecreasePet;
@@ -354,33 +259,17 @@ const PetNumInput = () => {
                     >
                       +
                     </IncreaseBtn>
-                  </Box>
+                  </PetNumSetBox>
                 </PetSelectItem>
               );
             })} */}
             <PetSelectItem>
-              <ClearBtn padding="0" onClick={handlePetsClear}>
-                Clear
-              </ClearBtn>
+              <ClearBtn onClick={handlePetsClear}>Clear</ClearBtn>
               <Box>
-                <MenuItem
-                  fontSize="1rem"
-                  color="rgb(0, 195, 138)"
-                  backgroundColor="transparent"
-                  fontWeight="light"
-                  padding="0"
-                  marginRight="auto"
-                  _hover={{
-                    background: "none",
-                    textDecoration: "underline rgb(0, 195, 138)",
-                  }}
-                  onClick={handlePetNumSubmit(onPetNumSubmit)}
-                >
-                  Apply
-                </MenuItem>
+                <ApplyBtn onClick={handlePetNumSubmit(onPetNumSubmit)}>Apply</ApplyBtn>
               </Box>
             </PetSelectItem>
-          </MenuList>
+          </StyledMenuList>
         </Menu>
       </Box>
     </>

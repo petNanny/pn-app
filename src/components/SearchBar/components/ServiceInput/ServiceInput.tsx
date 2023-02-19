@@ -12,12 +12,13 @@ import {
   Img,
 } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
-import homeDogBoarding from "../../../assets/Icons/homeDogBoarding.svg";
-import doggyDayCare from "../../../assets/Icons/doggyDayCare.svg";
-import dogWalking from "../../../assets/Icons/dogWalking.svg";
-import homeVisits from "../../../assets/Icons/homeVisits.svg";
-import houseSitting from "../../../assets/Icons/houseSitting.svg";
+import homeDogBoarding from "../../../../assets/Icons/homeDogBoarding.svg";
+import doggyDayCare from "../../../../assets/Icons/doggyDayCare.svg";
+import dogWalking from "../../../../assets/Icons/dogWalking.svg";
+import homeVisits from "../../../../assets/Icons/homeVisits.svg";
+import houseSitting from "../../../../assets/Icons/houseSitting.svg";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useFormik } from "formik";
 
 type PetServiceValues = {
   petService: string;
@@ -47,19 +48,28 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
     );
   };
 
-  const { handleSubmit: handlePetServiceSubmit } = useForm({
-    defaultValues: {
+  const formik = useFormik({
+    initialValues: {
       petService: "",
     },
+    onSubmit: (values) => {
+      console.log(values);
+    },
   });
+
+  // const { handleSubmit: handlePetServiceSubmit } = useForm({
+  //   defaultValues: {
+  //     petService: "",
+  //   },
+  // });
 
   // const submitPetServiceMessage = {
   //   petService: serviceH1,
   // };
 
-  const onPetServiceSubmit: SubmitHandler<PetServiceValues> = (value) => {
-    console.log(value);
-  };
+  // const onPetServiceSubmit: SubmitHandler<PetServiceValues> = (value) => {
+  //   console.log(value);
+  // };
 
   return (
     <>
@@ -92,7 +102,8 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceText(homeDogBoarding, "Dog boarding");
                   changeServiceH1("Dog Boarding");
                   changeServiceDetail("Overnight stay at the sitter's home.");
-                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "Dog boarding" }))();
+                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "Dog boarding" }))();
+                  formik.setFieldValue("petService", "dog");
                 }}
               >
                 <Box display="flex">
@@ -117,7 +128,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceText(doggyDayCare, "Doggy day care");
                   changeServiceH1("Doggy Day Care");
                   changeServiceDetail("Daytime care for your dog at the sitter's home.");
-                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "Doggy day care" }))();
+                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "Doggy day care" }))();
                 }}
               >
                 <Box display="flex">
@@ -148,7 +159,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceDetail(
                     "An experienced dog walker will pick up your dog from your home for a 30 mins walk."
                   );
-                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "Dog Walking" }))();
+                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "Dog Walking" }))();
                 }}
               >
                 <Box display="flex">
@@ -173,7 +184,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceText(homeVisits, "Home visits");
                   changeServiceH1("Home Visits");
                   changeServiceDetail("Drop in visits at your home for your pet.");
-                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "Home visits" }))();
+                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "Home visits" }))();
                 }}
               >
                 <Box display="flex">
@@ -200,7 +211,7 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                   changeServiceDetail(
                     "A sitter stays overnight in your home and cares for your pet."
                   );
-                  handlePetServiceSubmit(onPetServiceSubmit({ petService: "House Sitting" }))();
+                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "House Sitting" }))();
                 }}
               >
                 <Box display="flex">
