@@ -35,7 +35,7 @@
     "lint:fix": "eslint --fix .",
     "prepare": "husky install",
     "prettier": "prettier --write .",
-    "pre-commit": "npm run prettier && npm run lint && npm run test"
+    "pre-commit": "npm run prettier && npm run lint:fix && npm run test"
   },
   "eslintConfig": {
     "extends": [
