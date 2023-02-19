@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Chakra } from "./styles/Chakra";
-import { store } from "./store/store";
+import { store } from "./store";
 import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
