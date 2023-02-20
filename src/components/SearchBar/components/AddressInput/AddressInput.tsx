@@ -4,6 +4,12 @@ import useGoogle from "react-google-autocomplete/lib/usePlacesAutocompleteServic
 import { useRef, useState } from "react";
 import Autocomplete, { usePlacesWidget } from "react-google-autocomplete";
 import { useFormik } from "formik";
+import {
+  StyledInputGroup,
+  StyledInputLeftElement,
+  StyledIcon,
+  StyledInput,
+} from "./styledAddressInput";
 
 type LocationInputProps = {
   changeLocation: (value: string) => void;
@@ -40,7 +46,7 @@ const AddressInput: React.FC<LocationInputProps> = ({ changeLocation }) => {
   return (
     <>
       <Box>
-        {/* <Box width="250ox">
+        {/* <Box width="250px">
           <Input
             style={{ color: "black" }}
             value={value}
@@ -67,33 +73,19 @@ const AddressInput: React.FC<LocationInputProps> = ({ changeLocation }) => {
             })}
           </Box>
         </Box> */}
-        <InputGroup minWidth="30rem">
-          <InputLeftElement height="50px">
-            <Icon
-              as={MdOutlineSearch}
-              fontSize="30px"
-              fontWeight="200"
-              color="rgb(116, 116, 116)"
-              marginLeft="5px"
-            />
-          </InputLeftElement>
-          <Input
+        <StyledInputGroup>
+          <StyledInputLeftElement>
+            <StyledIcon as={MdOutlineSearch} />
+          </StyledInputLeftElement>
+          <StyledInput
             placeholder="Suburb or Address"
-            _placeholder={{ color: "rgb(116, 116, 116)" }}
-            border="1px solid rgb(206, 206, 206)"
-            borderRadius="4px"
-            height="50px"
-            width="100%"
-            padding="10px 10px 10px 48px"
-            _focusVisible={{ boxShadow: "none", border: "1px solid rgb(0, 195, 138)" }}
-            color="rgb(116, 116, 116)"
             onChange={formik.handleChange}
             value={formik.values.location}
             ref={refs}
             id="location"
             name="location"
           />
-        </InputGroup>
+        </StyledInputGroup>
       </Box>
     </>
   );
