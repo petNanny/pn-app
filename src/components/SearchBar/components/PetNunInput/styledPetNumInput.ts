@@ -91,7 +91,7 @@ export const IncreaseBtn = styled(Button)`
 export const DecreaseBtn = styled(Button)`
   &&& {
     border: 1px solid;
-    color: ${(props) => (props.changeColor > 0 ? "rgb(0, 195, 138)" : "rgb(206, 206, 206)")};
+    color: ${(props) => (props.color > 0 ? "rgb(0, 195, 138)" : "rgb(206, 206, 206)")};
     background: rgb(255, 255, 255);
     width: 40px;
     height: 40px;

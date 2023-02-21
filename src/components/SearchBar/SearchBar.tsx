@@ -1,10 +1,10 @@
 import { useState } from "react";
 import AddressInput from "./components/AddressInput/AddressInput";
 import ServiceInput from "./components/ServiceInput/ServiceInput";
-import DateInput from "./components/DateInput/DateInput";
 import PetNumInput from "./components/PetNunInput/PetNumInput";
 import AdvancedInput from "./components/AdvancedInput/AdvancedInput";
 import { SearchBox, Heading1, Heading2, InputsContainer } from "./styledSearchBar";
+import DateInput from "./components/DateInput/DateInput";
 
 const SearchBar = () => {
   const [serviceH1, setServiceH1] = useState("");
@@ -32,7 +32,6 @@ const SearchBar = () => {
         <InputsContainer spacing="1rem">
           <AddressInput changeLocation={changeLocation} />
           <ServiceInput
-            // serviceH1={serviceH1}
             changeServiceH1={changeServiceH1}
             changeServiceDetail={changeServiceDetail}
           />

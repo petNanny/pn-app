@@ -1,58 +1,62 @@
 import { useState, useRef } from "react";
-import DatePicker, { DateObject } from "react-multi-date-picker";
-import type { Value } from "react-multi-date-picker";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { ClearBtn, ApplyBtn, ButtonsBox, DatePickBtn } from "./styledDateInput";
-
-type DateValues = {
-  dates: Value;
-};
+import { ClearBtn, ApplyBtn, ButtonsBox, DatePickerContainer } from "./styledDateInput";
+import { useFormik } from "formik";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DateInput = () => {
-  // let [dates, setDates] = useState<Value>(null);
-  const [dates, setDates] = useState<Value>(null);
+  const [dateRange, setDateRange] = useState<any | null>([null, null]);
+  const [startDate, endDate] = dateRange;
 
-  const datePickerRef = useRef<any>();
-
-  const handleDateClear = () => {
-    setDates(null);
-  };
-
-  const { handleSubmit: handleDateSubmit } = useForm({
-    defaultValues: {
-      dates: null,
+  const formik = useFormik({
+    initialValues: {
+      selectedDate: [null, null],
+    },
+    onSubmit: (values) => {
+      console.log(values);
     },
   });
 
-  const onDateSubmit: SubmitHandler<DateValues> = () => {
-    datePickerRef.current.closeCalendar();
-    // if (dates instanceof DateObject) {
-    //   dates = dates.toDate();
-    // }
-    // console.log(dates instanceof DateObject);
-    console.log(dates);
-  };
+  const calRef = useRef<any>();
 
   return (
     <>
-      <DatePickBtn>
+      <DatePickerContainer>
         <DatePicker
-          value={dates}
-          onChange={setDates}
-          format="DD/MM/YYYY"
-          range
-          minDate={new DateObject().subtract(0, "days")}
-          placeholder="Start date   >   End date"
-          inputClass="custom-input"
-          ref={datePickerRef}
-          className="custom-calendar"
+          dateFormat="dd/MM/yyy"
+          ref={calRef}
+          selectsRange={true}
+          placeholderText="Start date   >   End date"
+          startDate={startDate}
+          endDate={endDate}
+          onChange={(date) => {
+            setDateRange(date);
+          }}
+          showPopperArrow={false}
+          shouldCloseOnSelect={false}
+          minDate={new Date()}
         >
           <ButtonsBox>
-            <ClearBtn onClick={handleDateClear}>Clear</ClearBtn>
-            <ApplyBtn onClick={handleDateSubmit(onDateSubmit)}>Apply</ApplyBtn>
+            <ClearBtn
+              onClick={() => {
+                setDateRange([null, null]);
+                calRef.current.setOpen(false);
+              }}
+            >
+              clear
+            </ClearBtn>
+            <ApplyBtn
+              onClick={() => {
+                calRef.current.setOpen(false);
+                formik.setFieldValue("selectedDate", dateRange);
+                setTimeout(formik.handleSubmit, 0);
+              }}
+            >
+              apply
+            </ApplyBtn>
           </ButtonsBox>
         </DatePicker>
-      </DatePickBtn>
+      </DatePickerContainer>
     </>
   );
 };

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box, Menu, Text } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
-import { useForm, SubmitHandler } from "react-hook-form";
 import {
   PetTypeText,
   PetSizeText,
@@ -18,16 +17,7 @@ import {
   PetNumSetBox,
   ApplyBtn,
 } from "./styledPetNumInput";
-
-type PetNumFormValues = {
-  smallDog: number;
-  mediumDog: number;
-  largeDog: number;
-  giantDog: number;
-  cat: number;
-  smallAnimal: number;
-  totalPets: number;
-};
+import { useFormik } from "formik";
 
 const PetNumInput = () => {
   const [totalPetsNum, setTotalPetsNum] = useState(0);
@@ -42,7 +32,7 @@ const PetNumInput = () => {
     setTotalPetsNum(
       smallDogNum + mediumDogNum + largeDogNum + giantDogNum + catNum + smallAnimalNum
     );
-  });
+  }, [smallDogNum, mediumDogNum, largeDogNum, giantDogNum, catNum, smallAnimalNum]);
 
   const handleIncreasePet = (
     value: number,
@@ -68,50 +58,78 @@ const PetNumInput = () => {
     setTotalPetsNum(0);
   };
 
-  const { handleSubmit: handlePetNumSubmit } = useForm({
-    defaultValues: {
-      smallDog: smallDogNum,
-      mediumDog: mediumDogNum,
-      largeDog: largeDogNum,
-      giantDog: giantDogNum,
-      cat: catNum,
-      smallAnimal: smallAnimalNum,
-      totalPets: totalPetsNum,
+  const formik = useFormik({
+    initialValues: {
+      smallDog: 0,
+      mediumDog: 0,
+      largeDog: 0,
+      giantDog: 0,
+      cat: 0,
+      smallAnimal: 0,
+      totalPets: 0,
+    },
+    onSubmit: (values) => {
+      values.smallDog = smallDogNum;
+      values.mediumDog = mediumDogNum;
+      values.largeDog = largeDogNum;
+      values.giantDog = giantDogNum;
+      values.cat = catNum;
+      values.smallAnimal = smallAnimalNum;
+      values.totalPets = totalPetsNum;
+      console.log(values);
     },
   });
 
-  const submitPetNumMessage = {
-    smallDog: smallDogNum,
-    mediumDog: mediumDogNum,
-    largeDog: largeDogNum,
-    giantDog: giantDogNum,
-    cat: catNum,
-    smallAnimal: smallAnimalNum,
-    totalPets: totalPetsNum,
-  };
-
-  const onPetNumSubmit: SubmitHandler<PetNumFormValues> = () => {
-    console.log(submitPetNumMessage);
-  };
-
-  // const list = [
-  //   {
-  //     id: 1,
-  //     petType: "Small Dog",
-  //     petSize: "0-10 kg",
-  //     petItemNum: smallDogNum,
-  //     handleDecreasePet: handleDecreasePet(smallDogNum, setSmallDogNum),
-  //     handleIncreasePet: handleIncreasePet(smallDogNum, setSmallDogNum),
-  //   },
-  //   {
-  //     id: 2,
-  //     petType: "Medium Dog",
-  //     petSize: "10-20 kg",
-  //     petItemNum: mediumDogNum,
-  //     handleDecreasePet: handleDecreasePet(mediumDogNum, setMediumDogNum),
-  //     handleIncreasePet: handleIncreasePet(mediumDogNum, setMediumDogNum),
-  //   },
-  // ];
+  const list = [
+    {
+      id: 1,
+      petType: "Small Dog",
+      petSize: "0-10 kg",
+      petItemNum: smallDogNum,
+      handleDecreasePet: () => handleDecreasePet(smallDogNum, setSmallDogNum),
+      handleIncreasePet: () => handleIncreasePet(smallDogNum, setSmallDogNum),
+    },
+    {
+      id: 2,
+      petType: "Medium Dog",
+      petSize: "10-20 kg",
+      petItemNum: mediumDogNum,
+      handleDecreasePet: () => handleDecreasePet(mediumDogNum, setMediumDogNum),
+      handleIncreasePet: () => handleIncreasePet(mediumDogNum, setMediumDogNum),
+    },
+    {
+      id: 3,
+      petType: "Large Dog",
+      petSize: "20-40 kg",
+      petItemNum: largeDogNum,
+      handleDecreasePet: () => handleDecreasePet(largeDogNum, setLargeDogNum),
+      handleIncreasePet: () => handleIncreasePet(largeDogNum, setLargeDogNum),
+    },
+    {
+      id: 4,
+      petType: "Giant Dog",
+      petSize: "+40 kg",
+      petItemNum: giantDogNum,
+      handleDecreasePet: () => handleDecreasePet(giantDogNum, setGiantDogNum),
+      handleIncreasePet: () => handleIncreasePet(giantDogNum, setGiantDogNum),
+    },
+    {
+      id: 5,
+      petType: "Cat",
+      petSize: "All",
+      petItemNum: catNum,
+      handleDecreasePet: () => handleDecreasePet(catNum, setCatNum),
+      handleIncreasePet: () => handleIncreasePet(catNum, setCatNum),
+    },
+    {
+      id: 6,
+      petType: "Small Animal",
+      petSize: "Bird, rabbit, ferret, ...",
+      petItemNum: smallAnimalNum,
+      handleDecreasePet: () => handleDecreasePet(smallAnimalNum, setSmallAnimalNum),
+      handleIncreasePet: () => handleIncreasePet(smallAnimalNum, setSmallAnimalNum),
+    },
+  ];
 
   return (
     <>
@@ -130,113 +148,7 @@ const PetNumInput = () => {
             </BoxInMenuButton>
           </StyledMenuButton>
           <StyledMenuList>
-            <PetSelectItem>
-              <PetTypeContainer>
-                <PetTypeText>Small Dog</PetTypeText>
-                <PetSizeText>0-10 kg</PetSizeText>
-              </PetTypeContainer>
-              <PetNumSetBox>
-                <DecreaseBtn
-                  changeColor={smallDogNum}
-                  onClick={() => handleDecreasePet(smallDogNum, setSmallDogNum)}
-                >
-                  -
-                </DecreaseBtn>
-                <PetSelectItemNum>{smallDogNum}</PetSelectItemNum>
-                <IncreaseBtn onClick={() => handleIncreasePet(smallDogNum, setSmallDogNum)}>
-                  +
-                </IncreaseBtn>
-              </PetNumSetBox>
-            </PetSelectItem>
-            <PetSelectItem>
-              <PetTypeContainer>
-                <PetTypeText>Medium Dog</PetTypeText>
-                <PetSizeText>10-20 kg</PetSizeText>
-              </PetTypeContainer>
-              <PetNumSetBox>
-                <DecreaseBtn
-                  changeColor={mediumDogNum}
-                  onClick={() => handleDecreasePet(mediumDogNum, setMediumDogNum)}
-                >
-                  -
-                </DecreaseBtn>
-                <PetSelectItemNum>{mediumDogNum}</PetSelectItemNum>
-                <IncreaseBtn onClick={() => handleIncreasePet(mediumDogNum, setMediumDogNum)}>
-                  +
-                </IncreaseBtn>
-              </PetNumSetBox>
-            </PetSelectItem>
-            <PetSelectItem>
-              <PetTypeContainer>
-                <PetTypeText>Large Dog</PetTypeText>
-                <PetSizeText>20-40 kg</PetSizeText>
-              </PetTypeContainer>
-              <PetNumSetBox>
-                <DecreaseBtn
-                  changeColor={largeDogNum}
-                  onClick={() => handleDecreasePet(largeDogNum, setLargeDogNum)}
-                >
-                  -
-                </DecreaseBtn>
-                <PetSelectItemNum>{largeDogNum}</PetSelectItemNum>
-                <IncreaseBtn onClick={() => handleIncreasePet(largeDogNum, setLargeDogNum)}>
-                  +
-                </IncreaseBtn>
-              </PetNumSetBox>
-            </PetSelectItem>
-            <PetSelectItem>
-              <PetTypeContainer>
-                <PetTypeText>Giant Dog</PetTypeText>
-                <PetSizeText>+40 kg</PetSizeText>
-              </PetTypeContainer>
-              <PetNumSetBox>
-                <DecreaseBtn
-                  changeColor={giantDogNum}
-                  onClick={() => handleDecreasePet(giantDogNum, setGiantDogNum)}
-                >
-                  -
-                </DecreaseBtn>
-                <PetSelectItemNum>{giantDogNum}</PetSelectItemNum>
-                <IncreaseBtn onClick={() => handleIncreasePet(giantDogNum, setGiantDogNum)}>
-                  +
-                </IncreaseBtn>
-              </PetNumSetBox>
-            </PetSelectItem>
-            <PetSelectItem>
-              <PetTypeContainer>
-                <PetTypeText>Cat</PetTypeText>
-                <PetSizeText>All</PetSizeText>
-              </PetTypeContainer>
-              <PetNumSetBox>
-                <DecreaseBtn
-                  changeColor={catNum}
-                  onClick={() => handleDecreasePet(catNum, setCatNum)}
-                >
-                  -
-                </DecreaseBtn>
-                <PetSelectItemNum>{catNum}</PetSelectItemNum>
-                <IncreaseBtn onClick={() => handleIncreasePet(catNum, setCatNum)}>+</IncreaseBtn>
-              </PetNumSetBox>
-            </PetSelectItem>
-            <PetSelectItem>
-              <PetTypeContainer>
-                <PetTypeText>Small Animal</PetTypeText>
-                <PetSizeText>Bird, rabbit, ferret</PetSizeText>
-              </PetTypeContainer>
-              <PetNumSetBox>
-                <DecreaseBtn
-                  changeColor={smallAnimalNum}
-                  onClick={() => handleDecreasePet(smallAnimalNum, setSmallAnimalNum)}
-                >
-                  -
-                </DecreaseBtn>
-                <PetSelectItemNum>{smallAnimalNum}</PetSelectItemNum>
-                <IncreaseBtn onClick={() => handleIncreasePet(smallAnimalNum, setSmallAnimalNum)}>
-                  +
-                </IncreaseBtn>
-              </PetNumSetBox>
-            </PetSelectItem>
-            {/* {list.map((item) => {
+            {list.map((item) => {
               return (
                 <PetSelectItem key={item.id}>
                   <PetTypeContainer>
@@ -244,29 +156,19 @@ const PetNumInput = () => {
                     <PetSizeText>{item.petSize}</PetSizeText>
                   </PetTypeContainer>
                   <PetNumSetBox>
-                    <DecreaseBtn
-                      onClick={() => {
-                        item.handleDecreasePet;
-                      }}
-                    >
+                    <DecreaseBtn color={item.petItemNum} onClick={item.handleDecreasePet}>
                       -
                     </DecreaseBtn>
                     <PetSelectItemNum>{item.petItemNum}</PetSelectItemNum>
-                    <IncreaseBtn
-                      onClick={() => {
-                        item.handleIncreasePet;
-                      }}
-                    >
-                      +
-                    </IncreaseBtn>
+                    <IncreaseBtn onClick={item.handleIncreasePet}>+</IncreaseBtn>
                   </PetNumSetBox>
                 </PetSelectItem>
               );
-            })} */}
+            })}
             <PetSelectItem>
               <ClearBtn onClick={handlePetsClear}>Clear</ClearBtn>
               <Box>
-                <ApplyBtn onClick={handlePetNumSubmit(onPetNumSubmit)}>Apply</ApplyBtn>
+                <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
               </Box>
             </PetSelectItem>
           </StyledMenuList>

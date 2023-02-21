@@ -1,7 +1,6 @@
 import { Box, Menu, Stack } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
   AdvancedCheckItemText,
   MenuBtn,
@@ -14,23 +13,7 @@ import {
   ClearBtn,
   ApplyBtn,
 } from "./styledAdvancedInput";
-
-type AdvancedFormValues = {
-  "Sitter has no dogs": boolean;
-  "Sitter has no children": boolean;
-  "Sitter has a fully fenced backyard": boolean;
-};
-
-// type AdvancedFormCheckBoxNames =
-//   | "Sitter has no dogs"
-//   | "Sitter has no children"
-//   | "Sitter has a fully fenced backyard";
-
-// const advancedCheckList = [
-//   { id: 1, content: "Sitter has no dogs" },
-//   { id: 2, content: "Sitter has no children" },
-//   { id: 3, content: "Sitter has a fully fenced backyard" },
-// ];
+import { useFormik } from "formik";
 
 const AdvancedInput = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -44,25 +27,6 @@ const AdvancedInput = () => {
   useEffect(() => {
     setActiveItemsCount(activeItemsCount1 + activeItemsCount2 + activeItemsCount3);
   });
-
-  // const handleText = () => {
-  //   setIsActive(!isActive);
-  // };
-  // useEffect(() => {
-  //   if (!isActive) {
-  //     setActiveItemsCount((prevCount) => {
-  //       if (prevCount !== 0) {
-  //         return prevCount - 1;
-  //       }
-  //       return prevCount;
-  //     });
-  //   }
-  //   if (isActive) {
-  //     setActiveItemsCount((prevCount) => {
-  //       return prevCount + 1;
-  //     });
-  //   }
-  // }, [isActive, setActiveItemsCount]);
 
   const handleText1 = () => {
     setIsChecked1(!isChecked1);
@@ -121,20 +85,8 @@ const AdvancedInput = () => {
     }
   }, [isChecked3, setActiveItemsCount3]);
 
-  const {
-    handleSubmit: handleAdvanceInputSubmit,
-    control,
-    reset,
-  } = useForm({
-    defaultValues: {
-      "Sitter has no dogs": false,
-      "Sitter has no children": false,
-      "Sitter has a fully fenced backyard": false,
-    },
-  });
-
   const handleAdvancedFormReset = () => {
-    reset();
+    formik.resetForm;
     setActiveItemsCount1(0);
     setActiveItemsCount2(0);
     setActiveItemsCount3(0);
@@ -143,9 +95,16 @@ const AdvancedInput = () => {
     setIsChecked3(false);
   };
 
-  const onAdvancedSubmit: SubmitHandler<AdvancedFormValues> = (data) => {
-    console.log(data);
-  };
+  const formik = useFormik({
+    initialValues: {
+      noDogs: isChecked1,
+      noChildren: isChecked2,
+      fencedBackyard: isChecked3,
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
   return (
     <>
@@ -163,93 +122,36 @@ const AdvancedInput = () => {
             <MenuTitle>General</MenuTitle>
             <Box>
               <Stack>
-                {/* {advancedCheckList.map((item) => {
-                  return (
-                    <Controller
-                      control={control}
-                      name={item.content as AdvancedFormCheckBoxNames}
-                      key={item.id}
-                      defaultValue={false}
-                      render={({ field: { onChange, value, ref } }) => (
-                        <Checkbox
-                          margin="0"
-                          size="lg"
-                          colorScheme="white"
-                          iconColor="rgb(0, 195, 138)"
-                          sx={{
-                            "> span: first-of-type": {
-                              boxShadow: "unset",
-                            },
-                            "> .[date-checked]": { borderColor: "rgb(0, 195, 138)" },
-                          }}
-                          _hover={{ borderColor: "rgb(0, 195, 138)" }}
-                          onChange={(e) => {
-                            onChange(e);
-                            // handleText();
-                          }}
-                          ref={ref}
-                          isChecked={value}
-                        >
-                          <AdvancedCheckItemText>{item.content}</AdvancedCheckItemText>
-                        </Checkbox>
-                      )}
-                    />
-                  );
-                })} */}
-                <Controller
-                  control={control}
-                  name="Sitter has no dogs"
-                  defaultValue={false}
-                  render={({ field: { onChange, value, ref } }) => (
-                    <StyledCheckbox
-                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                        onChange(e);
-                        handleText1();
-                      }}
-                      ref={ref}
-                      isChecked={value}
-                    >
-                      <AdvancedCheckItemText>Sitter has no dogs</AdvancedCheckItemText>
-                    </StyledCheckbox>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="Sitter has no children"
-                  defaultValue={false}
-                  render={({ field: { onChange, value, ref } }) => (
-                    <StyledCheckbox
-                      _hover={{ borderColor: "rgb(0, 195, 138)" }}
-                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                        onChange(e);
-                        handleText2();
-                      }}
-                      ref={ref}
-                      isChecked={value}
-                    >
-                      <AdvancedCheckItemText>Sitter has no children</AdvancedCheckItemText>
-                    </StyledCheckbox>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="Sitter has a fully fenced backyard"
-                  defaultValue={false}
-                  render={({ field: { onChange, value, ref } }) => (
-                    <StyledCheckbox
-                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                        onChange(e);
-                        handleText3();
-                      }}
-                      ref={ref}
-                      isChecked={value}
-                    >
-                      <AdvancedCheckItemText>
-                        Sitter has a fully fenced backyard
-                      </AdvancedCheckItemText>
-                    </StyledCheckbox>
-                  )}
-                />
+                <StyledCheckbox
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                    formik.handleChange(e);
+                    handleText1();
+                  }}
+                  value={formik.values.noDogs}
+                  name="noDogs"
+                >
+                  <AdvancedCheckItemText>Sitter has no dogs</AdvancedCheckItemText>
+                </StyledCheckbox>
+                <StyledCheckbox
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                    formik.handleChange(e);
+                    handleText2();
+                  }}
+                  value={formik.values.noChildren}
+                  name="noChildren"
+                >
+                  <AdvancedCheckItemText>Sitter has no children</AdvancedCheckItemText>
+                </StyledCheckbox>
+                <StyledCheckbox
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                    formik.handleChange(e);
+                    handleText3();
+                  }}
+                  value={formik.values.fencedBackyard}
+                  name="fencedBackyard"
+                >
+                  <AdvancedCheckItemText>Sitter has a fully fenced backyard</AdvancedCheckItemText>
+                </StyledCheckbox>
               </Stack>
             </Box>
             <ButtonsBox>
@@ -257,7 +159,7 @@ const AdvancedInput = () => {
                 <ClearBtn onClick={handleAdvancedFormReset}>Clear</ClearBtn>
               </Box>
               <Box>
-                <ApplyBtn onClick={handleAdvanceInputSubmit(onAdvancedSubmit)}>Apply</ApplyBtn>
+                <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
               </Box>
             </ButtonsBox>
           </StyledMenuList>

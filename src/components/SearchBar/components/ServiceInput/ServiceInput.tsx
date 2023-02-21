@@ -6,7 +6,6 @@ import doggyDayCare from "../../../../assets/Icons/doggyDayCare.svg";
 import dogWalking from "../../../../assets/Icons/dogWalking.svg";
 import homeVisits from "../../../../assets/Icons/homeVisits.svg";
 import houseSitting from "../../../../assets/Icons/houseSitting.svg";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormik } from "formik";
 import {
   SetServiceTextBox,
@@ -25,21 +24,36 @@ import {
   MenuItemOptionInfo,
 } from "./styledServiceInput";
 
-type PetServiceValues = {
-  petService: string;
-};
-
 type ServiceInputProps = {
-  // serviceH1: string;
   changeServiceH1: (value: string) => void;
   changeServiceDetail: (value: string) => void;
 };
 
-const ServiceInput: React.FC<ServiceInputProps> = ({
-  // serviceH1,
-  changeServiceH1,
-  changeServiceDetail,
-}) => {
+const ServiceType = {
+  DogBoarding: "Dog boarding",
+  DoggyDayCare: "Doggy day care",
+  DogWalking: "Dog walking",
+  HomeVisits: "Home visits",
+  HouseSitting: "House sitting",
+};
+
+const ServiceDetail = {
+  DogBoarding: "Overnight stay at the sitter's home.",
+  DoggyDayCare: "Daytime care for your dog at the sitter's home.",
+  DogWalking: "An experienced dog walker will pick up your dog from your home for a 30 mins walk.",
+  HomeVisits: "Drop in visits at your home for your pet.",
+  HouseSitting: "A sitter stays overnight in your home and cares for your pet.",
+};
+
+const ServiceInfo = {
+  DogBoarding: "24h stay, at the sitter's home",
+  DoggyDayCare: "Daytime care, at the sitter's home",
+  DogWalking: "Min. 30-minute walks",
+  HomeVisits: "Min. 30-minute visits in your home",
+  HouseSitting: "24h stay, in your home",
+};
+
+const ServiceInput: React.FC<ServiceInputProps> = ({ changeServiceH1, changeServiceDetail }) => {
   const [serviceText, setServiceText] = useState(<Box>Looking for</Box>);
 
   const changeServiceText = (img: string, text: string) => {
@@ -60,19 +74,91 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
     },
   });
 
-  // const { handleSubmit: handlePetServiceSubmit } = useForm({
-  //   defaultValues: {
-  //     petService: "",
-  //   },
-  // });
+  const handleClickDogBoarding = () => {
+    changeServiceText(homeDogBoarding, ServiceType.DogWalking);
+    changeServiceH1(ServiceType.DogWalking);
+    changeServiceDetail(ServiceDetail.DogWalking);
+    formik.setFieldValue("petService", ServiceType.DogWalking);
+    setTimeout(formik.handleSubmit, 0);
+  };
 
-  // const submitPetServiceMessage = {
-  //   petService: serviceH1,
-  // };
+  const handleClickDoggyDayCare = () => {
+    changeServiceText(doggyDayCare, ServiceType.DoggyDayCare);
+    changeServiceH1(ServiceType.DoggyDayCare);
+    changeServiceDetail(ServiceDetail.DoggyDayCare);
+    formik.setFieldValue("petService", ServiceType.DoggyDayCare);
+    setTimeout(formik.handleSubmit, 0);
+  };
 
-  // const onPetServiceSubmit: SubmitHandler<PetServiceValues> = (value) => {
-  //   console.log(value);
-  // };
+  const handleClickDogWalking = () => {
+    changeServiceText(dogWalking, ServiceType.DogWalking);
+    changeServiceH1(ServiceType.DogWalking);
+    changeServiceDetail(ServiceDetail.DogWalking);
+    formik.setFieldValue("petService", ServiceType.DogWalking);
+    setTimeout(formik.handleSubmit, 0);
+  };
+
+  const handleClickHomeVisits = () => {
+    changeServiceText(homeVisits, ServiceType.HomeVisits);
+    changeServiceH1(ServiceType.HomeVisits);
+    changeServiceDetail(ServiceDetail.HomeVisits);
+    formik.setFieldValue("petService", ServiceType.HomeVisits);
+    setTimeout(formik.handleSubmit, 0);
+  };
+
+  const handleClickHouseSitting = () => {
+    changeServiceText(houseSitting, ServiceType.HouseSitting);
+    changeServiceH1(ServiceType.HouseSitting);
+    changeServiceDetail(ServiceDetail.HouseSitting);
+    formik.setFieldValue("petService", ServiceType.HouseSitting);
+    setTimeout(formik.handleSubmit, 0);
+  };
+
+  const AtSitterHomeServices = [
+    {
+      id: 1,
+      value: ServiceType.DogBoarding,
+      handleClick: handleClickDogBoarding,
+      img: homeDogBoarding,
+      title: ServiceType.DogBoarding,
+      info: ServiceInfo.DogBoarding,
+    },
+    {
+      id: 2,
+      value: ServiceType.HomeVisits,
+      handleClick: handleClickHomeVisits,
+      img: homeVisits,
+      title: ServiceType.HomeVisits,
+      info: ServiceInfo.HomeVisits,
+    },
+  ];
+
+  const AtOwnerHomeServices = [
+    {
+      id: 1,
+      value: ServiceType.DogWalking,
+      handleClick: handleClickDogWalking,
+      img: dogWalking,
+      title: ServiceType.DogWalking,
+      info: ServiceInfo.DogWalking,
+    },
+    {
+      id: 2,
+      value: ServiceType.DoggyDayCare,
+      handleClick: handleClickDoggyDayCare,
+      img: doggyDayCare,
+      title: ServiceType.DoggyDayCare,
+      info: ServiceInfo.DoggyDayCare,
+    },
+    {
+      id: 3,
+      value: ServiceType.HouseSitting,
+      handleClick: handleClickHouseSitting,
+      img: houseSitting,
+      title: ServiceType.HouseSitting,
+      info: ServiceInfo.HouseSitting,
+    },
+  ];
 
   return (
     <>
@@ -90,110 +176,40 @@ const ServiceInput: React.FC<ServiceInputProps> = ({
                 <Text>At the sitter&apos;s home</Text>
               </TitleBox>
               <StyledMenuDivider />
-              <StyledMenuItemOption
-                value="Dog boarding"
-                onClick={() => {
-                  changeServiceText(homeDogBoarding, "Dog boarding");
-                  changeServiceH1("Dog Boarding");
-                  changeServiceDetail("Overnight stay at the sitter's home.");
-                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "Dog boarding" }))();
-                  formik.setFieldValue("petService", "dog");
-                }}
-              >
-                <BoxInMenuItemOption>
-                  <MenuItemOptionImageBox>
-                    <Img src={homeDogBoarding} />
-                  </MenuItemOptionImageBox>
-                  <Box>
-                    <MenuItemOptionTitle>Dog boarding</MenuItemOptionTitle>
-                    <MenuItemOptionInfo>24h stay, at the sitter&apos;s home</MenuItemOptionInfo>
-                  </Box>
-                </BoxInMenuItemOption>
-              </StyledMenuItemOption>
-              <StyledMenuItemOption
-                value="Doggy day care"
-                onClick={() => {
-                  changeServiceText(doggyDayCare, "Doggy day care");
-                  changeServiceH1("Doggy Day Care");
-                  changeServiceDetail("Daytime care for your dog at the sitter's home.");
-                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "Doggy day care" }))();
-                }}
-              >
-                <BoxInMenuItemOption>
-                  <MenuItemOptionImageBox>
-                    <Img src={doggyDayCare} />
-                  </MenuItemOptionImageBox>
-                  <Box>
-                    <MenuItemOptionTitle>Doggy day care</MenuItemOptionTitle>
-                    <MenuItemOptionInfo>Daytime care, at the sitter&apos;s home</MenuItemOptionInfo>
-                  </Box>
-                </BoxInMenuItemOption>
-              </StyledMenuItemOption>
+              {AtSitterHomeServices.map((item) => {
+                return (
+                  <StyledMenuItemOption key={item.id} value={item.value} onClick={item.handleClick}>
+                    <BoxInMenuItemOption>
+                      <MenuItemOptionImageBox>
+                        <Img src={item.img} />
+                      </MenuItemOptionImageBox>
+                      <Box>
+                        <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
+                        <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
+                      </Box>
+                    </BoxInMenuItemOption>
+                  </StyledMenuItemOption>
+                );
+              })}
               <TitleBox>
                 <Text>At your home </Text>
               </TitleBox>
               <StyledMenuDivider />
-              <StyledMenuItemOption
-                value="Dog walking"
-                onClick={() => {
-                  changeServiceText(dogWalking, "Dog walking");
-                  changeServiceH1("Dog Walking");
-                  changeServiceDetail(
-                    "An experienced dog walker will pick up your dog from your home for a 30 mins walk."
-                  );
-                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "Dog Walking" }))();
-                }}
-              >
-                <BoxInMenuItemOption>
-                  <MenuItemOptionImageBox>
-                    <Img src={dogWalking} />
-                  </MenuItemOptionImageBox>
-                  <Box>
-                    <MenuItemOptionTitle>Dog walking</MenuItemOptionTitle>
-                    <MenuItemOptionInfo>Min. 30-minute walks</MenuItemOptionInfo>
-                  </Box>
-                </BoxInMenuItemOption>
-              </StyledMenuItemOption>
-              <StyledMenuItemOption
-                value="Home visits"
-                onClick={() => {
-                  changeServiceText(homeVisits, "Home visits");
-                  changeServiceH1("Home Visits");
-                  changeServiceDetail("Drop in visits at your home for your pet.");
-                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "Home visits" }))();
-                }}
-              >
-                <BoxInMenuItemOption>
-                  <MenuItemOptionImageBox>
-                    <Img src={homeVisits} />
-                  </MenuItemOptionImageBox>
-                  <Box>
-                    <MenuItemOptionTitle>Home visits</MenuItemOptionTitle>
-                    <MenuItemOptionInfo>Min. 30-minute visits in your home</MenuItemOptionInfo>
-                  </Box>
-                </BoxInMenuItemOption>
-              </StyledMenuItemOption>
-              <StyledMenuItemOption
-                value="House sitting"
-                onClick={() => {
-                  changeServiceText(houseSitting, "House sitting");
-                  changeServiceH1("House Sitting");
-                  changeServiceDetail(
-                    "A sitter stays overnight in your home and cares for your pet."
-                  );
-                  // handlePetServiceSubmit(onPetServiceSubmit({ petService: "House Sitting" }))();
-                }}
-              >
-                <BoxInMenuItemOption>
-                  <MenuItemOptionImageBox>
-                    <Img src={houseSitting} />
-                  </MenuItemOptionImageBox>
-                  <Box>
-                    <MenuItemOptionTitle>House sitting</MenuItemOptionTitle>
-                    <MenuItemOptionInfo>24h stay, in your home</MenuItemOptionInfo>
-                  </Box>
-                </BoxInMenuItemOption>
-              </StyledMenuItemOption>
+              {AtOwnerHomeServices.map((item) => {
+                return (
+                  <StyledMenuItemOption key={item.id} value={item.value} onClick={item.handleClick}>
+                    <BoxInMenuItemOption>
+                      <MenuItemOptionImageBox>
+                        <Img src={item.img} />
+                      </MenuItemOptionImageBox>
+                      <Box>
+                        <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
+                        <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
+                      </Box>
+                    </BoxInMenuItemOption>
+                  </StyledMenuItemOption>
+                );
+              })}
             </MenuOptionGroup>
           </StyledMenuList>
         </Menu>
