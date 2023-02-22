@@ -14,9 +14,25 @@ import {
   MobileSearchBtn,
 } from "./styledSearchBar";
 import DateInput from "./components/DateInput/DateInput";
-import { useFormik } from "formik";
+import { useFormik, FormikProps } from "formik";
 import { useMediaQuery } from "@chakra-ui/react";
 import searchFilterSchema from "../../schemas/searchFilterValidator";
+
+interface Values {
+  location: string;
+  petService: string;
+  selectedDate: [unknown, unknown];
+  noDogs: boolean;
+  noChildren: boolean;
+  fencedBackyard: boolean;
+  smallDog: number;
+  mediumDog: number;
+  largeDog: number;
+  giantDog: number;
+  cat: number;
+  smallAnimal: number;
+  totalPets: number;
+}
 
 const SearchBar = () => {
   const [serviceH1, setServiceH1] = useState("Dog Boarding");
@@ -48,7 +64,9 @@ const SearchBar = () => {
     setLocation(value);
   };
 
-  const formik = useFormik({
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  const formik: FormikProps<Values> = useFormik<Values>({
     initialValues: {
       location: "",
       petService: "Dog boarding",
@@ -65,7 +83,7 @@ const SearchBar = () => {
       totalPets: 0,
     },
     validationSchema: searchFilterSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       values.smallDog = smallDogNum;
       values.mediumDog = mediumDogNum;
       values.largeDog = largeDogNum;
@@ -73,6 +91,7 @@ const SearchBar = () => {
       values.cat = catNum;
       values.smallAnimal = smallAnimalNum;
       values.totalPets = totalPetsNum;
+      await sleep(500);
       console.log(values);
     },
   });

@@ -9,10 +9,26 @@ import {
   StyledIcon,
   StyledInput,
 } from "./styledAddressInput";
+import { FormikProps } from "formik";
 
+interface Values {
+  location: string;
+  petService: string;
+  selectedDate: [unknown, unknown];
+  noDogs: boolean;
+  noChildren: boolean;
+  fencedBackyard: boolean;
+  smallDog: number;
+  mediumDog: number;
+  largeDog: number;
+  giantDog: number;
+  cat: number;
+  smallAnimal: number;
+  totalPets: number;
+}
 interface AddressInputProps {
   changeLocation: (value: string) => void;
-  formik: any;
+  formik: FormikProps<Values>;
 }
 
 const AddressInput = (props: AddressInputProps) => {

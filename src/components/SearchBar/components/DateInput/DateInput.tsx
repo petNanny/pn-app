@@ -9,9 +9,25 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useMediaQuery, FormControl, Box } from "@chakra-ui/react";
+import { FormikProps } from "formik";
 
+interface Values {
+  location: string;
+  petService: string;
+  selectedDate: [unknown, unknown];
+  noDogs: boolean;
+  noChildren: boolean;
+  fencedBackyard: boolean;
+  smallDog: number;
+  mediumDog: number;
+  largeDog: number;
+  giantDog: number;
+  cat: number;
+  smallAnimal: number;
+  totalPets: number;
+}
 interface DateInputProps {
-  formik: any;
+  formik: FormikProps<Values>;
 }
 
 const DateInput = (props: DateInputProps) => {
