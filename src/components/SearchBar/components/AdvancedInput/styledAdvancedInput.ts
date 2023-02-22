@@ -7,8 +7,24 @@ import {
   Text,
   MenuItem,
   Button,
+  FormLabel,
 } from "@chakra-ui/react";
 import styled from "styled-components";
+import { devices } from "../../../../styles/breakPoints";
+
+export const AdvancedInputContainer = styled(Box)`
+  &&& {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+export const StyledFormLabel = styled(FormLabel)`
+  &&& {
+    color: rgb(147, 147, 147);
+    line-height: 1.9rem;
+  }
+`;
 
 export const AdvancedCheckItemText = styled(Text)`
   &&& {
@@ -24,10 +40,13 @@ export const MenuBtn = styled(MenuButton)`
     border: 1px solid rgb(206, 206, 206);
     border-radius: 4px;
     height: 50px;
-    min-width: 12rem;
+    width: 100%;
     padding: 10px;
     &[aria-expanded="true"] {
       border-color: rgb(0, 195, 138);
+    }
+    @media ${devices.laptop} {
+      min-width: 12rem;
     }
   }
 `;
@@ -36,7 +55,7 @@ export const MenuBtnInBox = styled(Box)`
   &&& {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     color: rgb(116, 116, 116);
   }
 `;
@@ -51,8 +70,11 @@ export const MenuBtnIcon = styled(Icon)`
 export const StyledMenuList = styled(MenuList)`
   &&& {
     padding: 1rem;
-    width: 400px;
+    width: 100%;
     border-color: rgb(206, 206, 206);
+    @media ${devices.laptop} {
+      width: 400px;
+    }
   }
 `;
 

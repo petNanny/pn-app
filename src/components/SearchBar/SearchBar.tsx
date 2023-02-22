@@ -1,15 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddressInput from "./components/AddressInput/AddressInput";
 import ServiceInput from "./components/ServiceInput/ServiceInput";
 import PetNumInput from "./components/PetNunInput/PetNumInput";
 import AdvancedInput from "./components/AdvancedInput/AdvancedInput";
-import { SearchBox, Heading1, Heading2, InputsContainer } from "./styledSearchBar";
+import {
+  SearchBox,
+  Heading1,
+  Heading2,
+  InputsContainer,
+  HeadingContainer,
+  StyledMobileBtn,
+  MobileButtonsContainer,
+  MobileSearchBtn,
+} from "./styledSearchBar";
 import DateInput from "./components/DateInput/DateInput";
+import { useFormik } from "formik";
+import { useMediaQuery } from "@chakra-ui/react";
+import searchFilterSchema from "../../schemas/searchFilterValidator";
 
 const SearchBar = () => {
-  const [serviceH1, setServiceH1] = useState("");
-  const [serviceDetail, setServiceDetail] = useState("");
+  const [serviceH1, setServiceH1] = useState("Dog Boarding");
+  const [serviceDetail, setServiceDetail] = useState("Overnight stay at the sitter's home.");
   const [location, setLocation] = useState("");
+  const [totalPetsNum, setTotalPetsNum] = useState(0);
+  const [smallDogNum, setSmallDogNum] = useState(0);
+  const [mediumDogNum, setMediumDogNum] = useState(0);
+  const [largeDogNum, setLargeDogNum] = useState(0);
+  const [giantDogNum, setGiantDogNum] = useState(0);
+  const [catNum, setCatNum] = useState(0);
+  const [smallAnimalNum, setSmallAnimalNum] = useState(0);
+  const [isFilterHide, setIsFilterHide] = useState(false);
+
+  useEffect(() => {
+    setTotalPetsNum(
+      smallDogNum + mediumDogNum + largeDogNum + giantDogNum + catNum + smallAnimalNum
+    );
+  }, [smallDogNum, mediumDogNum, largeDogNum, giantDogNum, catNum, smallAnimalNum]);
 
   const changeServiceH1 = (value: string) => {
     setServiceH1(value);
@@ -22,23 +48,91 @@ const SearchBar = () => {
     setLocation(value);
   };
 
+  const formik = useFormik({
+    initialValues: {
+      location: "",
+      petService: "Dog boarding",
+      selectedDate: [null, null],
+      noDogs: false,
+      noChildren: false,
+      fencedBackyard: false,
+      smallDog: 0,
+      mediumDog: 0,
+      largeDog: 0,
+      giantDog: 0,
+      cat: 0,
+      smallAnimal: 0,
+      totalPets: 0,
+    },
+    validationSchema: searchFilterSchema,
+    onSubmit: (values) => {
+      values.smallDog = smallDogNum;
+      values.mediumDog = mediumDogNum;
+      values.largeDog = largeDogNum;
+      values.giantDog = giantDogNum;
+      values.cat = catNum;
+      values.smallAnimal = smallAnimalNum;
+      values.totalPets = totalPetsNum;
+      console.log(values);
+    },
+  });
+
+  const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
+
+  useEffect(() => {
+    isLaptop ? setIsFilterHide(true) : setIsFilterHide(false);
+  }, [isLaptop]);
+
+  const handleSearchBtn = () => {
+    formik.handleSubmit();
+    setIsFilterHide(true);
+  };
+
   return (
     <>
       <SearchBox>
-        <Heading1 as="h1">
-          {serviceH1} {location}
-        </Heading1>
-        <Heading2 as="h2">{serviceDetail}</Heading2>
-        <InputsContainer spacing="1rem">
-          <AddressInput changeLocation={changeLocation} />
+        <HeadingContainer>
+          <Heading1 as="h1">
+            {serviceH1} {location}
+          </Heading1>
+          <Heading2 as="h2">{serviceDetail}</Heading2>
+        </HeadingContainer>
+        <InputsContainer display={isFilterHide ? "none" : "flex"}>
+          <AddressInput changeLocation={changeLocation} formik={formik} />
           <ServiceInput
+            formik={formik}
             changeServiceH1={changeServiceH1}
             changeServiceDetail={changeServiceDetail}
           />
-          <DateInput />
-          <PetNumInput />
-          <AdvancedInput />
+          <DateInput formik={formik} />
+          <PetNumInput
+            formik={formik}
+            smallDogNum={smallDogNum}
+            mediumDogNum={mediumDogNum}
+            largeDogNum={largeDogNum}
+            giantDogNum={giantDogNum}
+            catNum={catNum}
+            smallAnimalNum={smallAnimalNum}
+            setSmallDogNum={setSmallDogNum}
+            setMediumDogNum={setMediumDogNum}
+            setLargeDogNum={setLargeDogNum}
+            setGiantDogNum={setGiantDogNum}
+            setCatNum={setCatNum}
+            setSmallAnimalNum={setSmallAnimalNum}
+            totalPetsNum={totalPetsNum}
+            setTotalPetsNum={setTotalPetsNum}
+          />
+          <AdvancedInput formik={formik} />
+          {isLaptop ? (
+            <MobileSearchBtn onClick={handleSearchBtn}>Search Now</MobileSearchBtn>
+          ) : null}
         </InputsContainer>
+        {isLaptop ? (
+          <MobileButtonsContainer>
+            <StyledMobileBtn onClick={() => setIsFilterHide(false)}>Edit Filters</StyledMobileBtn>
+            <StyledMobileBtn>Show Map</StyledMobileBtn>
+          </MobileButtonsContainer>
+        ) : null}
       </SearchBox>
     </>
   );

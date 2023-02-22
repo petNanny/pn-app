@@ -1,62 +1,70 @@
 import { useState, useRef } from "react";
-import { ClearBtn, ApplyBtn, ButtonsBox, DatePickerContainer } from "./styledDateInput";
-import { useFormik } from "formik";
+import {
+  ClearBtn,
+  ApplyBtn,
+  ButtonsBox,
+  DatePickerContainer,
+  StyledFormLabel,
+} from "./styledDateInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useMediaQuery, FormControl, Box } from "@chakra-ui/react";
 
-const DateInput = () => {
+interface DateInputProps {
+  formik: any;
+}
+
+const DateInput = (props: DateInputProps) => {
   const [dateRange, setDateRange] = useState<any | null>([null, null]);
   const [startDate, endDate] = dateRange;
 
-  const formik = useFormik({
-    initialValues: {
-      selectedDate: [null, null],
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-
   const calRef = useRef<any>();
+
+  const [isMobile] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 
   return (
     <>
-      <DatePickerContainer>
-        <DatePicker
-          dateFormat="dd/MM/yyy"
-          ref={calRef}
-          selectsRange={true}
-          placeholderText="Start date   >   End date"
-          startDate={startDate}
-          endDate={endDate}
-          onChange={(date) => {
-            setDateRange(date);
-          }}
-          showPopperArrow={false}
-          shouldCloseOnSelect={false}
-          minDate={new Date()}
-        >
-          <ButtonsBox>
-            <ClearBtn
-              onClick={() => {
-                setDateRange([null, null]);
-                calRef.current.setOpen(false);
+      <Box>
+        <FormControl>
+          {isMobile ? <StyledFormLabel>Dates</StyledFormLabel> : null}
+          <DatePickerContainer>
+            <DatePicker
+              dateFormat="dd/MM/yyy"
+              ref={calRef}
+              selectsRange={true}
+              placeholderText="Start date   >   End date"
+              startDate={startDate}
+              endDate={endDate}
+              onChange={(date) => {
+                setDateRange(date);
               }}
+              showPopperArrow={false}
+              shouldCloseOnSelect={false}
+              minDate={new Date()}
             >
-              clear
-            </ClearBtn>
-            <ApplyBtn
-              onClick={() => {
-                calRef.current.setOpen(false);
-                formik.setFieldValue("selectedDate", dateRange);
-                setTimeout(formik.handleSubmit, 0);
-              }}
-            >
-              apply
-            </ApplyBtn>
-          </ButtonsBox>
-        </DatePicker>
-      </DatePickerContainer>
+              <ButtonsBox>
+                <ClearBtn
+                  onClick={() => {
+                    setDateRange([null, null]);
+                    calRef.current.setOpen(false);
+                  }}
+                >
+                  clear
+                </ClearBtn>
+                <ApplyBtn
+                  onClick={() => {
+                    calRef.current.setOpen(false);
+                    props.formik.setFieldValue("selectedDate", dateRange);
+                    setTimeout(props.formik.handleSubmit, 0);
+                  }}
+                >
+                  apply
+                </ApplyBtn>
+              </ButtonsBox>
+            </DatePicker>
+          </DatePickerContainer>
+        </FormControl>
+      </Box>
     </>
   );
 };

@@ -1,34 +1,27 @@
-import { Box, useMergeRefs } from "@chakra-ui/react";
+import { useMergeRefs, FormControl, useMediaQuery } from "@chakra-ui/react";
 import { MdOutlineSearch } from "react-icons/md";
 import { usePlacesWidget } from "react-google-autocomplete";
-import { useFormik } from "formik";
 import {
+  AddressInputContainer,
+  StyledFormLabel,
   StyledInputGroup,
   StyledInputLeftElement,
   StyledIcon,
   StyledInput,
 } from "./styledAddressInput";
 
-type LocationInputProps = {
+interface AddressInputProps {
   changeLocation: (value: string) => void;
-};
+  formik: any;
+}
 
-const AddressInput: React.FC<LocationInputProps> = ({ changeLocation }) => {
-  const formik = useFormik({
-    initialValues: {
-      location: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-
+const AddressInput = (props: AddressInputProps) => {
   const { ref } = usePlacesWidget({
     apiKey: process.env.REACT_APP_GOOGLE_MAP_KEY,
     onPlaceSelected: (place) => {
-      formik.setFieldValue("location", place.formatted_address);
-      changeLocation(place.formatted_address);
-      setTimeout(formik.handleSubmit, 0);
+      props.formik.setFieldValue("location", place.formatted_address);
+      props.changeLocation(place.formatted_address);
+      setTimeout(props.formik.handleSubmit, 0);
     },
     options: {
       types: ["(regions)"],
@@ -38,23 +31,28 @@ const AddressInput: React.FC<LocationInputProps> = ({ changeLocation }) => {
 
   const refs = useMergeRefs(ref);
 
+  const [isMobile] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
+
   return (
     <>
-      <Box>
-        <StyledInputGroup>
-          <StyledInputLeftElement>
-            <StyledIcon as={MdOutlineSearch} />
-          </StyledInputLeftElement>
-          <StyledInput
-            placeholder="Suburb or Address"
-            onChange={formik.handleChange}
-            value={formik.values.location}
-            ref={refs}
-            id="location"
-            name="location"
-          />
-        </StyledInputGroup>
-      </Box>
+      <AddressInputContainer>
+        <FormControl>
+          {isMobile ? <StyledFormLabel>Near</StyledFormLabel> : null}
+          <StyledInputGroup>
+            <StyledInputLeftElement>
+              <StyledIcon as={MdOutlineSearch} />
+            </StyledInputLeftElement>
+            <StyledInput
+              placeholder="Suburb or Address"
+              onChange={props.formik.handleChange}
+              value={props.formik.values.location}
+              ref={refs}
+              id="location"
+              name="location"
+            />
+          </StyledInputGroup>
+        </FormControl>
+      </AddressInputContainer>
     </>
   );
 };

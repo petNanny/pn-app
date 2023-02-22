@@ -1,7 +1,8 @@
-import { Box, Menu, Stack } from "@chakra-ui/react";
+import { Box, Menu, Stack, FormControl, useMediaQuery } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import { useEffect, useState } from "react";
 import {
+  AdvancedInputContainer,
   AdvancedCheckItemText,
   MenuBtn,
   MenuBtnInBox,
@@ -12,10 +13,14 @@ import {
   ButtonsBox,
   ClearBtn,
   ApplyBtn,
+  StyledFormLabel,
 } from "./styledAdvancedInput";
-import { useFormik } from "formik";
 
-const AdvancedInput = () => {
+interface AdvancedInputProps {
+  formik: any;
+}
+
+const AdvancedInput = (props: AdvancedInputProps) => {
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
   const [isChecked3, setIsChecked3] = useState(false);
@@ -86,7 +91,7 @@ const AdvancedInput = () => {
   }, [isChecked3, setActiveItemsCount3]);
 
   const handleAdvancedFormReset = () => {
-    formik.resetForm;
+    props.formik.resetForm;
     setActiveItemsCount1(0);
     setActiveItemsCount2(0);
     setActiveItemsCount3(0);
@@ -95,76 +100,73 @@ const AdvancedInput = () => {
     setIsChecked3(false);
   };
 
-  const formik = useFormik({
-    initialValues: {
-      noDogs: isChecked1,
-      noChildren: isChecked2,
-      fencedBackyard: isChecked3,
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const [isTablet] = useMediaQuery("(max-width: 768px)", { ssr: true, fallback: false });
+  const [isMobile] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 
   return (
     <>
-      <Box>
-        <Menu autoSelect={false}>
-          <MenuBtn>
-            <MenuBtnInBox>
+      <AdvancedInputContainer>
+        <FormControl>
+          {isMobile ? <StyledFormLabel>Advanced filters</StyledFormLabel> : null}
+          <Menu matchWidth={isTablet ? true : false} autoSelect={false}>
+            <MenuBtn>
+              <MenuBtnInBox>
+                <Box>
+                  <Box>{activeItemsCount} advanced filter(s)</Box>
+                </Box>
+                <MenuBtnIcon as={MdArrowDropDown} />
+              </MenuBtnInBox>
+            </MenuBtn>
+            <StyledMenuList>
+              <MenuTitle>General</MenuTitle>
               <Box>
-                <Box>{activeItemsCount} advanced filter(s)</Box>
+                <Stack>
+                  <StyledCheckbox
+                    onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                      props.formik.handleChange(e);
+                      handleText1();
+                    }}
+                    value={props.formik.values.noDogs}
+                    name="noDogs"
+                  >
+                    <AdvancedCheckItemText>Sitter has no dogs</AdvancedCheckItemText>
+                  </StyledCheckbox>
+                  <StyledCheckbox
+                    onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                      props.formik.handleChange(e);
+                      handleText2();
+                    }}
+                    value={props.formik.values.noChildren}
+                    name="noChildren"
+                  >
+                    <AdvancedCheckItemText>Sitter has no children</AdvancedCheckItemText>
+                  </StyledCheckbox>
+                  <StyledCheckbox
+                    onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                      props.formik.handleChange(e);
+                      handleText3();
+                    }}
+                    value={props.formik.values.fencedBackyard}
+                    name="fencedBackyard"
+                  >
+                    <AdvancedCheckItemText>
+                      Sitter has a fully fenced backyard
+                    </AdvancedCheckItemText>
+                  </StyledCheckbox>
+                </Stack>
               </Box>
-              <MenuBtnIcon as={MdArrowDropDown} />
-            </MenuBtnInBox>
-          </MenuBtn>
-          <StyledMenuList>
-            <MenuTitle>General</MenuTitle>
-            <Box>
-              <Stack>
-                <StyledCheckbox
-                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                    formik.handleChange(e);
-                    handleText1();
-                  }}
-                  value={formik.values.noDogs}
-                  name="noDogs"
-                >
-                  <AdvancedCheckItemText>Sitter has no dogs</AdvancedCheckItemText>
-                </StyledCheckbox>
-                <StyledCheckbox
-                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                    formik.handleChange(e);
-                    handleText2();
-                  }}
-                  value={formik.values.noChildren}
-                  name="noChildren"
-                >
-                  <AdvancedCheckItemText>Sitter has no children</AdvancedCheckItemText>
-                </StyledCheckbox>
-                <StyledCheckbox
-                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                    formik.handleChange(e);
-                    handleText3();
-                  }}
-                  value={formik.values.fencedBackyard}
-                  name="fencedBackyard"
-                >
-                  <AdvancedCheckItemText>Sitter has a fully fenced backyard</AdvancedCheckItemText>
-                </StyledCheckbox>
-              </Stack>
-            </Box>
-            <ButtonsBox>
-              <Box>
-                <ClearBtn onClick={handleAdvancedFormReset}>Clear</ClearBtn>
-              </Box>
-              <Box>
-                <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
-              </Box>
-            </ButtonsBox>
-          </StyledMenuList>
-        </Menu>
-      </Box>
+              <ButtonsBox>
+                <Box>
+                  <ClearBtn onClick={handleAdvancedFormReset}>Clear</ClearBtn>
+                </Box>
+                <Box>
+                  <ApplyBtn onClick={props.formik.handleSubmit}>Apply</ApplyBtn>
+                </Box>
+              </ButtonsBox>
+            </StyledMenuList>
+          </Menu>
+        </FormControl>
+      </AdvancedInputContainer>
     </>
   );
 };

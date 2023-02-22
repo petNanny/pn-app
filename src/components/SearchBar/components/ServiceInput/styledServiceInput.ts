@@ -8,7 +8,23 @@ import {
   Text,
   Img,
   Divider,
+  FormLabel,
 } from "@chakra-ui/react";
+import { devices } from "../../../../styles/breakPoints";
+
+export const ServiceInputContainer = styled(Box)`
+  &&& {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+export const StyledFormLabel = styled(FormLabel)`
+  &&& {
+    color: rgb(147, 147, 147);
+    line-height: 1.9rem;
+  }
+`;
 
 export const SetServiceTextBox = styled(Box)`
   &&& {
@@ -39,10 +55,13 @@ export const StyledMenuButton = styled(MenuButton)`
     border: 1px solid rgb(206, 206, 206);
     border-radius: 4px;
     height: 50px;
-    min-width: 12rem;
+    width: 100%;
     padding: 10px;
     &[aria-expanded="true"] {
       border-color: rgb(0, 195, 138);
+    }
+    @media ${devices.laptop} {
+      min-width: 12rem;
     }
   }
 `;
@@ -51,7 +70,7 @@ export const BoxInMenuButton = styled(Box)`
   &&& {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     color: rgb(116, 116, 116);
   }
 `;
@@ -66,8 +85,11 @@ export const MenuBtnIcon = styled(Icon)`
 export const StyledMenuList = styled(MenuList)`
   &&& {
     padding: 0;
-    width: 400px;
+    width: 100%;
     border-color: rgb(206, 206, 206);
+    @media ${devices.tablet} {
+      width: 400px;
+    }
   }
 `;
 

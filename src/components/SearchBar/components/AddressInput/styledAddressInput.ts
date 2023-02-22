@@ -1,9 +1,27 @@
 import styled from "styled-components";
-import { Icon, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { Box, Icon, Input, InputGroup, InputLeftElement, FormLabel } from "@chakra-ui/react";
+import { devices } from "../../../../styles/breakPoints";
+
+export const AddressInputContainer = styled(Box)`
+  &&& {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+export const StyledFormLabel = styled(FormLabel)`
+  &&& {
+    color: rgb(147, 147, 147);
+    line-height: 1.9rem;
+  }
+`;
 
 export const StyledInputGroup = styled(InputGroup)`
   &&& {
-    min-width: 30rem;
+    width: 100%;
+    @media ${devices.laptop} {
+      min-width: 30rem;
+    }
   }
 `;
 

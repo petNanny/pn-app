@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { Box, Menu, Text } from "@chakra-ui/react";
+import { Box, Menu, Text, FormControl, useMediaQuery } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import {
+  PetNumInputContainer,
   PetTypeText,
   PetSizeText,
   PetSelectItem,
@@ -16,24 +16,28 @@ import {
   StyledMenuList,
   PetNumSetBox,
   ApplyBtn,
+  StyledFormLabel,
 } from "./styledPetNumInput";
-import { useFormik } from "formik";
 
-const PetNumInput = () => {
-  const [totalPetsNum, setTotalPetsNum] = useState(0);
-  const [smallDogNum, setSmallDogNum] = useState(0);
-  const [mediumDogNum, setMediumDogNum] = useState(0);
-  const [largeDogNum, setLargeDogNum] = useState(0);
-  const [giantDogNum, setGiantDogNum] = useState(0);
-  const [catNum, setCatNum] = useState(0);
-  const [smallAnimalNum, setSmallAnimalNum] = useState(0);
+interface PetNumInputProps {
+  setSmallDogNum: React.Dispatch<React.SetStateAction<number>>;
+  setMediumDogNum: React.Dispatch<React.SetStateAction<number>>;
+  setLargeDogNum: React.Dispatch<React.SetStateAction<number>>;
+  setGiantDogNum: React.Dispatch<React.SetStateAction<number>>;
+  setCatNum: React.Dispatch<React.SetStateAction<number>>;
+  setSmallAnimalNum: React.Dispatch<React.SetStateAction<number>>;
+  setTotalPetsNum: React.Dispatch<React.SetStateAction<number>>;
+  smallDogNum: number;
+  mediumDogNum: number;
+  largeDogNum: number;
+  giantDogNum: number;
+  catNum: number;
+  smallAnimalNum: number;
+  totalPetsNum: number;
+  formik: any;
+}
 
-  useEffect(() => {
-    setTotalPetsNum(
-      smallDogNum + mediumDogNum + largeDogNum + giantDogNum + catNum + smallAnimalNum
-    );
-  }, [smallDogNum, mediumDogNum, largeDogNum, giantDogNum, catNum, smallAnimalNum]);
-
+const PetNumInput = (props: PetNumInputProps) => {
   const handleIncreasePet = (
     value: number,
     setValue: React.Dispatch<React.SetStateAction<number>>
@@ -49,131 +53,115 @@ const PetNumInput = () => {
   };
 
   const handlePetsClear = () => {
-    setSmallDogNum(0);
-    setMediumDogNum(0);
-    setLargeDogNum(0);
-    setGiantDogNum(0);
-    setCatNum(0);
-    setSmallAnimalNum(0);
-    setTotalPetsNum(0);
+    props.setSmallDogNum(0);
+    props.setMediumDogNum(0);
+    props.setLargeDogNum(0);
+    props.setGiantDogNum(0);
+    props.setCatNum(0);
+    props.setSmallAnimalNum(0);
+    props.setTotalPetsNum(0);
   };
-
-  const formik = useFormik({
-    initialValues: {
-      smallDog: 0,
-      mediumDog: 0,
-      largeDog: 0,
-      giantDog: 0,
-      cat: 0,
-      smallAnimal: 0,
-      totalPets: 0,
-    },
-    onSubmit: (values) => {
-      values.smallDog = smallDogNum;
-      values.mediumDog = mediumDogNum;
-      values.largeDog = largeDogNum;
-      values.giantDog = giantDogNum;
-      values.cat = catNum;
-      values.smallAnimal = smallAnimalNum;
-      values.totalPets = totalPetsNum;
-      console.log(values);
-    },
-  });
 
   const list = [
     {
       id: 1,
       petType: "Small Dog",
       petSize: "0-10 kg",
-      petItemNum: smallDogNum,
-      handleDecreasePet: () => handleDecreasePet(smallDogNum, setSmallDogNum),
-      handleIncreasePet: () => handleIncreasePet(smallDogNum, setSmallDogNum),
+      petItemNum: props.smallDogNum,
+      handleDecreasePet: () => handleDecreasePet(props.smallDogNum, props.setSmallDogNum),
+      handleIncreasePet: () => handleIncreasePet(props.smallDogNum, props.setSmallDogNum),
     },
     {
       id: 2,
       petType: "Medium Dog",
       petSize: "10-20 kg",
-      petItemNum: mediumDogNum,
-      handleDecreasePet: () => handleDecreasePet(mediumDogNum, setMediumDogNum),
-      handleIncreasePet: () => handleIncreasePet(mediumDogNum, setMediumDogNum),
+      petItemNum: props.mediumDogNum,
+      handleDecreasePet: () => handleDecreasePet(props.mediumDogNum, props.setMediumDogNum),
+      handleIncreasePet: () => handleIncreasePet(props.mediumDogNum, props.setMediumDogNum),
     },
     {
       id: 3,
       petType: "Large Dog",
       petSize: "20-40 kg",
-      petItemNum: largeDogNum,
-      handleDecreasePet: () => handleDecreasePet(largeDogNum, setLargeDogNum),
-      handleIncreasePet: () => handleIncreasePet(largeDogNum, setLargeDogNum),
+      petItemNum: props.largeDogNum,
+      handleDecreasePet: () => handleDecreasePet(props.largeDogNum, props.setLargeDogNum),
+      handleIncreasePet: () => handleIncreasePet(props.largeDogNum, props.setLargeDogNum),
     },
     {
       id: 4,
       petType: "Giant Dog",
       petSize: "+40 kg",
-      petItemNum: giantDogNum,
-      handleDecreasePet: () => handleDecreasePet(giantDogNum, setGiantDogNum),
-      handleIncreasePet: () => handleIncreasePet(giantDogNum, setGiantDogNum),
+      petItemNum: props.giantDogNum,
+      handleDecreasePet: () => handleDecreasePet(props.giantDogNum, props.setGiantDogNum),
+      handleIncreasePet: () => handleIncreasePet(props.giantDogNum, props.setGiantDogNum),
     },
     {
       id: 5,
       petType: "Cat",
       petSize: "All",
-      petItemNum: catNum,
-      handleDecreasePet: () => handleDecreasePet(catNum, setCatNum),
-      handleIncreasePet: () => handleIncreasePet(catNum, setCatNum),
+      petItemNum: props.catNum,
+      handleDecreasePet: () => handleDecreasePet(props.catNum, props.setCatNum),
+      handleIncreasePet: () => handleIncreasePet(props.catNum, props.setCatNum),
     },
     {
       id: 6,
       petType: "Small Animal",
       petSize: "Bird, rabbit, ferret, ...",
-      petItemNum: smallAnimalNum,
-      handleDecreasePet: () => handleDecreasePet(smallAnimalNum, setSmallAnimalNum),
-      handleIncreasePet: () => handleIncreasePet(smallAnimalNum, setSmallAnimalNum),
+      petItemNum: props.smallAnimalNum,
+      handleDecreasePet: () => handleDecreasePet(props.smallAnimalNum, props.setSmallAnimalNum),
+      handleIncreasePet: () => handleIncreasePet(props.smallAnimalNum, props.setSmallAnimalNum),
     },
   ];
 
+  const [isTablet] = useMediaQuery("(max-width: 768px)", { ssr: true, fallback: false });
+  const [isMobile] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
+
   return (
     <>
-      <Box>
-        <Menu autoSelect={false}>
-          <StyledMenuButton>
-            <BoxInMenuButton>
-              <Box>
-                {totalPetsNum > 1 ? (
-                  <Text>{totalPetsNum} pets</Text>
-                ) : (
-                  <Text>{totalPetsNum} pet</Text>
-                )}
-              </Box>
-              <MenuBtnIcon as={MdArrowDropDown} />
-            </BoxInMenuButton>
-          </StyledMenuButton>
-          <StyledMenuList>
-            {list.map((item) => {
-              return (
-                <PetSelectItem key={item.id}>
-                  <PetTypeContainer>
-                    <PetTypeText>{item.petType}</PetTypeText>
-                    <PetSizeText>{item.petSize}</PetSizeText>
-                  </PetTypeContainer>
-                  <PetNumSetBox>
-                    <DecreaseBtn color={item.petItemNum} onClick={item.handleDecreasePet}>
-                      -
-                    </DecreaseBtn>
-                    <PetSelectItemNum>{item.petItemNum}</PetSelectItemNum>
-                    <IncreaseBtn onClick={item.handleIncreasePet}>+</IncreaseBtn>
-                  </PetNumSetBox>
-                </PetSelectItem>
-              );
-            })}
-            <PetSelectItem>
-              <ClearBtn onClick={handlePetsClear}>Clear</ClearBtn>
-              <Box>
-                <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
-              </Box>
-            </PetSelectItem>
-          </StyledMenuList>
-        </Menu>
-      </Box>
+      <PetNumInputContainer>
+        <FormControl width="100%">
+          {isMobile ? <StyledFormLabel>Pets</StyledFormLabel> : null}
+          <Menu matchWidth={isTablet ? true : false} autoSelect={false}>
+            <StyledMenuButton>
+              <BoxInMenuButton>
+                <Box>
+                  {props.totalPetsNum > 1 ? (
+                    <Text>{props.totalPetsNum} pets</Text>
+                  ) : (
+                    <Text>{props.totalPetsNum} pet</Text>
+                  )}
+                </Box>
+                <MenuBtnIcon as={MdArrowDropDown} />
+              </BoxInMenuButton>
+            </StyledMenuButton>
+            <StyledMenuList>
+              {list.map((item) => {
+                return (
+                  <PetSelectItem key={item.id}>
+                    <PetTypeContainer>
+                      <PetTypeText>{item.petType}</PetTypeText>
+                      <PetSizeText>{item.petSize}</PetSizeText>
+                    </PetTypeContainer>
+                    <PetNumSetBox>
+                      <DecreaseBtn color={item.petItemNum} onClick={item.handleDecreasePet}>
+                        -
+                      </DecreaseBtn>
+                      <PetSelectItemNum>{item.petItemNum}</PetSelectItemNum>
+                      <IncreaseBtn onClick={item.handleIncreasePet}>+</IncreaseBtn>
+                    </PetNumSetBox>
+                  </PetSelectItem>
+                );
+              })}
+              <PetSelectItem>
+                <ClearBtn onClick={handlePetsClear}>Clear</ClearBtn>
+                <Box>
+                  <ApplyBtn onClick={props.formik.handleSubmit}>Apply</ApplyBtn>
+                </Box>
+              </PetSelectItem>
+            </StyledMenuList>
+          </Menu>
+        </FormControl>
+      </PetNumInputContainer>
     </>
   );
 };

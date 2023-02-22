@@ -1,13 +1,21 @@
 import { useState } from "react";
-import { Box, Menu, MenuOptionGroup, Text, Img } from "@chakra-ui/react";
+import {
+  Box,
+  Menu,
+  MenuOptionGroup,
+  Text,
+  Img,
+  FormControl,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import homeDogBoarding from "../../../../assets/Icons/homeDogBoarding.svg";
 import doggyDayCare from "../../../../assets/Icons/doggyDayCare.svg";
 import dogWalking from "../../../../assets/Icons/dogWalking.svg";
 import homeVisits from "../../../../assets/Icons/homeVisits.svg";
 import houseSitting from "../../../../assets/Icons/houseSitting.svg";
-import { useFormik } from "formik";
 import {
+  ServiceInputContainer,
   SetServiceTextBox,
   StyledImage,
   StyledSetServiceText,
@@ -22,19 +30,21 @@ import {
   MenuItemOptionImageBox,
   MenuItemOptionTitle,
   MenuItemOptionInfo,
+  StyledFormLabel,
 } from "./styledServiceInput";
 
-type ServiceInputProps = {
+interface ServiceInputProps {
   changeServiceH1: (value: string) => void;
   changeServiceDetail: (value: string) => void;
-};
+  formik: any;
+}
 
 const ServiceType = {
-  DogBoarding: "Dog boarding",
-  DoggyDayCare: "Doggy day care",
-  DogWalking: "Dog walking",
-  HomeVisits: "Home visits",
-  HouseSitting: "House sitting",
+  DogBoarding: "Dog Boarding",
+  DoggyDayCare: "Doggy Day care",
+  DogWalking: "Dog Walking",
+  HomeVisits: "Home Visits",
+  HouseSitting: "House Sitting",
 };
 
 const ServiceDetail = {
@@ -53,8 +63,13 @@ const ServiceInfo = {
   HouseSitting: "24h stay, in your home",
 };
 
-const ServiceInput: React.FC<ServiceInputProps> = ({ changeServiceH1, changeServiceDetail }) => {
-  const [serviceText, setServiceText] = useState(<Box>Looking for</Box>);
+const ServiceInput = (props: ServiceInputProps) => {
+  const [serviceText, setServiceText] = useState(
+    <SetServiceTextBox>
+      <StyledImage src={homeDogBoarding} />
+      <StyledSetServiceText>Dog boarding</StyledSetServiceText>
+    </SetServiceTextBox>
+  );
 
   const changeServiceText = (img: string, text: string) => {
     setServiceText(
@@ -65,53 +80,44 @@ const ServiceInput: React.FC<ServiceInputProps> = ({ changeServiceH1, changeServ
     );
   };
 
-  const formik = useFormik({
-    initialValues: {
-      petService: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-
   const handleClickDogBoarding = () => {
-    changeServiceText(homeDogBoarding, ServiceType.DogWalking);
-    changeServiceH1(ServiceType.DogWalking);
-    changeServiceDetail(ServiceDetail.DogWalking);
-    formik.setFieldValue("petService", ServiceType.DogWalking);
-    setTimeout(formik.handleSubmit, 0);
+    changeServiceText(homeDogBoarding, ServiceType.DogBoarding);
+    props.changeServiceH1(ServiceType.DogBoarding);
+    props.changeServiceDetail(ServiceDetail.DogBoarding);
+    props.formik.setFieldValue("petService", ServiceType.DogBoarding);
+    setTimeout(props.formik.handleSubmit, 0);
   };
 
   const handleClickDoggyDayCare = () => {
     changeServiceText(doggyDayCare, ServiceType.DoggyDayCare);
-    changeServiceH1(ServiceType.DoggyDayCare);
-    changeServiceDetail(ServiceDetail.DoggyDayCare);
-    formik.setFieldValue("petService", ServiceType.DoggyDayCare);
-    setTimeout(formik.handleSubmit, 0);
+    props.changeServiceH1(ServiceType.DoggyDayCare);
+    props.changeServiceDetail(ServiceDetail.DoggyDayCare);
+    props.formik.setFieldValue("petService", ServiceType.DoggyDayCare);
+    setTimeout(props.formik.handleSubmit, 0);
   };
 
   const handleClickDogWalking = () => {
     changeServiceText(dogWalking, ServiceType.DogWalking);
-    changeServiceH1(ServiceType.DogWalking);
-    changeServiceDetail(ServiceDetail.DogWalking);
-    formik.setFieldValue("petService", ServiceType.DogWalking);
-    setTimeout(formik.handleSubmit, 0);
+    props.changeServiceH1(ServiceType.DogWalking);
+    props.changeServiceDetail(ServiceDetail.DogWalking);
+    props.formik.setFieldValue("petService", ServiceType.DogWalking);
+    setTimeout(props.formik.handleSubmit, 0);
   };
 
   const handleClickHomeVisits = () => {
     changeServiceText(homeVisits, ServiceType.HomeVisits);
-    changeServiceH1(ServiceType.HomeVisits);
-    changeServiceDetail(ServiceDetail.HomeVisits);
-    formik.setFieldValue("petService", ServiceType.HomeVisits);
-    setTimeout(formik.handleSubmit, 0);
+    props.changeServiceH1(ServiceType.HomeVisits);
+    props.changeServiceDetail(ServiceDetail.HomeVisits);
+    props.formik.setFieldValue("petService", ServiceType.HomeVisits);
+    setTimeout(props.formik.handleSubmit, 0);
   };
 
   const handleClickHouseSitting = () => {
     changeServiceText(houseSitting, ServiceType.HouseSitting);
-    changeServiceH1(ServiceType.HouseSitting);
-    changeServiceDetail(ServiceDetail.HouseSitting);
-    formik.setFieldValue("petService", ServiceType.HouseSitting);
-    setTimeout(formik.handleSubmit, 0);
+    props.changeServiceH1(ServiceType.HouseSitting);
+    props.changeServiceDetail(ServiceDetail.HouseSitting);
+    props.formik.setFieldValue("petService", ServiceType.HouseSitting);
+    setTimeout(props.formik.handleSubmit, 0);
   };
 
   const AtSitterHomeServices = [
@@ -160,60 +166,74 @@ const ServiceInput: React.FC<ServiceInputProps> = ({ changeServiceH1, changeServ
     },
   ];
 
+  const [isTablet] = useMediaQuery("(max-width: 768px)", { ssr: true, fallback: false });
+  const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
+
   return (
     <>
-      <Box>
-        <Menu autoSelect={false}>
-          <StyledMenuButton>
-            <BoxInMenuButton>
-              <Box>{serviceText}</Box>
-              <MenuBtnIcon as={MdArrowDropDown} />
-            </BoxInMenuButton>
-          </StyledMenuButton>
-          <StyledMenuList>
-            <MenuOptionGroup type="radio">
-              <TitleBox>
-                <Text>At the sitter&apos;s home</Text>
-              </TitleBox>
-              <StyledMenuDivider />
-              {AtSitterHomeServices.map((item) => {
-                return (
-                  <StyledMenuItemOption key={item.id} value={item.value} onClick={item.handleClick}>
-                    <BoxInMenuItemOption>
-                      <MenuItemOptionImageBox>
-                        <Img src={item.img} />
-                      </MenuItemOptionImageBox>
-                      <Box>
-                        <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
-                        <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
-                      </Box>
-                    </BoxInMenuItemOption>
-                  </StyledMenuItemOption>
-                );
-              })}
-              <TitleBox>
-                <Text>At your home </Text>
-              </TitleBox>
-              <StyledMenuDivider />
-              {AtOwnerHomeServices.map((item) => {
-                return (
-                  <StyledMenuItemOption key={item.id} value={item.value} onClick={item.handleClick}>
-                    <BoxInMenuItemOption>
-                      <MenuItemOptionImageBox>
-                        <Img src={item.img} />
-                      </MenuItemOptionImageBox>
-                      <Box>
-                        <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
-                        <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
-                      </Box>
-                    </BoxInMenuItemOption>
-                  </StyledMenuItemOption>
-                );
-              })}
-            </MenuOptionGroup>
-          </StyledMenuList>
-        </Menu>
-      </Box>
+      <ServiceInputContainer>
+        <FormControl>
+          {isLaptop ? <StyledFormLabel>I&apos;m looking for</StyledFormLabel> : null}
+          <Menu matchWidth={isTablet ? true : false} autoSelect={false}>
+            <StyledMenuButton>
+              <BoxInMenuButton>
+                <Box>{serviceText}</Box>
+                <MenuBtnIcon as={MdArrowDropDown} />
+              </BoxInMenuButton>
+            </StyledMenuButton>
+            <StyledMenuList>
+              <MenuOptionGroup type="radio">
+                <TitleBox>
+                  <Text>At the sitter&apos;s home</Text>
+                </TitleBox>
+                <StyledMenuDivider />
+                {AtSitterHomeServices.map((item) => {
+                  return (
+                    <StyledMenuItemOption
+                      key={item.id}
+                      value={item.value}
+                      onClick={item.handleClick}
+                    >
+                      <BoxInMenuItemOption>
+                        <MenuItemOptionImageBox>
+                          <Img src={item.img} />
+                        </MenuItemOptionImageBox>
+                        <Box>
+                          <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
+                          <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
+                        </Box>
+                      </BoxInMenuItemOption>
+                    </StyledMenuItemOption>
+                  );
+                })}
+                <TitleBox>
+                  <Text>At your home </Text>
+                </TitleBox>
+                <StyledMenuDivider />
+                {AtOwnerHomeServices.map((item) => {
+                  return (
+                    <StyledMenuItemOption
+                      key={item.id}
+                      value={item.value}
+                      onClick={item.handleClick}
+                    >
+                      <BoxInMenuItemOption>
+                        <MenuItemOptionImageBox>
+                          <Img src={item.img} />
+                        </MenuItemOptionImageBox>
+                        <Box>
+                          <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
+                          <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
+                        </Box>
+                      </BoxInMenuItemOption>
+                    </StyledMenuItemOption>
+                  );
+                })}
+              </MenuOptionGroup>
+            </StyledMenuList>
+          </Menu>
+        </FormControl>
+      </ServiceInputContainer>
     </>
   );
 };
