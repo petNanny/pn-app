@@ -1,8 +1,6 @@
 import renderWithMockedProvider from "../../__test__/utils/renderWithMockedProvider";
-import { fireEvent, screen, act } from "@testing-library/react";
-import LoginPage from "../../pages/LoginPage";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import * as router from "react-router";
 
 import SearchBar from "./SearchBar";
 
@@ -12,44 +10,47 @@ describe("Search bar", () => {
     expect(screen.queryByPlaceholderText(/Suburb or Address/i)).toBeInTheDocument();
     expect(screen.queryByPlaceholderText(/Start date > End date/i)).toBeInTheDocument();
   });
-});
 
-describe("Login page", () => {
-  it("should render the login component correctly", () => {
-    renderWithMockedProvider(<LoginPage />);
-    expect(screen.queryByPlaceholderText(/Email/i)).toBeInTheDocument();
-    expect(screen.queryByPlaceholderText(/Password/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Login" })).toBeInTheDocument();
-    expect(screen.getByText(/Forgot your password?/i)).toBeInTheDocument();
+  it("should render service correctly", async () => {
+    renderWithMockedProvider(<SearchBar />);
+    const serviceInput = screen.getByTestId("serviceInputHomeVisits");
+    const noDogClick = screen.getByTestId("advancedInputNoDogs");
+    const noChildrenClick = screen.getByTestId("advancedInputNoChildren");
+    userEvent.click(serviceInput);
+    userEvent.click(noDogClick);
+    userEvent.click(noChildrenClick);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("addressServiceShow")).toHaveTextContent("Home Visits");
+      expect(screen.getByTestId("advancedInput")).toHaveTextContent("2 advanced filter(s)");
+    });
   });
 
-  it("should render top text correctly", () => {
-    renderWithMockedProvider(<LoginPage />);
-    expect(screen.getByText(/Already a Pawshake member?/i)).toBeInTheDocument();
-    expect(screen.getByText(/Log in below!/i)).toBeInTheDocument();
+  it("should render advanced filter correctly", async () => {
+    renderWithMockedProvider(<SearchBar />);
+    const noDogClick = screen.getByTestId("advancedInputNoDogs");
+    const noChildrenClick = screen.getByTestId("advancedInputNoChildren");
+    userEvent.click(noDogClick);
+    userEvent.click(noChildrenClick);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("advancedInput")).toHaveTextContent("2 advanced filter(s)");
+    });
   });
 
-  it("should render strategy login button correctly", async () => {
-    renderWithMockedProvider(<LoginPage />);
-    const strategyItems = await screen.getAllByText(/Continue with/i);
-    expect(strategyItems).toHaveLength(3);
-  });
+  it("should render pet number correctly", async () => {
+    renderWithMockedProvider(<SearchBar />);
+    const increaseSmallDogNum = screen.getByTestId("smallDogIncrease");
+    const increaseMediumDogNum = screen.getByTestId("mediumDogIncrease");
+    const decreaseMediumDogNum = screen.getByTestId("mediumDogDecrease");
+    userEvent.click(increaseSmallDogNum);
+    userEvent.click(increaseMediumDogNum);
+    userEvent.click(increaseMediumDogNum);
+    userEvent.click(increaseMediumDogNum);
+    userEvent.click(decreaseMediumDogNum);
 
-  it("should render bottom text correctly", () => {
-    renderWithMockedProvider(<LoginPage />);
-    expect(screen.getByText(/Not signed up on Pawshake yet?/i)).toBeInTheDocument();
-    expect(screen.getByText(/Sign up/i)).toBeInTheDocument();
-  });
-
-  it("should link to sign up page correctly when click", async () => {
-    const navigate = jest.fn();
-    jest.spyOn(router, "useNavigate").mockImplementation(() => navigate);
-
-    renderWithMockedProvider(<LoginPage />);
-
-    const signUpLink = screen.getByText("Sign up");
-    expect(signUpLink).toBeVisible();
-    await userEvent.click(signUpLink);
-    expect(navigate).toHaveBeenCalledWith("/register");
+    await waitFor(() => {
+      expect(screen.getByTestId("petNumInput")).toHaveTextContent("3 pets");
+    });
   });
 });

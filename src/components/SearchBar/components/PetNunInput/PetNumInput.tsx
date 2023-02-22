@@ -86,6 +86,8 @@ const PetNumInput = (props: PetNumInputProps) => {
       petItemNum: props.smallDogNum,
       handleDecreasePet: () => handleDecreasePet(props.smallDogNum, props.setSmallDogNum),
       handleIncreasePet: () => handleIncreasePet(props.smallDogNum, props.setSmallDogNum),
+      increaseTestID: "smallDogIncrease",
+      decreaseTestID: "smallDogDecrease",
     },
     {
       id: 2,
@@ -94,6 +96,8 @@ const PetNumInput = (props: PetNumInputProps) => {
       petItemNum: props.mediumDogNum,
       handleDecreasePet: () => handleDecreasePet(props.mediumDogNum, props.setMediumDogNum),
       handleIncreasePet: () => handleIncreasePet(props.mediumDogNum, props.setMediumDogNum),
+      increaseTestID: "mediumDogIncrease",
+      decreaseTestID: "mediumDogDecrease",
     },
     {
       id: 3,
@@ -102,6 +106,8 @@ const PetNumInput = (props: PetNumInputProps) => {
       petItemNum: props.largeDogNum,
       handleDecreasePet: () => handleDecreasePet(props.largeDogNum, props.setLargeDogNum),
       handleIncreasePet: () => handleIncreasePet(props.largeDogNum, props.setLargeDogNum),
+      increaseTestID: "largeDogIncrease",
+      decreaseTestID: "largeDogDecrease",
     },
     {
       id: 4,
@@ -110,6 +116,8 @@ const PetNumInput = (props: PetNumInputProps) => {
       petItemNum: props.giantDogNum,
       handleDecreasePet: () => handleDecreasePet(props.giantDogNum, props.setGiantDogNum),
       handleIncreasePet: () => handleIncreasePet(props.giantDogNum, props.setGiantDogNum),
+      increaseTestID: "giantDogIncrease",
+      decreaseTestID: "giantDogDecrease",
     },
     {
       id: 5,
@@ -118,6 +126,8 @@ const PetNumInput = (props: PetNumInputProps) => {
       petItemNum: props.catNum,
       handleDecreasePet: () => handleDecreasePet(props.catNum, props.setCatNum),
       handleIncreasePet: () => handleIncreasePet(props.catNum, props.setCatNum),
+      increaseTestID: "catIncrease",
+      decreaseTestID: "catDecrease",
     },
     {
       id: 6,
@@ -126,6 +136,8 @@ const PetNumInput = (props: PetNumInputProps) => {
       petItemNum: props.smallAnimalNum,
       handleDecreasePet: () => handleDecreasePet(props.smallAnimalNum, props.setSmallAnimalNum),
       handleIncreasePet: () => handleIncreasePet(props.smallAnimalNum, props.setSmallAnimalNum),
+      increaseTestID: "smallAnimalIncrease",
+      decreaseTestID: "smallAnimalDecrease",
     },
   ];
 
@@ -142,7 +154,7 @@ const PetNumInput = (props: PetNumInputProps) => {
               <BoxInMenuButton>
                 <Box>
                   {props.totalPetsNum > 1 ? (
-                    <Text>{props.totalPetsNum} pets</Text>
+                    <Text data-testid="petNumInput">{props.totalPetsNum} pets</Text>
                   ) : (
                     <Text>{props.totalPetsNum} pet</Text>
                   )}
@@ -159,11 +171,20 @@ const PetNumInput = (props: PetNumInputProps) => {
                       <PetSizeText>{item.petSize}</PetSizeText>
                     </PetTypeContainer>
                     <PetNumSetBox>
-                      <DecreaseBtn color={item.petItemNum} onClick={item.handleDecreasePet}>
+                      <DecreaseBtn
+                        color={item.petItemNum}
+                        onClick={item.handleDecreasePet}
+                        data-testid={item.decreaseTestID}
+                      >
                         -
                       </DecreaseBtn>
                       <PetSelectItemNum>{item.petItemNum}</PetSelectItemNum>
-                      <IncreaseBtn onClick={item.handleIncreasePet}>+</IncreaseBtn>
+                      <IncreaseBtn
+                        onClick={item.handleIncreasePet}
+                        data-testid={item.increaseTestID}
+                      >
+                        +
+                      </IncreaseBtn>
                     </PetNumSetBox>
                   </PetSelectItem>
                 );

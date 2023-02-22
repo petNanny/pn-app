@@ -144,6 +144,7 @@ const ServiceInput = (props: ServiceInputProps) => {
       img: homeDogBoarding,
       title: ServiceType.DogBoarding,
       info: ServiceInfo.DogBoarding,
+      testID: "serviceInputDogBoarding",
     },
     {
       id: 2,
@@ -152,6 +153,7 @@ const ServiceInput = (props: ServiceInputProps) => {
       img: homeVisits,
       title: ServiceType.HomeVisits,
       info: ServiceInfo.HomeVisits,
+      testID: "serviceInputHomeVisits",
     },
   ];
 
@@ -209,6 +211,7 @@ const ServiceInput = (props: ServiceInputProps) => {
                       key={item.id}
                       value={item.value}
                       onClick={item.handleClick}
+                      data-testid={item.testID}
                     >
                       <BoxInMenuItemOption>
                         <MenuItemOptionImageBox>

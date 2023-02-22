@@ -111,7 +111,7 @@ const SearchBar = () => {
     <>
       <SearchBox>
         <HeadingContainer>
-          <Heading1 as="h1">
+          <Heading1 as="h1" data-testid="addressServiceShow">
             {serviceH1} {location}
           </Heading1>
           <Heading2 as="h2">{serviceDetail}</Heading2>

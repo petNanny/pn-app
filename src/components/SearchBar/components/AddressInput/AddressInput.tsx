@@ -65,6 +65,7 @@ const AddressInput = (props: AddressInputProps) => {
               ref={refs}
               id="location"
               name="location"
+              data-testid="addressInput"
             />
           </StyledInputGroup>
         </FormControl>

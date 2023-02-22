@@ -128,7 +128,7 @@ const AdvancedInput = (props: AdvancedInputProps) => {
             <MenuBtn>
               <MenuBtnInBox>
                 <Box>
-                  <Box>{activeItemsCount} advanced filter(s)</Box>
+                  <Box data-testid="advancedInput">{activeItemsCount} advanced filter(s)</Box>
                 </Box>
                 <MenuBtnIcon as={MdArrowDropDown} />
               </MenuBtnInBox>
@@ -144,6 +144,7 @@ const AdvancedInput = (props: AdvancedInputProps) => {
                     }}
                     value={props.formik.values.noDogs}
                     name="noDogs"
+                    data-testid="advancedInputNoDogs"
                   >
                     <AdvancedCheckItemText>Sitter has no dogs</AdvancedCheckItemText>
                   </StyledCheckbox>
@@ -154,6 +155,7 @@ const AdvancedInput = (props: AdvancedInputProps) => {
                     }}
                     value={props.formik.values.noChildren}
                     name="noChildren"
+                    data-testid="advancedInputNoChildren"
                   >
                     <AdvancedCheckItemText>Sitter has no children</AdvancedCheckItemText>
                   </StyledCheckbox>
