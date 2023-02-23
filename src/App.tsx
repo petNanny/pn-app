@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@chakra-ui/react";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
-import PetSitterCard from "./components/PetSitterCard";
+import PetSitterCard from "./components/UserCard/PetSitterCard/PetSitterCard";
 import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -12,7 +12,7 @@ import AdminHomePage from "./pages/AdminHomePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import OrderPage from "./pages/OrderPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import PetSitterCardList from "./components/userCard/PetSitterCardList/PetSitterCardList";
+import PetSitterCardList from "./components/UserCard/PetSitterCardList/PetSitterCardList";
 
 const App = () => {
   //TODO: add user status to change the route, e.g. if user not login, user can't access chat page, or you can delete the useState value to null.
@@ -27,7 +27,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/post/:id" element={<PetSitterCard />} />
+        <Route path="/post/:id" element={<PetSitterCardList />} />
         <Route path="/chat" element={user ? <ChatPage /> : <Navigate to="/login" />} />
         <Route path="/order" element={user ? <OrderPage /> : <Navigate to="/login" />} />
         <Route path="/payment" element={user ? <PaymentPage /> : <Navigate to="/login" />} />
