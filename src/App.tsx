@@ -12,6 +12,7 @@ import AdminHomePage from "./pages/AdminHomePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import OrderPage from "./pages/OrderPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import PetSitterCardList from "./components/userCard/PetSitterCardList/PetSitterCardList";
 
 const App = () => {
   //TODO: add user status to change the route, e.g. if user not login, user can't access chat page, or you can delete the useState value to null.
@@ -21,6 +22,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
+      <PetSitterCardList />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -36,6 +38,7 @@ const App = () => {
         />
       </Routes>
       <Footer />
+      <></>
     </BrowserRouter>
   );
 };
