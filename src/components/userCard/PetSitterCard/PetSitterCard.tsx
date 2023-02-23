@@ -12,14 +12,27 @@ import {
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 import { PetSitter } from "../PetSitterCardList/PetSitterCardList";
+import styled from "styled-components";
+
+const CardHeaderLeft = styled(Flex)`
+  &&& {
+    gap: 4;
+  }
+`;
+
+const UserAvatar = styled(Avatar)`
+  &&& {
+    size: sm;
+  }
+`;
 
 const PetSitterCard = (prop: PetSitter) => {
   return (
     <Card className="petSitter-card">
       <CardHeader>
         <Flex className="petSitter-card-header">
-          <Flex gap="4">
-            <Avatar size="lg" name={prop.name} src={prop.avatar} />
+          <CardHeaderLeft>
+            <UserAvatar name={prop.name} src={prop.avatar} />
             <Box>
               <Flex flexDirection="column" alignItems="flex-start">
                 <Heading size="sm">{prop.name}</Heading>
@@ -35,7 +48,7 @@ const PetSitterCard = (prop: PetSitter) => {
                 </div>
               </Flex>
             </Box>
-          </Flex>
+          </CardHeaderLeft>
           <Box>
             <Text opacity="0.8">
               {prop.price} AUD <br></br>/ night{" "}
