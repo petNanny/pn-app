@@ -14,15 +14,15 @@ import { StarIcon } from "@chakra-ui/icons";
 import { PetSitter } from "../PetSitterCardList/PetSitterCardList";
 import styled from "styled-components";
 
-const CardHeaderLeft = styled(Flex)`
-  &&& {
-    gap: 4;
+const CardHeaderLeft= styled(Flex)`
+&&& {
+  gap: 4;
   }
 `;
 
-const UserAvatar = styled(Avatar)`
-  &&& {
-    size: lg;
+const UserAvatar= styled(Avatar)`
+&&& {
+  size: lg;
   }
 `;
 
@@ -32,7 +32,7 @@ const PetSitterCard = (prop: PetSitter) => {
       <CardHeader>
         <Flex className="petSitter-card-header">
           <CardHeaderLeft>
-            <UserAvatar name={prop.name} src={prop.avatar} />
+            <Avatar size="lg" name={prop.name} src={prop.avatar} />
             <Box>
               <Flex flexDirection="column" alignItems="flex-start">
                 <Heading size="sm">{prop.name}</Heading>
