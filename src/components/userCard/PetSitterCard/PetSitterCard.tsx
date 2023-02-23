@@ -22,7 +22,7 @@ const CardHeaderLeft = styled(Flex)`
 
 const UserAvatar = styled(Avatar)`
   &&& {
-    size: sm;
+    size: lg;
   }
 `;
 
