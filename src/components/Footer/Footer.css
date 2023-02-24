@@ -1,0 +1,167 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.footerContainer {
+  width: 100%;
+  top: 100rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #5cace2;
+}
+
+.footerContainerTop {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+  font-weight: 700;
+  color: white;
+}
+
+.footerContainerTop h2 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.information {
+  display: flex;
+  min-width: 80vw;
+  justify-content: space-between;
+}
+
+.information div {
+  flex-basis: calc(25vw - 0.5rem);
+  padding-right: 0.5rem;
+}
+
+li {
+  list-style: none;
+  line-height: 1.6rem;
+  cursor: pointer;
+}
+
+.information .img {
+  display: flex;
+  width: 85%;
+  height: auto;
+}
+.img div {
+  margin-right: 0.5rem;
+}
+
+.img img {
+  height: 2.5rem;
+  width: auto;
+  border-radius: 5px;
+}
+
+.terms p {
+  font-size: 1rem;
+  line-height: 40px;
+  word-spacing: 0.2rem;
+}
+
+.terms a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.topCities {
+  margin-top: 20px;
+}
+
+.payment {
+  margin-top: 20px;
+}
+
+li {
+  list-style: none;
+  line-height: 1.6rem;
+  cursor: pointer;
+}
+
+.footerContainerBottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(81, 151, 198);
+  padding: 1.5rem;
+}
+.termAndCountry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80vw;
+}
+
+.footerContainerBottom div {
+  color: white;
+  min-height: 4.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.country {
+  height: 3rem;
+  width: 16rem;
+  padding-left: 0.5rem;
+  color: rgb(116, 116, 116);
+}
+.terms {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 50rem) {
+  .information {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .information div {
+    flex-basis: 50%;
+  }
+  .footerContainerTop h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  li {
+    line-height: 2rem;
+  }
+
+  .footerContainerBottom,
+  .termAndCountry {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex-grow: 1;
+    min-height: 10rem;
+  }
+  .terms {
+    /* padding-bottom: 4rem; */
+    margin-bottom: 0;
+  }
+
+  .terms,
+  .termAndCountry select {
+    flex-basis: auto;
+    text-align: left;
+  }
+
+  .termAndCountry select {
+    width: 100%;
+    min-height: 2rem;
+  }
+
+  .terms,
+  .country {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}
