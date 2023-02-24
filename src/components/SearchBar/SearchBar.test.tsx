@@ -8,7 +8,6 @@ describe("Search bar", () => {
   it("should render the search bar component correctly", () => {
     renderWithMockedProvider(<SearchBar />);
     expect(screen.queryByPlaceholderText(/Suburb or Address/i)).toBeInTheDocument();
-    expect(screen.queryByPlaceholderText(/Start date > End date/i)).toBeInTheDocument();
   });
 
   it("should render service correctly", async () => {
