@@ -10,25 +10,11 @@ import {
   StyledInput,
 } from "./styledAddressInput";
 import { FormikProps } from "formik";
+import { SearchFormValues } from "../../../../interfaces/searchForm";
 
-interface Values {
-  location: string;
-  petService: string;
-  selectedDate: [unknown, unknown];
-  noDogs: boolean;
-  noChildren: boolean;
-  fencedBackyard: boolean;
-  smallDog: number;
-  mediumDog: number;
-  largeDog: number;
-  giantDog: number;
-  cat: number;
-  smallAnimal: number;
-  totalPets: number;
-}
 interface AddressInputProps {
   changeLocation: (value: string) => void;
-  formik: FormikProps<Values>;
+  formik: FormikProps<SearchFormValues>;
 }
 
 const AddressInput = (props: AddressInputProps) => {
@@ -36,6 +22,8 @@ const AddressInput = (props: AddressInputProps) => {
     apiKey: process.env.REACT_APP_GOOGLE_MAP_KEY,
     onPlaceSelected: (place) => {
       props.formik.setFieldValue("location", place.formatted_address);
+      props.formik.setFieldValue("latitude", place.geometry.location.lat());
+      props.formik.setFieldValue("longitude", place.geometry.location.lng());
       props.changeLocation(place.formatted_address);
       setTimeout(props.formik.handleSubmit, 0);
     },

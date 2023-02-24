@@ -16,24 +16,9 @@ import {
   StyledFormLabel,
 } from "./styledAdvancedInput";
 import { FormikProps } from "formik";
-
-interface Values {
-  location: string;
-  petService: string;
-  selectedDate: [unknown, unknown];
-  noDogs: boolean;
-  noChildren: boolean;
-  fencedBackyard: boolean;
-  smallDog: number;
-  mediumDog: number;
-  largeDog: number;
-  giantDog: number;
-  cat: number;
-  smallAnimal: number;
-  totalPets: number;
-}
+import { SearchFormValues } from "../../../../interfaces/searchForm";
 interface AdvancedInputProps {
-  formik: FormikProps<Values>;
+  formik: FormikProps<SearchFormValues>;
 }
 
 const AdvancedInput = (props: AdvancedInputProps) => {

@@ -18,21 +18,7 @@ import { useFormik, FormikProps } from "formik";
 import { useMediaQuery } from "@chakra-ui/react";
 import searchFilterSchema from "../../schemas/searchFilterValidator";
 
-interface Values {
-  location: string;
-  petService: string;
-  selectedDate: [unknown, unknown];
-  noDogs: boolean;
-  noChildren: boolean;
-  fencedBackyard: boolean;
-  smallDog: number;
-  mediumDog: number;
-  largeDog: number;
-  giantDog: number;
-  cat: number;
-  smallAnimal: number;
-  totalPets: number;
-}
+import { SearchFormValues } from "../../interfaces/searchForm";
 
 const SearchBar = () => {
   const [serviceH1, setServiceH1] = useState("Dog Boarding");
@@ -66,11 +52,13 @@ const SearchBar = () => {
 
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-  const formik: FormikProps<Values> = useFormik<Values>({
+  const formik: FormikProps<SearchFormValues> = useFormik<SearchFormValues>({
     initialValues: {
       location: "",
+      latitude: undefined,
+      longitude: undefined,
       petService: "Dog boarding",
-      selectedDate: [null, null],
+      selectedDate: [],
       noDogs: false,
       noChildren: false,
       fencedBackyard: false,

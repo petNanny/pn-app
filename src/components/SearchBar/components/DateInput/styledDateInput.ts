@@ -2,10 +2,21 @@ import styled from "styled-components";
 import { Box, Button, FormLabel } from "@chakra-ui/react";
 import { devices } from "../../../../styles/breakPoints";
 
+export const DateInputContainer = styled(Box)`
+  &&& {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
+`;
+
 export const StyledFormLabel = styled(FormLabel)`
   &&& {
     color: rgb(147, 147, 147);
     line-height: 1.9rem;
+    display: block;
+    @media ${devices.laptop} {
+      display: none;
+    }
   }
 `;
 
@@ -47,78 +58,31 @@ export const ApplyBtn = styled(Button)`
   }
 `;
 
-export const DatePickerContainer = styled(Box)`
+export const TriggerBtn = styled(Button)`
   &&& {
-    margin-right: 1rem;
-    margin-bottom: 1rem;
-    min-width: 12rem;
+    padding: 1rem;
+    background-color: transparent;
+    min-width: 100%;
     height: 50px;
-    /* border: 1px solid rgb(206, 206, 206);
-    border-radius: 4px; */
-    .react-datepicker-wrapper,
-    .react-datepicker__input-container,
-    .react-datepicker__input-container input {
-      height: 100%;
-      background-color: transparent;
-      width: 100%;
+    border: 1px solid rgb(206, 206, 206);
+    border-radius: 4px;
+    color: rgb(116, 116, 116);
+    font-weight: normal;
+    justify-content: flex-start;
+    &[aria-expanded="true"] {
+      border-color: rgb(0, 195, 138);
     }
-    .react-datepicker-wrapper .react-datepicker__input-container input {
-      color: rgb(116, 116, 116);
-      border: 1px solid rgb(206, 206, 206);
-      border-radius: 4px;
-      cursor: pointer;
-      padding-left: 10px;
-      text-align: justify;
-      caret-color: transparent;
-      &::-webkit-input-placeholder {
-        color: rgb(116, 116, 116);
-      }
-      @media ${devices.laptop} {
-        padding-left: 1rem;
-      }
+    @media ${devices.laptop} {
+      min-width: 12rem;
     }
-    .react-datepicker-wrapper .react-datepicker__input-container input:focus {
-      outline: none;
-      border: 1px solid rgb(0, 195, 138);
-    }
-    .react-datepicker__navigation-icon {
-      top: 5px;
-    }
-    .react-datepicker__header {
-      background-color: white;
-      border: none;
-    }
-    .react-datepicker__current-month {
-      color: rgb(116, 116, 116);
-    }
-    .react-datepicker__day-name {
-      color: rgb(139, 152, 152);
-    }
-    .react-datepicker__day {
-      margin: 0;
-      width: 2rem;
-      line-height: 2rem;
-    }
-    .react-datepicker__day--in-range {
-      border-radius: 0;
-      color: rgb(0, 195, 138);
-      background-color: rgb(240, 248, 255);
-    }
-    .react-datepicker__day--range-start {
-      border-top-left-radius: 50%;
-      border-bottom-left-radius: 50%;
-    }
-    .react-datepicker__day--range-end {
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-    }
-    .react-datepicker__day--range-start,
-    .react-datepicker__day--range-end {
-      color: rgb(240, 248, 255);
-      background-color: rgb(0, 195, 138);
-    }
-    .react-datepicker__day--in-selecting-range {
-      background-color: rgb(0, 195, 138);
-    }
+  }
+`;
+
+export const StyledDayPicker = `
+  .rdp-day_selected {
+    background-color: rgb(0, 195, 138);
+  }
+  .rdp-day_selected:hover {
+    background-color: rgb(0, 195, 138);
   }
 `;

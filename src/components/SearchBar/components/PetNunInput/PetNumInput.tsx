@@ -19,22 +19,8 @@ import {
   StyledFormLabel,
 } from "./styledPetNumInput";
 import { FormikProps } from "formik";
+import { SearchFormValues } from "../../../../interfaces/searchForm";
 
-interface Values {
-  location: string;
-  petService: string;
-  selectedDate: [unknown, unknown];
-  noDogs: boolean;
-  noChildren: boolean;
-  fencedBackyard: boolean;
-  smallDog: number;
-  mediumDog: number;
-  largeDog: number;
-  giantDog: number;
-  cat: number;
-  smallAnimal: number;
-  totalPets: number;
-}
 interface PetNumInputProps {
   setSmallDogNum: React.Dispatch<React.SetStateAction<number>>;
   setMediumDogNum: React.Dispatch<React.SetStateAction<number>>;
@@ -50,7 +36,7 @@ interface PetNumInputProps {
   catNum: number;
   smallAnimalNum: number;
   totalPetsNum: number;
-  formik: FormikProps<Values>;
+  formik: FormikProps<SearchFormValues>;
 }
 
 const PetNumInput = (props: PetNumInputProps) => {
