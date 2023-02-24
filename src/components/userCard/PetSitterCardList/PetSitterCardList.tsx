@@ -1,4 +1,3 @@
-import "./PetSitterCardList.css";
 import PetSitterCard from "../PetSitterCard/PetSitterCard";
 
 export interface PetSitter {
@@ -77,21 +76,21 @@ export const petSitter: PetSitter[] = [
 
 const PetSitterCardList = () => {
   return (
-      <div>
-        {petSitter.map((petSitter) => (
-          <PetSitterCard
-            key={petSitter.id}
-            id={petSitter.id}
-            name={petSitter.name}
-            avatar={petSitter.avatar}
-            suburb={petSitter.suburb}
-            price={petSitter.price}
-            introduction={petSitter.introduction}
-            distance={petSitter.distance}
-            rating={petSitter.rating}
-          />
-        ))}
-      </div>
+    <div>
+      {petSitter.map((petSitter) => (
+        <PetSitterCard
+          key={petSitter.id}
+          id={petSitter.id}
+          name={petSitter.name}
+          avatar={petSitter.avatar}
+          suburb={petSitter.suburb}
+          price={petSitter.price}
+          introduction={petSitter.introduction}
+          distance={petSitter.distance}
+          rating={petSitter.rating}
+        />
+      ))}
+    </div>
   );
 };
 
