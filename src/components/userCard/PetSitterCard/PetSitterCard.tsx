@@ -14,31 +14,95 @@ import { StarIcon } from "@chakra-ui/icons";
 import { PetSitter } from "../PetSitterCardList/PetSitterCardList";
 import styled from "styled-components";
 
-const CardHeaderLeft= styled(Flex)`
-&&& {
-  gap: 4;
+const CardHeaderLeft = styled(Flex)`
+  &&& {
+    gap: 4;
   }
 `;
 
-const UserAvatar= styled(Avatar)`
-&&& {
-  size: lg;
+const UserAvatar = styled(Avatar)`
+  &&& {
+    width: 4rem;
+    height: 4rem;
+  },
+`;
+
+const CardHeaderMiddle = styled(Flex)`
+  &&& {
+    flex-direction: column;
+    align-items: start;
+  }
+`;
+
+const UserName = styled(Heading)`
+  &&& {
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+`;
+
+const PetSitterCardContainer = styled(Card)`
+  &&& {
+    margin: 1px;
+    width: 40%;
+    cursor: pointer;
+    &:hover {
+      background: lightcyan;
+    }
+  }
+`;
+
+const PetSitterCardHeaderContainer = styled(Flex)`
+  &&& {
+    justify-content: space-between;
+  }
+`;
+
+const DistanceInfo = styled(Text)`
+  &&& {
+    opacity: 0.5;
+  }
+`;
+
+const PriceInfo = styled(Text)`
+  &&& {
+    opacity: 0.8;
+  }
+`;
+
+const CardIntroduction = styled(Text)`
+  &&& {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+`;
+
+const CardFooterText = styled(Text)`
+  &&& {
+    width: 100%;
+    text-align: right;
+    color: var(--chakra-colors-blue-500);
   }
 `;
 
 const PetSitterCard = (prop: PetSitter) => {
   return (
-    <Card className="petSitter-card">
+    <PetSitterCardContainer>
       <CardHeader>
-        <Flex className="petSitter-card-header">
+        <PetSitterCardHeaderContainer>
           <CardHeaderLeft>
-            <Avatar size="lg" name={prop.name} src={prop.avatar} />
+            <UserAvatar name={prop.name} src={prop.avatar} />
             <Box>
-              <Flex flexDirection="column" alignItems="flex-start">
-                <Heading size="sm">{prop.name}</Heading>
-                <Text opacity="0.5">
-                  {prop.distance}km - {prop.suburb}{" "}
-                </Text>
+              <CardHeaderMiddle>
+                <UserName>{prop.name}</UserName>
+                <DistanceInfo>
+                  {prop.distance}km - {prop.suburb}
+                </DistanceInfo>
                 <div>
                   {Array(5)
                     .fill("")
@@ -46,25 +110,23 @@ const PetSitterCard = (prop: PetSitter) => {
                       <StarIcon key={i} color={i < prop.rating ? "yellow.500" : "gray.300"} />
                     ))}
                 </div>
-              </Flex>
+              </CardHeaderMiddle>
             </Box>
           </CardHeaderLeft>
           <Box>
-            <Text opacity="0.8">
+            <PriceInfo>
               {prop.price} AUD <br></br>/ night{" "}
-            </Text>
+            </PriceInfo>
           </Box>
-        </Flex>
+        </PetSitterCardHeaderContainer>
       </CardHeader>
       <CardBody>
-        <Text className="Card-introduction">{prop.introduction}</Text>
+        <CardIntroduction>{prop.introduction}</CardIntroduction>
       </CardBody>
       <CardFooter>
-        <Text width="100%" textAlign="right" color="blue.500">
-          Read more
-        </Text>
+        <CardFooterText>Read more</CardFooterText>
       </CardFooter>
-    </Card>
+    </PetSitterCardContainer>
   );
 };
 

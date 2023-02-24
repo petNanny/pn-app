@@ -77,7 +77,6 @@ export const petSitter: PetSitter[] = [
 
 const PetSitterCardList = () => {
   return (
-    <div>
       <div>
         {petSitter.map((petSitter) => (
           <PetSitterCard
@@ -93,7 +92,6 @@ const PetSitterCardList = () => {
           />
         ))}
       </div>
-    </div>
   );
 };
 
