@@ -1,5 +1,13 @@
 import styled from "styled-components";
-import { Box, Button, FormLabel } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  FormLabel,
+  PopoverBody,
+  Checkbox,
+  PopoverFooter,
+  Text,
+} from "@chakra-ui/react";
 import { devices } from "../../../../styles/breakPoints";
 
 export const DateInputContainer = styled(Box)`
@@ -79,10 +87,56 @@ export const TriggerBtn = styled(Button)`
 `;
 
 export const StyledDayPicker = `
-  .rdp-day_selected {
+  .rdp-day_selected, .rdp-day_selected:hover {
     background-color: rgb(0, 195, 138);
   }
-  .rdp-day_selected:hover {
-    background-color: rgb(0, 195, 138);
+`;
+
+export const StyledPopoverBody = styled(PopoverBody)`
+  &&& {
+    padding: 0;
+  }
+`;
+
+export const DatesSelectModeBox = styled(Box)`
+  &&& {
+    margin: 0 1rem;
+    padding: 1rem;
+    background-color: rgb(249, 249, 249);
+  }
+`;
+
+export const DatesSelectModeBtn = styled(Checkbox)`
+  &&& {
+    &:hover {
+      .chakra-checkbox__control {
+        border-color: rgb(0, 195, 138);
+      }
+    }
+    .chakra-checkbox__control {
+      width: 1.5rem;
+      height: 1.5rem;
+      background-color: white;
+      border: 1px solid rgb(206, 206, 206);
+      border-radius: 8px;
+      box-shadow: unset;
+    }
+    .chakra-checkbox__control[data-checked] {
+      border-color: rgb(0, 195, 138);
+      color: rgb(0, 195, 138);
+    }
+  }
+`;
+
+export const StyledPopoverFooter = styled(PopoverFooter)`
+  &&& {
+    border-top: none;
+    padding: 1rem;
+  }
+`;
+
+export const StyledDaysLeftText = styled(Text)`
+  &&& {
+    padding-top: 1rem;
   }
 `;

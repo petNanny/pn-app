@@ -7,19 +7,17 @@ import {
   TriggerBtn,
   StyledDayPicker,
   DateInputContainer,
+  StyledPopoverBody,
+  DatesSelectModeBtn,
+  DatesSelectModeBox,
+  StyledPopoverFooter,
+  StyledDaysLeftText,
 } from "./styledDateInput";
 import { FormControl, Box } from "@chakra-ui/react";
 import { FormikProps } from "formik";
-import { format, eachDayOfInterval, max, min } from "date-fns";
+import { format, eachDayOfInterval, max, min, add } from "date-fns";
 import { DateRange, DayPicker } from "react-day-picker";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
-  PopoverFooter,
-  Checkbox,
-} from "@chakra-ui/react";
+import { Popover, PopoverTrigger, PopoverContent } from "@chakra-ui/react";
 import "react-day-picker/dist/style.css";
 import { SearchFormValues } from "../../../../interfaces/searchForm";
 
@@ -52,8 +50,10 @@ const DateInput = (props: DateInputProps) => {
   }
 
   let multiModeInputText = <p>Please select your dates</p>;
+  let daysLeft = 15;
   if (multiDays) {
     const datesNum = multiDays.length;
+    daysLeft = 15 - datesNum;
     multiModeInputText = (
       <p>
         {datesNum} day(s) between {format(min(multiDays), "dd/MM/yyyy")} &gt;{" "}
@@ -101,7 +101,7 @@ const DateInput = (props: DateInputProps) => {
                   </TriggerBtn>
                 </PopoverTrigger>
                 <PopoverContent>
-                  <PopoverBody>
+                  <StyledPopoverBody>
                     <style>{StyledDayPicker}</style>
                     {isMultiMode ? (
                       <DayPicker
@@ -111,6 +111,9 @@ const DateInput = (props: DateInputProps) => {
                         selected={multiDays}
                         onSelect={setMultiDays}
                         fromDate={today}
+                        toDate={
+                          multiDays === undefined ? undefined : add(multiDays[0], { days: 30 })
+                        }
                       />
                     ) : (
                       <DayPicker
@@ -122,16 +125,21 @@ const DateInput = (props: DateInputProps) => {
                         fromDate={today}
                       />
                     )}
-                    <Box>
-                      <Checkbox
+                    <DatesSelectModeBox>
+                      <DatesSelectModeBtn
                         isChecked={isMultiMode}
                         onChange={() => setIsMultiMode(!isMultiMode)}
                       >
                         Non-consecutive days
-                      </Checkbox>
-                    </Box>
-                  </PopoverBody>
-                  <PopoverFooter>
+                      </DatesSelectModeBtn>
+                      {isMultiMode ? (
+                        <StyledDaysLeftText>
+                          Select up to 15 days within a 30-day timespan. {daysLeft} days left.
+                        </StyledDaysLeftText>
+                      ) : null}
+                    </DatesSelectModeBox>
+                  </StyledPopoverBody>
+                  <StyledPopoverFooter>
                     <ButtonsBox>
                       <ClearBtn
                         onClick={() => {
@@ -139,7 +147,7 @@ const DateInput = (props: DateInputProps) => {
                           setMultiDays(undefined);
                         }}
                       >
-                        clear
+                        Clear
                       </ClearBtn>
                       {isMultiMode ? (
                         <ApplyBtn
@@ -165,7 +173,7 @@ const DateInput = (props: DateInputProps) => {
                         </ApplyBtn>
                       )}
                     </ButtonsBox>
-                  </PopoverFooter>
+                  </StyledPopoverFooter>
                 </PopoverContent>
               </>
             )}
