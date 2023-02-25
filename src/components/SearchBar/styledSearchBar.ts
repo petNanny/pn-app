@@ -64,6 +64,7 @@ export const Heading2 = styled(Heading)`
 
 export const InputsContainer = styled(Box)`
   &&& {
+    display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     @media ${devices.laptop} {

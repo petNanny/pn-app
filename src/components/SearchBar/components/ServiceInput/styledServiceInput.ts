@@ -14,8 +14,10 @@ import { devices } from "../../../../styles/breakPoints";
 
 export const ServiceInputContainer = styled(Box)`
   &&& {
-    margin-right: 1rem;
     margin-bottom: 1rem;
+    @media ${devices.laptop} {
+      margin-right: 1rem;
+    }
   }
 `;
 

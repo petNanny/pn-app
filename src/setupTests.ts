@@ -8,10 +8,14 @@ Object.defineProperty(window, "matchMedia", {
   value: () => {
     return {
       matches: false,
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      addListener: () => {},
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      removeListener: () => {},
+
+      addListener: () => {
+        undefined;
+      },
+
+      removeListener: () => {
+        undefined;
+      },
     };
   },
 });

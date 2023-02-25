@@ -36,7 +36,7 @@ import { FormikProps } from "formik";
 import { SearchFormValues } from "../../../../interfaces/searchForm";
 
 interface ServiceInputProps {
-  changeServiceH1: (value: string) => void;
+  changeServiceHeading: (value: string) => void;
   changeServiceDetail: (value: string) => void;
   formik: FormikProps<SearchFormValues>;
 }
@@ -66,57 +66,49 @@ const ServiceInfo = {
 };
 
 const ServiceInput = (props: ServiceInputProps) => {
-  const [serviceText, setServiceText] = useState(
-    <SetServiceTextBox>
-      <StyledImage src={homeDogBoarding} />
-      <StyledSetServiceText>Dog boarding</StyledSetServiceText>
-    </SetServiceTextBox>
-  );
-
-  const changeServiceText = (img: string, text: string) => {
-    setServiceText(
-      <SetServiceTextBox>
-        <StyledImage src={img} />
-        <StyledSetServiceText>{text}</StyledSetServiceText>
-      </SetServiceTextBox>
-    );
-  };
+  const [img, setImg] = useState(homeDogBoarding);
+  const [text, setText] = useState("Dog boarding");
 
   const handleClickDogBoarding = () => {
-    changeServiceText(homeDogBoarding, ServiceType.DogBoarding);
-    props.changeServiceH1(ServiceType.DogBoarding);
+    props.changeServiceHeading(ServiceType.DogBoarding);
     props.changeServiceDetail(ServiceDetail.DogBoarding);
     props.formik.setFieldValue("petService", ServiceType.DogBoarding);
+    setImg(homeDogBoarding);
+    setText(ServiceType.DogBoarding);
     setTimeout(props.formik.handleSubmit, 0);
   };
 
   const handleClickDoggyDayCare = () => {
-    changeServiceText(doggyDayCare, ServiceType.DoggyDayCare);
-    props.changeServiceH1(ServiceType.DoggyDayCare);
+    props.changeServiceHeading(ServiceType.DoggyDayCare);
     props.changeServiceDetail(ServiceDetail.DoggyDayCare);
     props.formik.setFieldValue("petService", ServiceType.DoggyDayCare);
+    setImg(doggyDayCare);
+    setText(ServiceType.DoggyDayCare);
     setTimeout(props.formik.handleSubmit, 0);
   };
 
   const handleClickDogWalking = () => {
-    changeServiceText(dogWalking, ServiceType.DogWalking);
-    props.changeServiceH1(ServiceType.DogWalking);
+    setImg(dogWalking);
+    setText(ServiceType.DogWalking);
+    props.changeServiceHeading(ServiceType.DogWalking);
     props.changeServiceDetail(ServiceDetail.DogWalking);
     props.formik.setFieldValue("petService", ServiceType.DogWalking);
     setTimeout(props.formik.handleSubmit, 0);
   };
 
   const handleClickHomeVisits = () => {
-    changeServiceText(homeVisits, ServiceType.HomeVisits);
-    props.changeServiceH1(ServiceType.HomeVisits);
+    setImg(homeVisits);
+    setText(ServiceType.HomeVisits);
+    props.changeServiceHeading(ServiceType.HomeVisits);
     props.changeServiceDetail(ServiceDetail.HomeVisits);
     props.formik.setFieldValue("petService", ServiceType.HomeVisits);
     setTimeout(props.formik.handleSubmit, 0);
   };
 
   const handleClickHouseSitting = () => {
-    changeServiceText(houseSitting, ServiceType.HouseSitting);
-    props.changeServiceH1(ServiceType.HouseSitting);
+    setImg(houseSitting);
+    setText(ServiceType.HouseSitting);
+    props.changeServiceHeading(ServiceType.HouseSitting);
     props.changeServiceDetail(ServiceDetail.HouseSitting);
     props.formik.setFieldValue("petService", ServiceType.HouseSitting);
     setTimeout(props.formik.handleSubmit, 0);
@@ -181,7 +173,12 @@ const ServiceInput = (props: ServiceInputProps) => {
           <Menu matchWidth={isTablet ? true : false} autoSelect={false}>
             <StyledMenuButton>
               <BoxInMenuButton>
-                <Box>{serviceText}</Box>
+                <Box>
+                  <SetServiceTextBox>
+                    <StyledImage src={img} />
+                    <StyledSetServiceText>{text}</StyledSetServiceText>
+                  </SetServiceTextBox>
+                </Box>
                 <MenuBtnIcon as={MdArrowDropDown} />
               </BoxInMenuButton>
             </StyledMenuButton>

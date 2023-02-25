@@ -21,7 +21,7 @@ import searchFilterSchema from "../../schemas/searchFilterValidator";
 import { SearchFormValues } from "../../interfaces/searchForm";
 
 const SearchBar = () => {
-  const [serviceH1, setServiceH1] = useState("Dog Boarding");
+  const [serviceHeading, setServiceHeading] = useState("Dog Boarding");
   const [serviceDetail, setServiceDetail] = useState("Overnight stay at the sitter's home.");
   const [location, setLocation] = useState("");
   const [totalPetsNum, setTotalPetsNum] = useState(0);
@@ -31,7 +31,7 @@ const SearchBar = () => {
   const [giantDogNum, setGiantDogNum] = useState(0);
   const [catNum, setCatNum] = useState(0);
   const [smallAnimalNum, setSmallAnimalNum] = useState(0);
-  const [isFilterHide, setIsFilterHide] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
 
   useEffect(() => {
     setTotalPetsNum(
@@ -39,8 +39,8 @@ const SearchBar = () => {
     );
   }, [smallDogNum, mediumDogNum, largeDogNum, giantDogNum, catNum, smallAnimalNum]);
 
-  const changeServiceH1 = (value: string) => {
-    setServiceH1(value);
+  const changeServiceHeading = (value: string) => {
+    setServiceHeading(value);
   };
   const changeServiceDetail = (value: string) => {
     setServiceDetail(value);
@@ -80,19 +80,22 @@ const SearchBar = () => {
       values.smallAnimal = smallAnimalNum;
       values.totalPets = totalPetsNum;
       await sleep(500);
-      console.log(values);
     },
   });
 
   const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 
   useEffect(() => {
-    isLaptop ? setIsFilterHide(true) : setIsFilterHide(false);
+    isLaptop ? setShowFilter(false) : setShowFilter(true);
   }, [isLaptop]);
 
   const handleSearchBtn = () => {
     formik.handleSubmit();
-    setIsFilterHide(true);
+    setShowFilter(false);
+  };
+
+  const handleFilterBtn = () => {
+    setShowFilter(true);
   };
 
   return (
@@ -100,43 +103,45 @@ const SearchBar = () => {
       <SearchBox>
         <HeadingContainer>
           <Heading1 as="h1" data-testid="addressServiceShow">
-            {serviceH1} {location}
+            {serviceHeading} {location}
           </Heading1>
           <Heading2 as="h2">{serviceDetail}</Heading2>
         </HeadingContainer>
-        <InputsContainer display={isFilterHide ? "none" : "flex"}>
-          <AddressInput changeLocation={changeLocation} formik={formik} />
-          <ServiceInput
-            formik={formik}
-            changeServiceH1={changeServiceH1}
-            changeServiceDetail={changeServiceDetail}
-          />
-          <DateInput formik={formik} />
-          <PetNumInput
-            formik={formik}
-            smallDogNum={smallDogNum}
-            mediumDogNum={mediumDogNum}
-            largeDogNum={largeDogNum}
-            giantDogNum={giantDogNum}
-            catNum={catNum}
-            smallAnimalNum={smallAnimalNum}
-            setSmallDogNum={setSmallDogNum}
-            setMediumDogNum={setMediumDogNum}
-            setLargeDogNum={setLargeDogNum}
-            setGiantDogNum={setGiantDogNum}
-            setCatNum={setCatNum}
-            setSmallAnimalNum={setSmallAnimalNum}
-            totalPetsNum={totalPetsNum}
-            setTotalPetsNum={setTotalPetsNum}
-          />
-          <AdvancedInput formik={formik} />
-          {isLaptop ? (
-            <MobileSearchBtn onClick={handleSearchBtn}>Search Now</MobileSearchBtn>
-          ) : null}
-        </InputsContainer>
+        {showFilter && (
+          <InputsContainer>
+            <AddressInput changeLocation={changeLocation} formik={formik} />
+            <ServiceInput
+              formik={formik}
+              changeServiceHeading={changeServiceHeading}
+              changeServiceDetail={changeServiceDetail}
+            />
+            <DateInput formik={formik} />
+            <PetNumInput
+              formik={formik}
+              smallDogNum={smallDogNum}
+              mediumDogNum={mediumDogNum}
+              largeDogNum={largeDogNum}
+              giantDogNum={giantDogNum}
+              catNum={catNum}
+              smallAnimalNum={smallAnimalNum}
+              setSmallDogNum={setSmallDogNum}
+              setMediumDogNum={setMediumDogNum}
+              setLargeDogNum={setLargeDogNum}
+              setGiantDogNum={setGiantDogNum}
+              setCatNum={setCatNum}
+              setSmallAnimalNum={setSmallAnimalNum}
+              totalPetsNum={totalPetsNum}
+              setTotalPetsNum={setTotalPetsNum}
+            />
+            <AdvancedInput formik={formik} />
+            {isLaptop ? (
+              <MobileSearchBtn onClick={handleSearchBtn}>Search Now</MobileSearchBtn>
+            ) : null}
+          </InputsContainer>
+        )}
         {isLaptop ? (
           <MobileButtonsContainer>
-            <StyledMobileBtn onClick={() => setIsFilterHide(false)}>Edit Filters</StyledMobileBtn>
+            <StyledMobileBtn onClick={handleFilterBtn}>Edit Filters</StyledMobileBtn>
             <StyledMobileBtn>Show Map</StyledMobileBtn>
           </MobileButtonsContainer>
         ) : null}

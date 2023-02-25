@@ -22,83 +22,83 @@ interface AdvancedInputProps {
 }
 
 const AdvancedInput = (props: AdvancedInputProps) => {
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [isChecked3, setIsChecked3] = useState(false);
-  const [activeItemsCount, setActiveItemsCount] = useState(0);
-  const [activeItemsCount1, setActiveItemsCount1] = useState(0);
-  const [activeItemsCount2, setActiveItemsCount2] = useState(0);
-  const [activeItemsCount3, setActiveItemsCount3] = useState(0);
+  const [isNoDog, setIsNoDog] = useState(false);
+  const [isNoChildren, setIsNoChildren] = useState(false);
+  const [isFencedBackyard, setIsFencedBackyard] = useState(false);
+  const [advancedFilterNum, setAdvancedFilterNum] = useState(0);
+  const [noDogCount, setNoDogCount] = useState(0);
+  const [noChildrenCount, setNoChildrenCount] = useState(0);
+  const [fencedBackyardCount, setFencedBackyardCount] = useState(0);
 
   useEffect(() => {
-    setActiveItemsCount(activeItemsCount1 + activeItemsCount2 + activeItemsCount3);
+    setAdvancedFilterNum(noDogCount + noChildrenCount + fencedBackyardCount);
   });
 
   const handleText1 = () => {
-    setIsChecked1(!isChecked1);
+    setIsNoDog(!isNoDog);
   };
   useEffect(() => {
-    if (!isChecked1) {
-      setActiveItemsCount1((prevCount) => {
+    if (!isNoDog) {
+      setNoDogCount((prevCount) => {
         if (prevCount !== 0) {
           return prevCount - 1;
         }
         return prevCount;
       });
     }
-    if (isChecked1) {
-      setActiveItemsCount1((prevCount) => {
+    if (isNoDog) {
+      setNoDogCount((prevCount) => {
         return prevCount + 1;
       });
     }
-  }, [isChecked1, setActiveItemsCount1]);
+  }, [isNoDog, setNoDogCount]);
 
   const handleText2 = () => {
-    setIsChecked2(!isChecked2);
+    setIsNoChildren(!isNoChildren);
   };
   useEffect(() => {
-    if (!isChecked2) {
-      setActiveItemsCount2((prevCount) => {
+    if (!isNoChildren) {
+      setNoChildrenCount((prevCount) => {
         if (prevCount !== 0) {
           return prevCount - 1;
         }
         return prevCount;
       });
     }
-    if (isChecked2) {
-      setActiveItemsCount2((prevCount) => {
+    if (isNoChildren) {
+      setNoChildrenCount((prevCount) => {
         return prevCount + 1;
       });
     }
-  }, [isChecked2, setActiveItemsCount2]);
+  }, [isNoChildren, setNoChildrenCount]);
 
   const handleText3 = () => {
-    setIsChecked3(!isChecked3);
+    setIsFencedBackyard(!isFencedBackyard);
   };
   useEffect(() => {
-    if (!isChecked3) {
-      setActiveItemsCount3((prevCount) => {
+    if (!isFencedBackyard) {
+      setFencedBackyardCount((prevCount) => {
         if (prevCount !== 0) {
           return prevCount - 1;
         }
         return prevCount;
       });
     }
-    if (isChecked3) {
-      setActiveItemsCount3((prevCount) => {
+    if (isFencedBackyard) {
+      setFencedBackyardCount((prevCount) => {
         return prevCount + 1;
       });
     }
-  }, [isChecked3, setActiveItemsCount3]);
+  }, [isFencedBackyard, setFencedBackyardCount]);
 
   const handleAdvancedFormReset = () => {
     props.formik.resetForm;
-    setActiveItemsCount1(0);
-    setActiveItemsCount2(0);
-    setActiveItemsCount3(0);
-    setIsChecked1(false);
-    setIsChecked2(false);
-    setIsChecked3(false);
+    setNoDogCount(0);
+    setNoChildrenCount(0);
+    setFencedBackyardCount(0);
+    setIsNoDog(false);
+    setIsNoChildren(false);
+    setIsFencedBackyard(false);
   };
 
   const [isTablet] = useMediaQuery("(max-width: 768px)", { ssr: true, fallback: false });
@@ -113,7 +113,7 @@ const AdvancedInput = (props: AdvancedInputProps) => {
             <MenuBtn>
               <MenuBtnInBox>
                 <Box>
-                  <Box data-testid="advancedInput">{activeItemsCount} advanced filter(s)</Box>
+                  <Box data-testid="advancedInput">{advancedFilterNum} advanced filter(s)</Box>
                 </Box>
                 <MenuBtnIcon as={MdArrowDropDown} />
               </MenuBtnInBox>
