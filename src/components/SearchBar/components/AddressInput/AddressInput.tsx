@@ -17,15 +17,15 @@ interface AddressInputProps {
   formik: FormikProps<SearchFormValues>;
 }
 
-const AddressInput = (props: AddressInputProps) => {
+const AddressInput = ({ changeLocation, formik }: AddressInputProps) => {
   const { ref } = usePlacesWidget({
     apiKey: process.env.REACT_APP_GOOGLE_MAP_KEY,
     onPlaceSelected: (place) => {
-      props.formik.setFieldValue("location", place.formatted_address);
-      props.formik.setFieldValue("latitude", place.geometry.location.lat());
-      props.formik.setFieldValue("longitude", place.geometry.location.lng());
-      props.changeLocation(place.formatted_address);
-      setTimeout(props.formik.handleSubmit, 0);
+      formik.setFieldValue("location", place.formatted_address);
+      formik.setFieldValue("latitude", place.geometry.location.lat());
+      formik.setFieldValue("longitude", place.geometry.location.lng());
+      changeLocation(place.formatted_address);
+      setTimeout(formik.handleSubmit, 0);
     },
     options: {
       types: ["(regions)"],
@@ -48,8 +48,8 @@ const AddressInput = (props: AddressInputProps) => {
             </StyledInputLeftElement>
             <StyledInput
               placeholder="Suburb or Address"
-              onChange={props.formik.handleChange}
-              value={props.formik.values.location}
+              onChange={formik.handleChange}
+              value={formik.values.location}
               ref={refs}
               id="location"
               name="location"

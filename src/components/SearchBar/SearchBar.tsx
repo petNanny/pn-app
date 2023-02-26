@@ -80,6 +80,7 @@ const SearchBar = () => {
       values.smallAnimal = smallAnimalNum;
       values.totalPets = totalPetsNum;
       await sleep(500);
+      console.log(values);
     },
   });
 

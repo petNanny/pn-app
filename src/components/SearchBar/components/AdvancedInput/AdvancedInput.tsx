@@ -21,7 +21,7 @@ interface AdvancedInputProps {
   formik: FormikProps<SearchFormValues>;
 }
 
-const AdvancedInput = (props: AdvancedInputProps) => {
+const AdvancedInput = ({ formik }: AdvancedInputProps) => {
   const [isNoDog, setIsNoDog] = useState(false);
   const [isNoChildren, setIsNoChildren] = useState(false);
   const [isFencedBackyard, setIsFencedBackyard] = useState(false);
@@ -92,7 +92,7 @@ const AdvancedInput = (props: AdvancedInputProps) => {
   }, [isFencedBackyard, setFencedBackyardCount]);
 
   const handleAdvancedFormReset = () => {
-    props.formik.resetForm;
+    formik.resetForm;
     setNoDogCount(0);
     setNoChildrenCount(0);
     setFencedBackyardCount(0);
@@ -124,10 +124,10 @@ const AdvancedInput = (props: AdvancedInputProps) => {
                 <Stack>
                   <StyledCheckbox
                     onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                      props.formik.handleChange(e);
+                      formik.handleChange(e);
                       handleText1();
                     }}
-                    value={props.formik.values.noDogs}
+                    value={formik.values.noDogs}
                     name="noDogs"
                     data-testid="advancedInputNoDogs"
                   >
@@ -135,10 +135,10 @@ const AdvancedInput = (props: AdvancedInputProps) => {
                   </StyledCheckbox>
                   <StyledCheckbox
                     onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                      props.formik.handleChange(e);
+                      formik.handleChange(e);
                       handleText2();
                     }}
-                    value={props.formik.values.noChildren}
+                    value={formik.values.noChildren}
                     name="noChildren"
                     data-testid="advancedInputNoChildren"
                   >
@@ -146,10 +146,10 @@ const AdvancedInput = (props: AdvancedInputProps) => {
                   </StyledCheckbox>
                   <StyledCheckbox
                     onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                      props.formik.handleChange(e);
+                      formik.handleChange(e);
                       handleText3();
                     }}
-                    value={props.formik.values.fencedBackyard}
+                    value={formik.values.fencedBackyard}
                     name="fencedBackyard"
                   >
                     <AdvancedCheckItemText>
@@ -163,7 +163,7 @@ const AdvancedInput = (props: AdvancedInputProps) => {
                   <ClearBtn onClick={handleAdvancedFormReset}>Clear</ClearBtn>
                 </Box>
                 <Box>
-                  <ApplyBtn onClick={props.formik.handleSubmit}>Apply</ApplyBtn>
+                  <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
                 </Box>
               </ButtonsBox>
             </StyledMenuList>

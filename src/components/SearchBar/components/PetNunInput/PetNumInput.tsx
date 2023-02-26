@@ -39,7 +39,23 @@ interface PetNumInputProps {
   formik: FormikProps<SearchFormValues>;
 }
 
-const PetNumInput = (props: PetNumInputProps) => {
+const PetNumInput = ({
+  setSmallDogNum,
+  setMediumDogNum,
+  setLargeDogNum,
+  setGiantDogNum,
+  setCatNum,
+  setSmallAnimalNum,
+  setTotalPetsNum,
+  smallDogNum,
+  mediumDogNum,
+  largeDogNum,
+  giantDogNum,
+  catNum,
+  smallAnimalNum,
+  totalPetsNum,
+  formik,
+}: PetNumInputProps) => {
   const handleIncreasePet = (
     value: number,
     setValue: React.Dispatch<React.SetStateAction<number>>
@@ -55,13 +71,13 @@ const PetNumInput = (props: PetNumInputProps) => {
   };
 
   const handlePetsClear = () => {
-    props.setSmallDogNum(0);
-    props.setMediumDogNum(0);
-    props.setLargeDogNum(0);
-    props.setGiantDogNum(0);
-    props.setCatNum(0);
-    props.setSmallAnimalNum(0);
-    props.setTotalPetsNum(0);
+    setSmallDogNum(0);
+    setMediumDogNum(0);
+    setLargeDogNum(0);
+    setGiantDogNum(0);
+    setCatNum(0);
+    setSmallAnimalNum(0);
+    setTotalPetsNum(0);
   };
 
   const list = [
@@ -69,9 +85,9 @@ const PetNumInput = (props: PetNumInputProps) => {
       id: 1,
       petType: "Small Dog",
       petSize: "0-10 kg",
-      petItemNum: props.smallDogNum,
-      handleDecreasePet: () => handleDecreasePet(props.smallDogNum, props.setSmallDogNum),
-      handleIncreasePet: () => handleIncreasePet(props.smallDogNum, props.setSmallDogNum),
+      petItemNum: smallDogNum,
+      handleDecreasePet: () => handleDecreasePet(smallDogNum, setSmallDogNum),
+      handleIncreasePet: () => handleIncreasePet(smallDogNum, setSmallDogNum),
       increaseTestID: "smallDogIncrease",
       decreaseTestID: "smallDogDecrease",
     },
@@ -79,9 +95,9 @@ const PetNumInput = (props: PetNumInputProps) => {
       id: 2,
       petType: "Medium Dog",
       petSize: "10-20 kg",
-      petItemNum: props.mediumDogNum,
-      handleDecreasePet: () => handleDecreasePet(props.mediumDogNum, props.setMediumDogNum),
-      handleIncreasePet: () => handleIncreasePet(props.mediumDogNum, props.setMediumDogNum),
+      petItemNum: mediumDogNum,
+      handleDecreasePet: () => handleDecreasePet(mediumDogNum, setMediumDogNum),
+      handleIncreasePet: () => handleIncreasePet(mediumDogNum, setMediumDogNum),
       increaseTestID: "mediumDogIncrease",
       decreaseTestID: "mediumDogDecrease",
     },
@@ -89,9 +105,9 @@ const PetNumInput = (props: PetNumInputProps) => {
       id: 3,
       petType: "Large Dog",
       petSize: "20-40 kg",
-      petItemNum: props.largeDogNum,
-      handleDecreasePet: () => handleDecreasePet(props.largeDogNum, props.setLargeDogNum),
-      handleIncreasePet: () => handleIncreasePet(props.largeDogNum, props.setLargeDogNum),
+      petItemNum: largeDogNum,
+      handleDecreasePet: () => handleDecreasePet(largeDogNum, setLargeDogNum),
+      handleIncreasePet: () => handleIncreasePet(largeDogNum, setLargeDogNum),
       increaseTestID: "largeDogIncrease",
       decreaseTestID: "largeDogDecrease",
     },
@@ -99,9 +115,9 @@ const PetNumInput = (props: PetNumInputProps) => {
       id: 4,
       petType: "Giant Dog",
       petSize: "+40 kg",
-      petItemNum: props.giantDogNum,
-      handleDecreasePet: () => handleDecreasePet(props.giantDogNum, props.setGiantDogNum),
-      handleIncreasePet: () => handleIncreasePet(props.giantDogNum, props.setGiantDogNum),
+      petItemNum: giantDogNum,
+      handleDecreasePet: () => handleDecreasePet(giantDogNum, setGiantDogNum),
+      handleIncreasePet: () => handleIncreasePet(giantDogNum, setGiantDogNum),
       increaseTestID: "giantDogIncrease",
       decreaseTestID: "giantDogDecrease",
     },
@@ -109,9 +125,9 @@ const PetNumInput = (props: PetNumInputProps) => {
       id: 5,
       petType: "Cat",
       petSize: "All",
-      petItemNum: props.catNum,
-      handleDecreasePet: () => handleDecreasePet(props.catNum, props.setCatNum),
-      handleIncreasePet: () => handleIncreasePet(props.catNum, props.setCatNum),
+      petItemNum: catNum,
+      handleDecreasePet: () => handleDecreasePet(catNum, setCatNum),
+      handleIncreasePet: () => handleIncreasePet(catNum, setCatNum),
       increaseTestID: "catIncrease",
       decreaseTestID: "catDecrease",
     },
@@ -119,9 +135,9 @@ const PetNumInput = (props: PetNumInputProps) => {
       id: 6,
       petType: "Small Animal",
       petSize: "Bird, rabbit, ferret, ...",
-      petItemNum: props.smallAnimalNum,
-      handleDecreasePet: () => handleDecreasePet(props.smallAnimalNum, props.setSmallAnimalNum),
-      handleIncreasePet: () => handleIncreasePet(props.smallAnimalNum, props.setSmallAnimalNum),
+      petItemNum: smallAnimalNum,
+      handleDecreasePet: () => handleDecreasePet(smallAnimalNum, setSmallAnimalNum),
+      handleIncreasePet: () => handleIncreasePet(smallAnimalNum, setSmallAnimalNum),
       increaseTestID: "smallAnimalIncrease",
       decreaseTestID: "smallAnimalDecrease",
     },
@@ -139,10 +155,10 @@ const PetNumInput = (props: PetNumInputProps) => {
             <StyledMenuButton>
               <BoxInMenuButton>
                 <Box>
-                  {props.totalPetsNum > 1 ? (
-                    <Text data-testid="petNumInput">{props.totalPetsNum} pets</Text>
+                  {totalPetsNum > 1 ? (
+                    <Text data-testid="petNumInput">{totalPetsNum} pets</Text>
                   ) : (
-                    <Text>{props.totalPetsNum} pet</Text>
+                    <Text>{totalPetsNum} pet</Text>
                   )}
                 </Box>
                 <MenuBtnIcon as={MdArrowDropDown} />
@@ -178,7 +194,7 @@ const PetNumInput = (props: PetNumInputProps) => {
               <PetSelectItem>
                 <ClearBtn onClick={handlePetsClear}>Clear</ClearBtn>
                 <Box>
-                  <ApplyBtn onClick={props.formik.handleSubmit}>Apply</ApplyBtn>
+                  <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
                 </Box>
               </PetSelectItem>
             </StyledMenuList>

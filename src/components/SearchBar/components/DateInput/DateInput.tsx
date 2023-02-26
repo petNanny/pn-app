@@ -25,7 +25,7 @@ interface DateInputProps {
   formik: FormikProps<SearchFormValues>;
 }
 
-const DateInput = (props: DateInputProps) => {
+const DateInput = ({ formik }: DateInputProps) => {
   const initRef = useRef<any>();
   const today = new Date();
   const [rangeDays, setRangeDays] = useState<DateRange | undefined>();
@@ -78,9 +78,16 @@ const DateInput = (props: DateInputProps) => {
 
   const handleBlur = () => {
     isMultiMode
-      ? props.formik.setFieldValue("selectedDate", multiDays)
-      : props.formik.setFieldValue("selectedDate", getDatesInRange());
-    setTimeout(props.formik.handleSubmit, 0);
+      ? formik.setFieldValue("selectedDate", multiDays)
+      : formik.setFieldValue("selectedDate", getDatesInRange());
+    setTimeout(formik.handleSubmit, 0);
+  };
+
+  const handleApplyBtn = () => {
+    isMultiMode
+      ? formik.setFieldValue("selectedDate", multiDays)
+      : formik.setFieldValue("selectedDate", getDatesInRange());
+    setTimeout(formik.handleSubmit, 0);
   };
 
   return (
@@ -153,8 +160,7 @@ const DateInput = (props: DateInputProps) => {
                         <ApplyBtn
                           ref={initRef}
                           onClick={() => {
-                            props.formik.setFieldValue("selectedDate", multiDays);
-                            setTimeout(props.formik.handleSubmit, 0);
+                            handleApplyBtn;
                             onClose();
                           }}
                         >
@@ -164,8 +170,7 @@ const DateInput = (props: DateInputProps) => {
                         <ApplyBtn
                           ref={initRef}
                           onClick={() => {
-                            props.formik.setFieldValue("selectedDate", getDatesInRange());
-                            setTimeout(props.formik.handleSubmit, 0);
+                            handleApplyBtn;
                             onClose();
                           }}
                         >

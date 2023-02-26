@@ -65,53 +65,53 @@ const ServiceInfo = {
   HouseSitting: "24h stay, in your home",
 };
 
-const ServiceInput = (props: ServiceInputProps) => {
+const ServiceInput = ({ changeServiceHeading, changeServiceDetail, formik }: ServiceInputProps) => {
   const [img, setImg] = useState(homeDogBoarding);
   const [text, setText] = useState("Dog boarding");
 
   const handleClickDogBoarding = () => {
-    props.changeServiceHeading(ServiceType.DogBoarding);
-    props.changeServiceDetail(ServiceDetail.DogBoarding);
-    props.formik.setFieldValue("petService", ServiceType.DogBoarding);
+    changeServiceHeading(ServiceType.DogBoarding);
+    changeServiceDetail(ServiceDetail.DogBoarding);
+    formik.setFieldValue("petService", ServiceType.DogBoarding);
     setImg(homeDogBoarding);
     setText(ServiceType.DogBoarding);
-    setTimeout(props.formik.handleSubmit, 0);
+    setTimeout(formik.handleSubmit, 0);
   };
 
   const handleClickDoggyDayCare = () => {
-    props.changeServiceHeading(ServiceType.DoggyDayCare);
-    props.changeServiceDetail(ServiceDetail.DoggyDayCare);
-    props.formik.setFieldValue("petService", ServiceType.DoggyDayCare);
+    changeServiceHeading(ServiceType.DoggyDayCare);
+    changeServiceDetail(ServiceDetail.DoggyDayCare);
+    formik.setFieldValue("petService", ServiceType.DoggyDayCare);
     setImg(doggyDayCare);
     setText(ServiceType.DoggyDayCare);
-    setTimeout(props.formik.handleSubmit, 0);
+    setTimeout(formik.handleSubmit, 0);
   };
 
   const handleClickDogWalking = () => {
     setImg(dogWalking);
     setText(ServiceType.DogWalking);
-    props.changeServiceHeading(ServiceType.DogWalking);
-    props.changeServiceDetail(ServiceDetail.DogWalking);
-    props.formik.setFieldValue("petService", ServiceType.DogWalking);
-    setTimeout(props.formik.handleSubmit, 0);
+    changeServiceHeading(ServiceType.DogWalking);
+    changeServiceDetail(ServiceDetail.DogWalking);
+    formik.setFieldValue("petService", ServiceType.DogWalking);
+    setTimeout(formik.handleSubmit, 0);
   };
 
   const handleClickHomeVisits = () => {
     setImg(homeVisits);
     setText(ServiceType.HomeVisits);
-    props.changeServiceHeading(ServiceType.HomeVisits);
-    props.changeServiceDetail(ServiceDetail.HomeVisits);
-    props.formik.setFieldValue("petService", ServiceType.HomeVisits);
-    setTimeout(props.formik.handleSubmit, 0);
+    changeServiceHeading(ServiceType.HomeVisits);
+    changeServiceDetail(ServiceDetail.HomeVisits);
+    formik.setFieldValue("petService", ServiceType.HomeVisits);
+    setTimeout(formik.handleSubmit, 0);
   };
 
   const handleClickHouseSitting = () => {
     setImg(houseSitting);
     setText(ServiceType.HouseSitting);
-    props.changeServiceHeading(ServiceType.HouseSitting);
-    props.changeServiceDetail(ServiceDetail.HouseSitting);
-    props.formik.setFieldValue("petService", ServiceType.HouseSitting);
-    setTimeout(props.formik.handleSubmit, 0);
+    changeServiceHeading(ServiceType.HouseSitting);
+    changeServiceDetail(ServiceDetail.HouseSitting);
+    formik.setFieldValue("petService", ServiceType.HouseSitting);
+    setTimeout(formik.handleSubmit, 0);
   };
 
   const AtSitterHomeServices = [
