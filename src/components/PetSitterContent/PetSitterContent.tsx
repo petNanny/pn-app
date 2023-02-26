@@ -8,7 +8,7 @@ interface PetSitterContentProps {
   petSitterData: IPetSitter;
 }
 
-const PetSitterContent: React.FC<PetSitterContentProps> = ({ petSitterData }) => {
+const PetSitterContent = ({ petSitterData }: PetSitterContentProps) => {
   return (
     <StyledPetSitterContentContainer>
       <PetSitterAbout

@@ -75,38 +75,38 @@ const PetSitterServices: React.FC<PetSitterServicesProps> = (props) => {
         {petSitter.firstName}&apos;s services
       </StyledPetSitterServicesTitle>
       <StyledPetSitterServicesSubtitle>At the sitter&#39;s home</StyledPetSitterServicesSubtitle>
-      {petSitterServices.map((item) => (
+      {petSitterServices.map(({ service, src, serviceDetail, Price, Unit }) => (
         <ServiceDetail
-          key={item.service}
-          src={item.src}
-          serviceName={item.service}
-          serviceDetail={item.serviceDetail}
-          servicePrice={item.Price}
-          serviceUnit={item.Unit}
+          key={service}
+          src={src}
+          serviceName={service}
+          serviceDetail={serviceDetail}
+          servicePrice={Price}
+          serviceUnit={Unit}
         ></ServiceDetail>
       ))}
       <StyledPetSitterServicesSubtitle>At your home</StyledPetSitterServicesSubtitle>
-      {petSitterServicesHome.map((item) => (
+      {petSitterServicesHome.map(({ service, src, serviceDetail, Price, Unit }) => (
         <ServiceDetail
-          key={item.service}
-          src={item.src}
-          serviceName={item.service}
-          serviceDetail={item.serviceDetail}
-          servicePrice={item.Price}
-          serviceUnit={item.Unit}
+          key={service}
+          src={src}
+          serviceName={service}
+          serviceDetail={serviceDetail}
+          servicePrice={Price}
+          serviceUnit={Unit}
         ></ServiceDetail>
       ))}
       <StyledPetSitterServicesSubtitle>
         {petSitter.firstName} also offers
       </StyledPetSitterServicesSubtitle>
-      {dogWalkingService.map((item) => (
+      {dogWalkingService.map(({ service, src, serviceDetail, Price, Unit }) => (
         <ServiceDetail
-          key={item.service}
-          src={item.src}
-          serviceName={item.service}
-          serviceDetail={item.serviceDetail}
-          servicePrice={item.Price}
-          serviceUnit={item.Unit}
+          key={service}
+          src={src}
+          serviceName={service}
+          serviceDetail={serviceDetail}
+          servicePrice={Price}
+          serviceUnit={Unit}
         ></ServiceDetail>
       ))}
     </>

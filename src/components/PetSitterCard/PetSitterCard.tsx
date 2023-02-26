@@ -1,4 +1,4 @@
-import Container from "../../layouts/Container";
+import Container from "../../layouts/container/container";
 import PetSitterContent from "../PetSitterContent/PetSitterContent";
 import PetSitterContact from "../PetSitterContact/PetSitterContact";
 import { StyledPetSitterWrapper } from "./StyledPetSitterCard";

@@ -13,7 +13,7 @@ interface PetSitterAboutProps {
   introduction: string;
 }
 
-const PetSitterAbout: React.FC<PetSitterAboutProps> = () => {
+const PetSitterAbout = ({ firstName, introduction }: PetSitterAboutProps) => {
   return (
     <>
       <StyledPetSitterAboutTitle>About {petSitter.firstName}</StyledPetSitterAboutTitle>
