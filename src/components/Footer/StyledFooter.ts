@@ -138,14 +138,3 @@ export const StyledSelectBox = styled(Box)`
     }
   }
 `;
-
-// export const StyledSelect = styled(Select)`
-//   &&& {
-//     color: rgb(116, 116, 116);
-//     // background-color: white;
-//     font-weight: 700;
-//     @media (max-width: 50rem) {
-//       width: 85vw;
-//     }
-//   }
-// `;
