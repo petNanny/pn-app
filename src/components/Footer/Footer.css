@@ -47,16 +47,19 @@ li {
 
 .information .img {
   display: flex;
-  width: 85%;
+  flex-wrap: wrap;
+  width: 80%;
   height: auto;
 }
-.img div {
-  margin-right: 0.5rem;
+.visa,
+.mastercard,
+.americanExpress {
+  max-width: 5rem;
 }
-
 .img img {
-  height: 2.5rem;
-  width: auto;
+  object-fit: cover;
+  display: block;
+  height: auto;
   border-radius: 5px;
 }
 
@@ -89,7 +92,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(81, 151, 198);
+  background-color: #5197c6;
   padding: 1.5rem;
 }
 .termAndCountry {
@@ -126,6 +129,7 @@ li {
   .information div {
     flex-basis: 50%;
   }
+
   .footerContainerTop h2 {
     font-size: 1.2rem;
     margin-bottom: 1rem;
@@ -133,6 +137,11 @@ li {
 
   li {
     line-height: 2rem;
+  }
+  .information .img {
+    flex-wrap: nowrap;
+    width: 100%;
+    height: auto;
   }
 
   .footerContainerBottom,
@@ -142,10 +151,6 @@ li {
     align-items: start;
     flex-grow: 1;
     min-height: 10rem;
-  }
-  .terms {
-    /* padding-bottom: 4rem; */
-    margin-bottom: 0;
   }
 
   .terms,
