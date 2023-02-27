@@ -1,7 +1,11 @@
-import React from "react";
+import PetSitter from "../components/PetSitter";
 
 const PetSitterPage = () => {
-  return <div>PetSitterPage</div>;
+  return (
+    <div>
+      <PetSitter />
+    </div>
+  );
 };
 
 export default PetSitterPage;

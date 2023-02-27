@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@chakra-ui/react";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
-import PetSitterCard from "./components/PetSitterCard";
+import PetSitterCard from "./components/PetSitter";
 import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -25,7 +25,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/post/:id" element={<PetSitterCard />} />
+        <Route path="/petSitter/:formPage" element={<PetSitterCard />} />
         <Route path="/chat" element={user ? <ChatPage /> : <Navigate to="/login" />} />
         <Route path="/order" element={user ? <OrderPage /> : <Navigate to="/login" />} />
         <Route path="/payment" element={user ? <PaymentPage /> : <Navigate to="/login" />} />
