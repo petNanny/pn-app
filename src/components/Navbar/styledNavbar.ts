@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { devices } from "../../styles/breakPoints";
-import { Text, Button, Flex, Box, HStack } from "@chakra-ui/react";
+import { Text, Button, Flex, Box, HStack, Avatar } from "@chakra-ui/react";
 import theme from "../../styles/theme";
 
 export const NavbarStyle = styled(Flex)`
@@ -87,3 +87,5 @@ export const NavbarFunction = styled(HStack)`
     }
   }
 `;
+
+export const ProfileImage = styled(Avatar)``;

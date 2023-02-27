@@ -30,6 +30,7 @@ import {
   SidebarLogo,
   SidebarLine,
   NavbarFunction,
+  ProfileImage,
 } from "./styledNavbar";
 import RedPoint from "../assets/RedPoint";
 
@@ -108,7 +109,12 @@ const Navbar = () => {
                 <DrawerOverlay />
                 <DrawerContent>
                   <DrawerHeader>
-                    <Avatar size="xl" name="M" src="" bg="grey" color="white" />
+                    <ProfileImage
+                      size="xl"
+                      name="M"
+                      src=""
+                      bg={`${theme.colors.background.grey}`}
+                    />
                   </DrawerHeader>
                   <SidebarLinkText statusColor>Mark</SidebarLinkText>
                   <NavLink to="#">
@@ -156,7 +162,7 @@ const Navbar = () => {
           </NavbarSearchSittersButton>
 
           {!isLoggedIn && (
-            <HStack spacing="1.5em">
+            <HStack spacing="1.5rem">
               <NavLink to="/register">
                 <NavLinkText>Become a Sitter</NavLinkText>
               </NavLink>
@@ -173,10 +179,10 @@ const Navbar = () => {
           )}
 
           {isLoggedIn && (
-            <HStack height="100%" spacing="1em">
-              <HStack height="100%" spacing="0.5em">
+            <HStack height="100%" spacing="1rem">
+              <HStack height="100%" spacing="0.5rem">
                 <Menu>
-                  <Avatar name="M" src="" bg="gray" color="white" />
+                  <ProfileImage name="M" src="" bg={`${theme.colors.background.grey}`} />
                   <MenuButton
                     as={Button}
                     rightIcon={menuIsOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
