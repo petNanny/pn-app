@@ -81,9 +81,20 @@ export const SidebarLine = styled(Box)`
   }
 `;
 
+export const SidebarFunction = styled(HStack)`
+  &&& {
+    display: inherit;
+    @media ${devices.tablet} {
+      display: none;
+    }
+  }
+`;
+
 export const NavbarFunction = styled(HStack)`
   &&& {
-    @media ${devices.mobile} {
+    display: none;
+    @media ${devices.tablet} {
+      display: inherit;
     }
   }
 `;
