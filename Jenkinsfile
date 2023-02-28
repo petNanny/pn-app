@@ -1,11 +1,18 @@
 pipeline {
     agent any
     
-    ##configured in Global Tool Configuration
+    //configured in Global Tool Configuration
     tools {nodejs "NodeJs"}
 
     stages {
-        
+
+        stage('Git checkout') {
+            steps{
+            // Get source code from a GitHub repository
+            git branch:'dev', url:'<https://github.com/AbbyKuo/pn-app.git>'
+            }
+        }
+
         stage('npm install') {
             steps{
                 sh 'npm install'
