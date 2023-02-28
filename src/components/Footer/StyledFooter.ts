@@ -46,6 +46,7 @@ export const StyledListItem = styled(ListItem)`
   &&& {
     list-style: none;
     line-height: 1.6rem;
+    font-weight: 500;
     cursor: pointer;
     @media (max-width: 50rem) {
       line-height: 2rem;

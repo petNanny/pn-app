@@ -15,8 +15,3 @@ describe("Footer", () => {
     expect(findUsOn).toBeInTheDocument();
   });
 });
-
-
-
-
-
