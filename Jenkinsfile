@@ -1,6 +1,7 @@
 pipeline {
     agent any
     
+    ##configured in Global Tool Configuration
     tools {nodejs "NodeJs"}
 
     stages {
