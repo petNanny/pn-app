@@ -1,5 +1,6 @@
 import { Card, Flex, Avatar, Heading, Text } from "@chakra-ui/react";
 import styled from "styled-components";
+import { devices } from "../../../styles/breakPoints";
 
 export const CardHeaderLeft = styled(Flex)`
   &&& {
@@ -31,10 +32,13 @@ export const UserName = styled(Heading)`
 export const PetSitterCardContainer = styled(Card)`
   &&& {
     margin: 1px;
-    width: 40%;
+    width: 100%;
     cursor: pointer;
     &:hover {
       background: lightcyan;
+    }
+    @media ${devices.laptop} {
+      width: 40%;
     }
   }
 `;
@@ -61,18 +65,25 @@ export const CardIntroduction = styled(Text)`
   &&& {
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
+    display: none;
     -webkit-line-clamp: 2;
     /* number of lines to show */
     line-clamp: 2;
     -webkit-box-orient: vertical;
+    @media ${devices.tablet} {
+      display: -webkit-box;
+    }
   }
 `;
 
 export const CardFooterText = styled(Text)`
   &&& {
+    display: none;
     width: 100%;
     text-align: right;
     color: var(--chakra-colors-blue-500);
+    @media ${devices.tablet} {
+      display: block;
+    }
   }
 `;
