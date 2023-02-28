@@ -1,0 +1,61 @@
+pipeline {
+    agent {
+        docker {
+            image 'node:12.13.0'
+        }
+
+    }
+
+    environment {
+        CI = 'true'
+        Feb_ENVIRONMENT = 'uat'
+        //BUCKET_NAME = ''
+        //WORKSPACE_PATH = ''
+    }
+
+    stages {
+        stage('Install package') {
+            steps {
+                echo "Installing packages"
+                sh 'npm install:uat'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo "Building"
+                sh 'npm run build:uat'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "testing"
+            }
+        }
+        stage('Install AWS CLI') {
+            steps {
+                echo "Installing AWS CLI"
+            }
+        }
+         stage('Deploy to UAT') {
+            steps {
+                echo "Deploy to UAT"
+            }
+        }
+
+    }
+
+    post {
+        success{
+            echo "In post-success"
+        }
+        failure {
+            echo "In post-failure"
+
+        }
+
+    }
+}
+
+def deployToS3(environment) {
+    
+}
