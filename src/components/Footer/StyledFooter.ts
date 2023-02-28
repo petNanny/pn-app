@@ -14,7 +14,7 @@ export const StyledFooterBox = styled(Box)`
     .chakra-heading {
       padding-left: 1rem;
       font-size: 1.6rem;
-      font-weight: 500;
+      font-weight: 550;
       margin-top: 1rem;
       margin-bottom: 1.5rem;
     }
@@ -45,8 +45,9 @@ export const StyledFooterFlex = styled(Flex)`
 export const StyledListItem = styled(ListItem)`
   &&& {
     list-style: none;
-    line-height: 1.6rem;
+    line-height: 1.8rem;
     cursor: pointer;
+    font-weight: 550;
     @media (max-width: 50rem) {
       line-height: 2rem;
     }
@@ -104,7 +105,7 @@ export const StyledFooterTopFlex = styled(StyledFooterFlex)`
 
 export const StyledFooterBottomFlex = styled(StyledFooterFlex)`
   &&& {
-      width: 80vw;
+      width: 78vw;
       justify-content: space-between;
       align-items: center;
       padding-left: 1rem 

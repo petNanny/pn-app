@@ -100,7 +100,7 @@ const Footer = () => {
                 <Link>Mornington</Link>
               </StyledListItem>
             </UnorderedList>
-            <Box pl="1rem">
+            <Box pl="1rem" mt="1rem" fontWeight={550}>
               <Link href="">Top doggy day care cities</Link>
             </Box>
           </StyledListBox>
@@ -150,7 +150,7 @@ const Footer = () => {
         <StyledFooterBottomFlex>
           <Box>
             <Text>
-              Copyright © 2023 Pet-Nany Inc. All Rights Reserved.{" "}
+              Copyright © 2023 Pet-Nanny Inc. All Rights Reserved.{" "}
               <StyledLink>Terms and Conditions</StyledLink> and{" "}
               <StyledLink>Privacy & Cookie Policy</StyledLink>.
             </Text>
@@ -160,7 +160,7 @@ const Footer = () => {
               <option value="Australia(EN)">Australia(EN)</option>
               <option value="Canada(EN)">Canada(EN)</option>
               <option value="HongKong(CN)">HongKong(CN)</option>
-              <option value="Amercia(EN)">Amercia(EN)</option>
+              <option value="America(EN)">America(EN)</option>
             </Select>
           </StyledSelectBox>
         </StyledFooterBottomFlex>
