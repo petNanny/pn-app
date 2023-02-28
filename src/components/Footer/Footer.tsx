@@ -100,7 +100,7 @@ const Footer = () => {
                 <Link>Mornington</Link>
               </StyledListItem>
             </UnorderedList>
-            <Box pl="1rem">
+            <Box pl="1rem" mt="1rem" fontWeight={550}>
               <Link href="">Top doggy day care cities</Link>
             </Box>
           </StyledListBox>

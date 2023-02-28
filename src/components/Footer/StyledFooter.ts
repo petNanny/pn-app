@@ -14,7 +14,7 @@ export const StyledFooterBox = styled(Box)`
     .chakra-heading {
       padding-left: 1rem;
       font-size: 1.6rem;
-      font-weight: 500;
+      font-weight: 550;
       margin-top: 1rem;
       margin-bottom: 1.5rem;
     }
@@ -46,7 +46,7 @@ export const StyledListItem = styled(ListItem)`
   &&& {
     list-style: none;
     line-height: 1.6rem;
-    font-weight: 500;
+    font-weight: 550;
     cursor: pointer;
     @media (max-width: 50rem) {
       line-height: 2rem;
