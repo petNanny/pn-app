@@ -7,7 +7,7 @@ import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
 import RegisterPage from "./pages/RegisterPage";
 import PaymentPage from "./pages/PaymentPage";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 import AdminHomePage from "./pages/AdminHomePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import OrderPage from "./pages/OrderPage";

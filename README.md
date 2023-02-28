@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Environment setup
+
+add a `.env` file, and include your Google Map APi Key to use Google location autocomplete.
+
 ## Available Scripts
 
 In the project directory, you can run:
