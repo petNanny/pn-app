@@ -42,6 +42,9 @@ const colors = {
   },
   checkbox: {
     500: "rgb(0, 195, 138)",
+    gray: "#747474",
+    lightBlack: "#5C5C5C",
+    lightGray: "#939393",
   },
 };
 

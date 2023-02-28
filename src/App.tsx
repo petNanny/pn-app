@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@chakra-ui/react";
 import Navbar from "./components/Navbar/Navbar";
 import LoginPage from "./pages/LoginPage";
-import PetSitterCard from "./components/PetSitter";
+import PetSitterCard from "./components/PetSitterCard/PetSitterCard";
 import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
 import RegisterPage from "./pages/RegisterPage";
