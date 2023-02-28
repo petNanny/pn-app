@@ -8,7 +8,7 @@ pipeline {
         stage('Git checkout') {
             steps{
             // Get source code from a GitHub repository
-            git branch:'dev', url: '<https://github.com/AbbyKuo/pn-app.git>'
+            git branch:'dev', url: 'https://github.com/AbbyKuo/pn-app.git'
             }
         }
 
