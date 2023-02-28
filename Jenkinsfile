@@ -5,7 +5,7 @@ pipeline {
     tools {nodejs "NodeJs"}
 
     stages {
-
+    //check out from forked url
         stage('Git checkout') {
             steps{
             // Get source code from a GitHub repository
