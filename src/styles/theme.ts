@@ -26,6 +26,8 @@ const colors = {
     tertiary: "#F9F9F9",
     quaternary: "#5197C6",
     error: "#EB4335",
+    lightgrey: "#CECECE",
+    grey: "#808080",
   },
   fontcolor: {
     primary: "#FFFFFF",
@@ -33,6 +35,8 @@ const colors = {
     tertiary: "#00AFED",
     quaternary: "#C8C5C5",
     black: "#000000",
+    green: "#00C38A",
+    ok: "#EB4335",
     success: "#00C38A",
     error: "#EB4335",
   },
