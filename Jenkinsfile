@@ -3,7 +3,8 @@ pipeline {
     
     //configured in Global Tool Configuration
     tools {nodejs "NodeJs"}
-
+    //used forked url
+    //ensure no brackets around the url
     stages {
         stage('Git checkout') {
             steps{
