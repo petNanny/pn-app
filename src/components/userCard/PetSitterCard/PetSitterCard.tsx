@@ -14,38 +14,46 @@ import {
   CardFooterText,
 } from "./StyledPetSitterCard";
 
-const PetSitterCard = (prop: PetSitter) => {
+const PetSitterCard = (props: PetSitter) => {
+  const {
+    avatar: userAvatar,
+    name: userName,
+    suburb: userSuburb,
+    distance: userDistance,
+    rating: userRating,
+    price: userPrice,
+    introduction: userIntoduction,
+  } = props;
   return (
     <PetSitterCardContainer>
       <CardHeader>
         <PetSitterCardHeaderContainer>
           <CardHeaderLeft>
-            <UserAvatar name={prop.name} src={prop.avatar} />
+            <UserAvatar name={userName} src={userAvatar} />
             <Box>
               <CardHeaderMiddle>
-                <UserName>{prop.name}</UserName>
+                <UserName>{PetSitterCard.name}</UserName>
                 <DistanceInfo>
-                  {prop.distance}km - {prop.suburb}
+                  {userDistance}km - {userSuburb}
                 </DistanceInfo>
                 <div>
                   {Array(5)
                     .fill("")
                     .map((_, i) => (
-                      <StarIcon key={i} color={i < prop.rating ? "yellow.500" : "gray.300"} /> //show stars according to petSitter rates
+                      <StarIcon key={i} color={i < userRating ? "yellow.500" : "gray.300"} /> //show stars according to petSitter rates
                     ))}
                 </div>
               </CardHeaderMiddle>
             </Box>
           </CardHeaderLeft>
           <Box>
-            <PriceInfo>
-              {prop.price} AUD <br></br>/ night{" "}
-            </PriceInfo>
+            <PriceInfo>{userPrice} AUD</PriceInfo>
+            <PriceInfo>/ night</PriceInfo>
           </Box>
         </PetSitterCardHeaderContainer>
       </CardHeader>
       <CardBody>
-        <CardIntroduction>{prop.introduction}</CardIntroduction>
+        <CardIntroduction>{userIntoduction}</CardIntroduction>
       </CardBody>
       <CardFooter>
         <CardFooterText>Read more</CardFooterText>
