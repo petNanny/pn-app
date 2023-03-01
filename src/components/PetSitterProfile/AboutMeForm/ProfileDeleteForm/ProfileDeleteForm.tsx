@@ -1,7 +1,11 @@
 import { Stack, Button } from "@chakra-ui/react";
 import FormWrapper from "../../FormWrapper/FormWrapper";
-
+import { useDeleteOnePetOwnerMutation } from "../../../../redux/petOwnerApi";
 const ProfileDeleteForm = () => {
+  const [deleteUser, { isSuccess: isDelSuccess, isError: isDelError, error: delerror }] =
+    useDeleteOnePetOwnerMutation();
+
+  console.log(deleteUser);
   return (
     <FormWrapper title={"Remove account"}>
       <Stack>

@@ -1,20 +1,18 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { apiSlice } from "../redux/api/apiSlice";
-import { authApi } from "../redux/authApi";
 import authReducer from "./reducer/authSlice";
 import adminReducer from "./reducer/adminSlice";
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
-    [authApi.reducerPath]: authApi.reducer,
     auth: authReducer,
     admin: adminReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(apiSlice.middleware, authApi.middleware),
+    }).concat(apiSlice.middleware),
   devTools: true,
 });
 
