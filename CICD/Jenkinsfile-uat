@@ -44,16 +44,15 @@ pipeline {
             }
         }
         
-        stage('Install AWS CLI') {
-            steps {
-                echo "Installing AWS CLI"
-                //delete aws version checking
-                //sh 'aws --version'
-                sh 'apt-get update'
-                sh 'apt install python3-pip -y'
-                sh 'pip3 install awscli --upgrade'
-            }
-        }
+        // stage('Install AWS CLI') {
+        //     steps {
+        //         echo "Installing AWS CLI"
+        //         //delete aws version checking
+        //         //sh 'aws --version'
+        //         sh 'apt-get update'
+        //         sh 'apt install python3-pip -y'
+        //         sh 'pip3 install awscli --upgrade'
+        //   
         
          stage('Deploy to UAT') {
             steps {
