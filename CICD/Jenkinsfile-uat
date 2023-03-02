@@ -21,7 +21,7 @@ pipeline {
        // echo "set log rotation"
     //}
 
-    tools {nodejs "NodeJs"}
+    tools {nodejs "NodeJS"}
 
     stages {
         stage('Install package') {
