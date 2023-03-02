@@ -1,10 +1,6 @@
 pipeline {
 
-    agent {
-        docker {   
-            image 'node:16.18.1'
-        }  
-    }
+    agent any  
 
     triggers {
         cron '''TZ=Australia/Sydney
@@ -25,6 +21,7 @@ pipeline {
        // echo "set log rotation"
     //}
 
+    tools {nodejs "NodeJs"}
 
     stages {
         stage('Install package') {
