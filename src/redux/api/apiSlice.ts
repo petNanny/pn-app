@@ -12,7 +12,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BASE_URL,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token;
+    const token = localStorage.getItem("token");
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
@@ -26,10 +26,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   api,
   extraOptions
 ) => {
-  console.log(args); // request url, method, body
-  console.log(api); // signal, dispatch, getState()
-  console.log(extraOptions); //custom like {shout: true}
-
   let result = await baseQuery(args, api, extraOptions);
 
   // If you want, handle other status codes, too

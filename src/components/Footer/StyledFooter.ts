@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Box, Link, ListItem, Flex } from "@chakra-ui/react";
 
@@ -28,7 +27,7 @@ export const StyledFooterBox = styled(Box)`
 `;
 
 export const StyledFooterFlex = styled(Flex)`
-&&&{
+  &&& {
     padding: 1rem 0;
     flex-wrap: ${(props) => (props.wrap ? "wrap" : "nowrap")};
     flex-direction: ${(props) => (props.direction ? props.direction : "row")};
@@ -36,10 +35,10 @@ export const StyledFooterFlex = styled(Flex)`
     align-items: ${(props) => (props.align ? props.align : "start")};
 
     @media (max-width: 50rem) {
-      flex-wrap:wrap;
-      jutify-content: flex-start;
-      
+      flex-wrap: wrap;
+      justify-content: flex-start;
     }
+  }
 `;
 
 export const StyledListItem = styled(ListItem)`
@@ -105,21 +104,20 @@ export const StyledFooterTopFlex = styled(StyledFooterFlex)`
 
 export const StyledFooterBottomFlex = styled(StyledFooterFlex)`
   &&& {
-      width: 78vw;
-      justify-content: space-between;
-      align-items: center;
-      padding-left: 1rem 
-      
-      @media (max-width: 50rem) {
+    width: 78vw;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+
+    @media (max-width: 50rem) {
       display: flex;
       flex-direction: column;
       align-items: start;
       width: 85vw;
-   
-      }
     }
   }
 `;
+
 export const StyledSelectBox = styled(Box)`
   &&& {
     height: 3rem;

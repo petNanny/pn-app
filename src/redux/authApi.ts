@@ -1,5 +1,4 @@
 import { apiSlice } from "./api/apiSlice";
-import { logOut } from "../store/reducer/authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,14 +24,12 @@ export const authApi = apiSlice.injectEndpoints({
 
     sendLogout: builder.mutation({
       query: () => ({
-        url: "/users/logout",
+        url: "/petOwners/logout",
         method: "POST",
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          console.log(data);
-          dispatch(logOut);
+          await queryFulfilled;
           setTimeout(() => {
             dispatch(apiSlice.util.resetApiState()); // clear out the cache
           }, 1000);

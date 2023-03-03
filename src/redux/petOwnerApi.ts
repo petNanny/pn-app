@@ -8,10 +8,9 @@ const initialState = petOwnerAdapter.getInitialState();
 export const petOwnerApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getOnePetOwner: builder.query({
-      query: ({ id }) => ({
-        url: "/petOwners",
-        method: "POST",
-        body: { id },
+      query: (id) => ({
+        url: `/petOwners/${id}`,
+        method: "GET",
         validateStatus: (response, result) => response.status === 200 && !result.isError,
         providesTags: [{ type: "PetSitter", id: "List" }],
       }),
@@ -19,7 +18,7 @@ export const petOwnerApi = apiSlice.injectEndpoints({
 
     updateOnePetOwner: builder.mutation({
       query: (petOwner) => ({
-        url: "/petOwners",
+        url: `/petOwners/${petOwner._id}`,
         method: "PATCH",
         body: { ...petOwner },
       }),
@@ -27,10 +26,9 @@ export const petOwnerApi = apiSlice.injectEndpoints({
     }),
 
     deleteOnePetOwner: builder.mutation({
-      query: ({ id }) => ({
-        url: "petOwners/deletePetOwner",
+      query: (id) => ({
+        url: `petOwners/deletePetOwner/${id}`,
         method: "PATCH",
-        body: { id },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "PetOwner", id: arg.id }],
     }),
