@@ -1,7 +1,12 @@
 import React from "react";
+import PageLayout from "../components/Layout/PageLayout";
 
 const OrderPage = () => {
-  return <div>OrderPage</div>;
+  return (
+    <PageLayout>
+      <div>OrderPage</div>
+    </PageLayout>
+  );
 };
 
 export default OrderPage;

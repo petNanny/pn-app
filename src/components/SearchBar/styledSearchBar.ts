@@ -10,8 +10,8 @@ export const SearchBox = styled(Box)`
     padding: 1rem;
     @media ${devices.laptop} {
       top: 66px;
-      position: fixed;
-      z-index: 8;
+      //position: fixed;
+      //z-index: 8;
       margin-top: 0;
     }
   }
@@ -67,6 +67,7 @@ export const InputsContainer = styled(Box)`
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    overflow: hidden;
     @media ${devices.laptop} {
       flex-direction: row;
     }
