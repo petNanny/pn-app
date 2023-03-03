@@ -2,7 +2,6 @@ pipeline {
 
     agent any
     
-    tools { nodejs }
 
     triggers {
         cron '''TZ=Australia/Sydney
@@ -23,7 +22,8 @@ pipeline {
        // echo "set log rotation"
     //}
 
-
+    tools {nodejs "NodeJS"}
+    
     stages {
         stage('Install package') {
             steps {
