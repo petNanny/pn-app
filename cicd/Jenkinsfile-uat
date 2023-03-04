@@ -12,7 +12,7 @@ pipeline {
         ENVIRONMENT = 'uat'
         BRANCH_UAT = 'dev'
         S3_CREDENTIAL = 'S3'
-        S3_REGION = 'us-east-1'
+        S3_REGION = 'ap-southeast-2'
         BUCKET_NAME = 's3://petnanny.com'
         WORKSPACE_PATH = '/var/lib/jenkins/workspace/petnanny/build'
     }
@@ -74,7 +74,7 @@ pipeline {
 
 def deployToS3(environment) {
     echo 'Deploying to ' + environment + ' '
-    withAWS(credentials: 'S3', region: 'us-east-1') {
+    withAWS(credentials: 'S3', region: 'ap-southeast-2') {
         //clean the bucket
         sh 'aws s3 rm "${BUCKET_NAME}" --recursive'
         //copy the all files
