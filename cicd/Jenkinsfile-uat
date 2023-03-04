@@ -13,7 +13,7 @@ pipeline {
         BRANCH_UAT = 'dev'
         S3_CREDENTIAL = 'S3'
         S3_REGION = 'ap-southeast-2'
-        BUCKET_NAME = 's3://uat.allenguo.link'
+        BUCKET_NAME = 's3://petnanny.com'
         WORKSPACE_PATH = '/var/lib/jenkins/workspace/petnanny/build'
     }
 
