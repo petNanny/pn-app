@@ -15,6 +15,7 @@ import { StyledLoginBox, StyledButton } from "./styledLogin";
 import { Formik, Field, Form, FieldProps } from "formik";
 import { useDispatch } from "react-redux";
 import { setCredential } from "../../store/reducer/authSlice";
+import { updatePetOwnerInfo } from "../../store/reducer/petOwnerSlice";
 import { useLoginMutation } from "../../redux/authApi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import LoginValidator from "./LoginValidator";
@@ -37,8 +38,9 @@ const Login = () => {
   const handleFormikSubmit = useCallback(
     async ({ email, password }: FormikValueInputType, actions: FormikSubmitActionType) => {
       try {
-        const accessToken = await login({ email, password }).unwrap();
-        dispatch(setCredential({ accessToken }));
+        const response = await login({ email, password }).unwrap();
+        dispatch(setCredential(response));
+        dispatch(updatePetOwnerInfo(response.currentPetOwner));
         toast({
           title: "Login success.",
           description: "You've been successful login your account",
@@ -47,7 +49,7 @@ const Login = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
-        navigate("/chat");
+        navigate("/");
         actions.setSubmitting(false);
       } catch (err) {
         toast({

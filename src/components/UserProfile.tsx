@@ -9,10 +9,12 @@ import DescriptionForm from "./PetSitterProfile/DescriptionForm/DescriptionForm"
 import ExperienceForm from "./PetSitterProfile/ExperienceForm/ExperienceForm";
 import PaymentForm from "./PetSitterProfile/PaymentForm/PaymentForm";
 import CompleteApplicationForm from "./PetSitterProfile/CompleteApplicationForm/CompleteApplicationForm";
-
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 const PetSitter = () => {
-  const { formPage } = useParams();
+  const { formPage, id } = useParams();
+  const petOwner = useSelector((state: any) => state.petOwner);
+  const hasCreatedPetSitterAccount = petOwner.roles.includes("PetSitter");
 
   return (
     <Container maxW="6xl" padding="4">
@@ -26,17 +28,17 @@ const PetSitter = () => {
           flexBasis="0%"
         >
           <AsideMyProfileBox />
-          <AsideMySitterBox />
+          {hasCreatedPetSitterAccount && <AsideMySitterBox />}
         </Flex>
         <Flex flexGrow="3" flexShrink="1" flexBasis="0%">
-          {formPage === "about-me" && <AboutMeForm />}
-          {formPage === "pet-service" && <PetServiceForm />}
-          {formPage === "pet-preference" && <PetPreferencesForm />}
-          {formPage === "home-area" && <MyHomeAreaForm />}
-          {formPage === "description" && <DescriptionForm />}
-          {formPage === "experience" && <ExperienceForm />}
-          {formPage === "payment-information" && <PaymentForm />}
-          {formPage === "submission" && <CompleteApplicationForm />}
+          {formPage === "about-me" && id === petOwner._id && <AboutMeForm />}
+          {formPage === "pet-service" && id === petOwner._id && <PetServiceForm />}
+          {formPage === "pet-preference" && id === petOwner._id && <PetPreferencesForm />}
+          {formPage === "home-area" && id === petOwner._id && <MyHomeAreaForm />}
+          {formPage === "description" && id === petOwner._id && <DescriptionForm />}
+          {formPage === "experience" && id === petOwner._id && <ExperienceForm />}
+          {formPage === "payment-information" && id === petOwner._id && <PaymentForm />}
+          {formPage === "submission" && id === petOwner._id && <CompleteApplicationForm />}
         </Flex>
       </Flex>
     </Container>

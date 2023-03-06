@@ -1,7 +1,11 @@
-import React from "react";
+import PageLayout from "../components/Layout/PageLayout";
 
 const ChatPage = () => {
-  return <div>ChatPage</div>;
+  return (
+    <PageLayout>
+      <div>ChatPage</div>
+    </PageLayout>
+  );
 };
 
 export default ChatPage;
