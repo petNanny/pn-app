@@ -21,6 +21,7 @@ pipeline {
             }
         }
         
+        
         stage('Test') {
             steps {
                 echo "Testing"
@@ -28,28 +29,27 @@ pipeline {
             }
         }
         
+
         stage('Build for UAT') {
             when {
                 branch 'dev'
             }
-
             steps {
                 echo "Building for UAT"
                 sh 'npm run build'
             }
         }
-        
+
         stage('Build for Production') {
             when {
                 branch 'main'
             }
-            
             steps {
-                echo "Build for Production"
+                echo "Building for Production"
                 sh 'npm run build'
             }
         }
-
+        
         stage('Deploy to UAT') {
             when {
                 branch 'dev'
@@ -82,7 +82,7 @@ pipeline {
             }
         }
     }
-
+    
     post {
         always {
         cleanWs()
