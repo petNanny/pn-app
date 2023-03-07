@@ -2,6 +2,7 @@ import { Container, Flex } from "@chakra-ui/react";
 import AsideMyProfileBox from "./PetSitterProfile/AsideMyProfileBox/AsideMyProfileBox";
 import AsideMySitterBox from "./PetSitterProfile/AsideMySitterBox/AsideMySitterBox";
 import AboutMeForm from "./PetSitterProfile/AboutMeForm/AboutMeForm";
+import AddressForm from "./PetSitterProfile/AddressForm/AddressForm";
 import PetServiceForm from "./PetSitterProfile/PetServiceForm/PetServiceForm";
 import PetPreferencesForm from "./PetSitterProfile/PetPreferencesForm/PetPreferencesForm";
 import MyHomeAreaForm from "./PetSitterProfile/MyHomeAreaForm/MyHomeAreaForm";
@@ -32,6 +33,7 @@ const PetSitter = () => {
         </Flex>
         <Flex flexGrow="3" flexShrink="1" flexBasis="0%">
           {formPage === "about-me" && id === petOwner._id && <AboutMeForm />}
+          {formPage === "address" && id === petOwner._id && <AddressForm />}
           {formPage === "pet-service" && id === petOwner._id && <PetServiceForm />}
           {formPage === "pet-preference" && id === petOwner._id && <PetPreferencesForm />}
           {formPage === "home-area" && id === petOwner._id && <MyHomeAreaForm />}

@@ -8,7 +8,9 @@ const AsideMySitterBox = () => {
   return (
     <FormWrapper title={"My sitter profile"}>
       <UnorderedList listStyleType="none" margin="0" color="#00AFED">
-        <ListItem cursor="pointer">My address(WIP)</ListItem>
+        <ListItem cursor="pointer">
+          <Link to={`/userProfile/address/${petOwner._id}`}>My address</Link>
+        </ListItem>
         <ListItem cursor="pointer">
           <Link to={`/userProfile/pet-service/${petOwner._id}`}>Services</Link>
         </ListItem>

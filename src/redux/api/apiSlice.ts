@@ -50,6 +50,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   //tagTypes used for cached data
-  tagTypes: ["Chat", "Order", "PetOwner"],
+  tagTypes: ["Chat", "Order", "PetOwner", "PetSitter"],
   endpoints: (builder) => ({}),
 });
