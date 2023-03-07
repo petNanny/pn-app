@@ -9,6 +9,7 @@ import DescriptionForm from "./PetSitterProfile/DescriptionForm/DescriptionForm"
 import ExperienceForm from "./PetSitterProfile/ExperienceForm/ExperienceForm";
 import PaymentForm from "./PetSitterProfile/PaymentForm/PaymentForm";
 import CompleteApplicationForm from "./PetSitterProfile/CompleteApplicationForm/CompleteApplicationForm";
+import ProfileGallery from "./PetSitterProfile/ProfileGallery/ProfileGallery";
 
 import { useParams } from "react-router-dom";
 const PetSitter = () => {
@@ -37,6 +38,7 @@ const PetSitter = () => {
           {formPage === "experience" && <ExperienceForm />}
           {formPage === "payment-information" && <PaymentForm />}
           {formPage === "submission" && <CompleteApplicationForm />}
+          {formPage === "profile-gallery" && <ProfileGallery />}
         </Flex>
       </Flex>
     </Container>
