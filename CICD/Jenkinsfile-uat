@@ -1,0 +1,91 @@
+pipeline {
+
+    agent any  
+
+    triggers {
+        cron '''TZ=Australia/Sydney
+        H H(9-17)/3 * * 1-7'''
+    }
+
+    environment {
+        ENVIRONMENT = 'uat'
+        BRANCH_UAT = 'dev'
+        S3_CREDENTIAL = 'aws_pn'
+        S3_REGION = 'ap-southeast-2'
+        BUCKET_NAME = 's3://uat.petnanny.live'
+        WORKSPACE_PATH = '/var/lib/jenkins/workspace/uat-pn-app/build'
+    }
+
+    //options {
+        //maximum archieved artifacts
+       // echo "set log rotation"
+    //}
+
+    tools {nodejs "NodeJS"}
+
+    stages {
+        stage('Install package') {
+            steps {
+                echo "Installing packages"
+                sh 'npm install'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                echo "Building"
+                sh 'npm run build'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo "testing"
+            }
+        }
+        
+        // stage('Install AWS CLI') {
+        //     steps {
+        //         echo "Installing AWS CLI"
+        //         //delete aws version checking
+        //         //sh 'aws --version'
+        //         sh 'apt-get update'
+        //         sh 'apt install python3-pip -y'
+        //         sh 'pip3 install awscli --upgrade'
+        //   
+        
+         stage('Deploy to UAT') {
+            steps {
+                echo "Deploy to UAT"
+                deployToS3(ENVIRONMENT)
+            }
+        }
+        
+    }
+
+    post {
+    
+        always {
+        cleanWs()
+				sh 'ls -la'
+        }
+        
+        success{
+            echo "In post-success"
+        }
+        failure {
+            echo "In post-failure"
+
+        }
+    }
+}
+
+def deployToS3(environment) {
+    echo 'Deploying to ' + environment + ' '
+    withAWS(credentials: 'aws_pn', region: 'ap-southeast-2') {
+        //clean the bucket
+        sh 'aws s3 rm "${BUCKET_NAME}" --recursive'
+        //copy the all files
+        sh 'aws s3 cp "${WORKSPACE_PATH}" "${BUCKET_NAME}" --recursive'
+    }
+}
