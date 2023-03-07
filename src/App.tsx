@@ -11,7 +11,7 @@ import OrderPage from "./pages/OrderPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import BecomePetSitter from "./pages/BecomePetSitter";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import PetSitterCardList from "./components/UserCard/PetSitterCardList/PetSitterCardList";
+import PetSitterCardList from "./components/userCard/PetSitterCardList/PetSitterCardList";
 
 import AuthRoute from "./components/AuthRoute";
 
