@@ -1,7 +1,12 @@
 import React from "react";
+import PageLayout from "../components/Layout/PageLayout";
 
 const AdminHomePage = () => {
-  return <div>AdminHomePage</div>;
+  return (
+    <PageLayout>
+      <div>AdminHomePage</div>
+    </PageLayout>
+  );
 };
 
 export default AdminHomePage;

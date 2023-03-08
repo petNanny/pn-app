@@ -28,7 +28,7 @@ describe("Login page", () => {
   it("should render bottom text correctly", () => {
     renderWithMockedProvider(<LoginPage />);
     expect(screen.getByText(/Not signed up on Pawshake yet?/i)).toBeInTheDocument();
-    expect(screen.getByText(/Sign up/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Sign up/i)).toHaveLength(2);
   });
 
   it("should link to sign up page correctly when click", async () => {
@@ -37,9 +37,10 @@ describe("Login page", () => {
 
     renderWithMockedProvider(<LoginPage />);
 
-    const signUpLink = screen.getByText("Sign up");
-    expect(signUpLink).toBeVisible();
-    await userEvent.click(signUpLink);
+    const signUpLinks = screen.getAllByText("Sign up");
+    expect(signUpLinks).toHaveLength(2);
+    expect(signUpLinks[1]).toBeVisible();
+    await userEvent.click(signUpLinks[1]);
     expect(navigate).toHaveBeenCalledWith("/register");
   });
 });

@@ -1,7 +1,7 @@
 import theme from "../../styles/theme";
-import visa from "./img/visa.svg";
-import mastercard from "./img/mastercard.svg";
-import americanExpress from "./img/americanExpress.svg";
+import visa from "../../assets/footer/visa.svg";
+import mastercard from "../../assets/footer/mastercard.svg";
+import americanExpress from "../../assets/footer/americanExpress.svg";
 import { Box, Text, Link, Image, UnorderedList, Heading, Select } from "@chakra-ui/react";
 import {
   StyledFooterBox,
