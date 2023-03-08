@@ -17,35 +17,59 @@ import {
   Stack,
   CloseButton,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 import FormWrapper from "../FormWrapper/FormWrapper";
 import { StyledText, StyledFormControl, StyledFormLabel } from "./StyledProfileGallery";
 import Cropper, { ReactCropperProps } from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Popup from "./Popup/Popup";
 import { useFormik, FormikProps } from "formik";
 import { UploadImageValues } from "../../../interfaces/uploadImage";
-import { useUploadMutation } from "../../../redux/api/attachmentApi";
+import {
+  useUploadMutation,
+  useDeleteMutation,
+  useGetPetSitterImagesQuery,
+} from "../../../redux/api/attachmentApi";
 import { StyledModalFooter } from "./Popup/StyledPopup";
 import { CURRENT_LOGIN_USER_ID } from "../../../utils/constants";
-import { useGetPetSitterImagesQuery } from "../../../redux/api/attachmentApi";
 import ProfileImages from "./ProfileImages/ProfileImages";
+import { useSelector } from "react-redux";
 
 interface Image {
   _id: string;
   url: string;
+  fileName: string;
+  petSitterId: string;
 }
 
 const ProfileGallery: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
-  const [upload, { isLoading: isUploading }] = useUploadMutation();
-  // const [file, setFile] = useState<File | null>(null);
-  const [uploadImgs, setUploadImgs] = useState<Image[]>([]);
-  const { data, isLoading: isProfileImageLoading } =
-    useGetPetSitterImagesQuery(CURRENT_LOGIN_USER_ID);
+  const [upload, { isLoading: isUploading, isSuccess: isUploadSuccess, isError: isUploadError }] =
+    useUploadMutation();
+  const [remove, { isSuccess: isRemoveSuccess, isError: isRemoveError }] = useDeleteMutation();
+  const [getImages, setGetImages] = useState<Image[]>([]);
+  const toast = useToast();
+
+  const petOwner = useSelector((state: any) => state.petOwner);
+  const {
+    data,
+    isLoading: isProfileImageLoading,
+    refetch: refetchImages,
+  } = useGetPetSitterImagesQuery(petOwner.petSitter._id);
+
+  useEffect(() => {
+    if (data !== undefined && data.images !== undefined) {
+      setGetImages(data.images);
+    } else {
+      setGetImages([]);
+    }
+  }, [data, setGetImages]);
+
+  console.log(getImages);
 
   const handlePopupClose = () => {
     setOpen(false);
@@ -78,7 +102,17 @@ const ProfileGallery: React.FC = () => {
     const formData = new FormData();
     formData.append("file", image);
 
-    await upload({ petSitterId: CURRENT_LOGIN_USER_ID, body: formData });
+    await upload({ petOwnerId: petOwner._id, body: formData });
+    refetchImages();
+  };
+
+  const handleRemoveImg = async (e: any, fileName: string) => {
+    e.preventDefault();
+    const bodyData = {
+      fileName: fileName,
+    };
+    await remove({ petOwnerId: petOwner._id, body: bodyData });
+    refetchImages();
   };
 
   const { onClose } = useDisclosure();
@@ -87,9 +121,42 @@ const ProfileGallery: React.FC = () => {
     return <Box>is loading</Box>;
   }
 
-  if (!data.images) {
-    return <Box>Please upload your profile image</Box>;
-  }
+  // isUploadSuccess &&
+  //   toast({
+  //     title: "Image upload success",
+  //     description: "Your selected image is uploaded successfully",
+  //     status: "success",
+  //     duration: 3000,
+  //     isClosable: true,
+  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+  //   });
+  // isUploadError &&
+  //   toast({
+  //     title: "Image upload fail",
+  //     description: "Your selected image is failed to be uploaded",
+  //     status: "error",
+  //     duration: 3000,
+  //     isClosable: true,
+  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+  //   });
+  // isRemoveSuccess &&
+  //   toast({
+  //     title: "Image remove success",
+  //     description: "Your selected image is removed successfully",
+  //     status: "success",
+  //     duration: 3000,
+  //     isClosable: true,
+  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+  //   });
+  // isRemoveError &&
+  //   toast({
+  //     title: "Image remove fail",
+  //     description: "Your selected image is failed to be removed",
+  //     status: "error",
+  //     duration: 3000,
+  //     isClosable: true,
+  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+  //   });
 
   return (
     <FormWrapper title="Profile gallery">
@@ -140,7 +207,7 @@ const ProfileGallery: React.FC = () => {
         </Modal>
       </StyledFormControl>
       <Box marginTop="2rem" display="grid" gridTemplateColumns="repeat(3, 1fr)" gap="1rem">
-        {data.images.map((uploadedImg: { _id: string; url: string }) => (
+        {getImages.map((uploadedImg: { _id: string; url: string; fileName: string }) => (
           <Box
             display="flex"
             flexWrap="wrap"
@@ -164,12 +231,19 @@ const ProfileGallery: React.FC = () => {
             <Box padding="1rem">
               <Image
                 src={uploadedImg.url}
+                alt={uploadedImg.fileName}
                 width="100%"
                 height="300px"
                 borderRadius="4px"
                 objectFit="contain"
               />
-              <Button marginLeft="auto" marginRight="auto" marginTop="1rem" width="100%">
+              <Button
+                marginLeft="auto"
+                marginRight="auto"
+                marginTop="1rem"
+                width="100%"
+                onClick={(e) => handleRemoveImg(e, uploadedImg.fileName)}
+              >
                 Remove
               </Button>
             </Box>

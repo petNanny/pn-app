@@ -25,16 +25,17 @@ describe("Register page", () => {
   it("should render bottom text correctly", () => {
     renderWithMockedProvider(<RegisterPage />);
     expect(screen.getByText(/Already have a Pawshake account?/i)).toBeInTheDocument();
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Login/i)).toHaveLength(2);
   });
 
   it("should link to log in page correctly when click", async () => {
     const navigate = jest.fn();
     jest.spyOn(router, "useNavigate").mockImplementation(() => navigate);
     renderWithMockedProvider(<RegisterPage />);
-    const loginLink = screen.getByText("Login");
-    expect(loginLink).toBeVisible();
-    await userEvent.click(loginLink);
+    const loginLinks = screen.getAllByText("Login");
+    expect(loginLinks).toHaveLength(2);
+    expect(loginLinks[1]).toBeVisible();
+    await userEvent.click(loginLinks[1]);
     expect(navigate).toHaveBeenCalledWith("/login");
   });
 

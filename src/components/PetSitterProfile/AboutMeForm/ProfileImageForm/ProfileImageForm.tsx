@@ -17,6 +17,7 @@ const ProfileImageFrom = () => {
             padding="2.5"
             width="50%"
             marginLeft="3rem"
+            height="50px"
           >
             Edit photo
           </Button>

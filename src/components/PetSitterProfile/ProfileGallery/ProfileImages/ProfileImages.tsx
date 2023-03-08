@@ -1,7 +1,8 @@
 import { Button, Box, Image } from "@chakra-ui/react";
 import { useGetPetSitterImagesQuery } from "../../../../redux/api/attachmentApi";
-import { CURRENT_LOGIN_USER_ID } from "../../../../utils/constants";
 import { useEffect } from "react";
+
+const CURRENT_LOGIN_USER_ID = "640713aec96011fc892df79a";
 
 const ProfileImages = () => {
   const { data, isLoading: isProfileImageLoading } =
