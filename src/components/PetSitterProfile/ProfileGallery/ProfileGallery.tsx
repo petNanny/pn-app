@@ -25,7 +25,6 @@ import Cropper, { ReactCropperProps } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { useRef, useState, useEffect } from "react";
 import Popup from "./Popup/Popup";
-import { useFormik, FormikProps } from "formik";
 import { UploadImageValues } from "../../../interfaces/uploadImage";
 import {
   useUploadMutation,
@@ -33,7 +32,6 @@ import {
   useGetPetSitterImagesQuery,
 } from "../../../redux/api/attachmentApi";
 import { StyledModalFooter } from "./Popup/StyledPopup";
-import { CURRENT_LOGIN_USER_ID } from "../../../utils/constants";
 import ProfileImages from "./ProfileImages/ProfileImages";
 import { useSelector } from "react-redux";
 
@@ -121,42 +119,51 @@ const ProfileGallery: React.FC = () => {
     return <Box>is loading</Box>;
   }
 
-  // isUploadSuccess &&
-  //   toast({
-  //     title: "Image upload success",
-  //     description: "Your selected image is uploaded successfully",
-  //     status: "success",
-  //     duration: 3000,
-  //     isClosable: true,
-  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-  //   });
-  // isUploadError &&
-  //   toast({
-  //     title: "Image upload fail",
-  //     description: "Your selected image is failed to be uploaded",
-  //     status: "error",
-  //     duration: 3000,
-  //     isClosable: true,
-  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-  //   });
-  // isRemoveSuccess &&
-  //   toast({
-  //     title: "Image remove success",
-  //     description: "Your selected image is removed successfully",
-  //     status: "success",
-  //     duration: 3000,
-  //     isClosable: true,
-  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-  //   });
-  // isRemoveError &&
-  //   toast({
-  //     title: "Image remove fail",
-  //     description: "Your selected image is failed to be removed",
-  //     status: "error",
-  //     duration: 3000,
-  //     isClosable: true,
-  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-  //   });
+  const uploadSuccessId = "uploadSuccess";
+  const uploadFailId = "uploadFail";
+  const removeSuccessId = "removeSuccess";
+  const removeFailId = "removeFail";
+
+  isUploadSuccess &&
+    !toast.isActive(uploadSuccessId) &&
+    toast({
+      id: uploadSuccessId,
+      title: "Image uploaded successfully",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+      containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+    });
+  isUploadError &&
+    !toast.isActive(uploadFailId) &&
+    toast({
+      id: uploadFailId,
+      title: "Image upload failed",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+      containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+    });
+  isRemoveSuccess &&
+    !toast.isActive(removeSuccessId) &&
+    toast({
+      id: removeSuccessId,
+      title: "Image removed successfully",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+      containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+    });
+  isRemoveError &&
+    !toast.isActive(removeFailId) &&
+    toast({
+      id: removeFailId,
+      title: "Image remove failed",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+      containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+    });
 
   return (
     <FormWrapper title="Profile gallery">
