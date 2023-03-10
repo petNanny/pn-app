@@ -5,25 +5,10 @@ import React, { useRef, useEffect } from "react";
 import "./GoogleMap.css";
 import markerPaw from "./assets/paw.png";
 import recurringIcon from "./assets/recurring.svg";
+import star from "./assets/star.svg";
+import { petSitterData } from "../../interfaces/petSitterData";
 
-interface petSitter {
-  id: number;
-  avatar: string;
-  name: string;
-  rating: number;
-  price: number;
-  suburb: string;
-  field_address: {
-    locality: string;
-    postal_code: string;
-    address_line1: string;
-    address_line2: string;
-    latitude: number;
-    longitude: number;
-  };
-}
-
-const petSitters: petSitter[] = [
+const petSitters: petSitterData[] = [
   {
     id: 1,
     avatar: "https://robohash.org/laboriosametdolor.png?size=50x50&set=set1",
@@ -212,56 +197,57 @@ const MyMapComponent = () => {
       content: contentString,
     });
 
-    petSitters.map((item) => {
-      const marker = new google.maps.Marker({
-        position: {
-          lat: item.field_address.latitude,
-          lng: item.field_address.longitude,
-        },
-        map: map,
-        icon: markerPaw,
-      });
+    petSitters.map(
+      ({ field_address: { latitude, longitude }, avatar, name, suburb, rating, price }) => {
+        const marker = new google.maps.Marker({
+          position: {
+            lat: latitude,
+            lng: longitude,
+          },
+          map: map,
+          icon: markerPaw,
+        });
 
-      marker.addListener("click", () => {
-        //dummy distance: 10km
-        const distance = 10;
-        const recurringTime = 2;
-        const contentString = `
+        marker.addListener("click", () => {
+          //dummy distance: 10km
+          const distance = 10;
+          const recurringTime = 2;
+          const contentString =
+            `
         <div class="Marker_InfoWindow">
           <div class="Avatar_Container">
-            <img src=${item.avatar} alt="${item.name}'s service">
+            <img src=${avatar} alt="${name}'s service">
           </div>
-          <p>${item.name}</p>
-          <p class="Marker_Distance">${distance} km - ${item.suburb}</p>
-          <div class="Marker_Star">
-            <img alt="star" src="https://static1.pawshakecdn.com/global/star.svg">
-            <img alt="star" src="https://static1.pawshakecdn.com/global/star.svg">
-            <img alt="star" src="https://static1.pawshakecdn.com/global/star.svg">
-            <img alt="star" src="https://static1.pawshakecdn.com/global/star.svg">
-            <img alt="star" src="https://static1.pawshakecdn.com/global/star.svg">
-            <span>${item.rating}</span>
+          <p>${name}</p>
+          <p class="Marker_Distance">${distance} km - ${suburb}</p>
+          <div class="Marker_Star">` +
+            `${Array(5)
+              .fill('<img alt="star" src=' + star + ">")
+              .join("")}` +
+            `<span>${rating}</span>
           </div>
           <div class="Marker_Recurring">
             <img alt="recurring order" src=${recurringIcon}>
             <span>${recurringTime} recurring guest</span>
           </div>
-          <p>${item.price} AUD / night</p>
+          <p>${price} AUD / night</p>
         </div>
         `;
-        infowindow.setContent(contentString);
+          infowindow.setContent(contentString);
 
-        infowindow.open({
-          anchor: marker,
-          map,
+          infowindow.open({
+            anchor: marker,
+            map,
+          });
         });
-      });
-    });
+      }
+    );
   });
 
   return <div ref={ref} id="map" className="map" />;
 };
 
-const render = (status: Status): React.ReactElement => {
+const MyRender = (status: Status): React.ReactElement => {
   if (status === Status.FAILURE) return <div>Failed to load the map</div>;
   return <Spinner />;
 };
@@ -269,7 +255,7 @@ const render = (status: Status): React.ReactElement => {
 const GoogleMap = () => {
   return (
     <GoogleMapContainer>
-      <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? ""} render={render}>
+      <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? ""} render={MyRender}>
         <MyMapComponent />
       </Wrapper>
     </GoogleMapContainer>

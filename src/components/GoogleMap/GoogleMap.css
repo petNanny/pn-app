@@ -1,5 +1,6 @@
 .map {
   width: 100%;
+  /* the height of the map can be adjusted by layout component */
   height: 800px;
 }
 
