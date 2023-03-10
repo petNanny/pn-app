@@ -8,7 +8,7 @@ import {
   MoreImagesBtn,
   ImageTitle,
 } from "./styledPetSitterGallery";
-import { useGetPetSitterImagesQuery } from "../../../../redux/api/attachmentApi";
+import { useUserGetPetSitterImagesQuery } from "../../../../redux/imageApi";
 import { useEffect, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -35,14 +35,14 @@ const PetSitterGallery = () => {
   const location = useLocation();
   const petSitterId = extractIdFromURL(location.pathname);
 
-  const { data: petSitterData, isLoading: isProfileImageLoading } =
-    useGetPetSitterImagesQuery(petSitterId);
+  const { data: petSitterImages, isLoading: isProfileImageLoading } =
+    useUserGetPetSitterImagesQuery(petSitterId);
 
   useEffect(() => {
-    if (petSitterData !== undefined && petSitterData.images !== undefined) {
-      setGetImages(petSitterData.images);
+    if (petSitterImages !== undefined) {
+      setGetImages(petSitterImages);
     }
-  }, [petSitterData]);
+  }, [petSitterImages]);
 
   const slides = getImages.map((image) => {
     return { ...image, src: image.url, url: undefined };

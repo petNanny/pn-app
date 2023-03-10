@@ -23,24 +23,14 @@ import FormWrapper from "../FormWrapper/FormWrapper";
 import { StyledText, StyledFormControl, StyledFormLabel } from "./StyledProfileGallery";
 import Cropper, { ReactCropperProps } from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Popup from "./Popup/Popup";
 import { UploadImageValues } from "../../../interfaces/uploadImage";
-import {
-  useUploadMutation,
-  useDeleteMutation,
-  useGetPetSitterImagesQuery,
-} from "../../../redux/api/attachmentApi";
+import { useUploadMutation, useUserGetOwnImagesQuery } from "../../../redux/imageApi";
 import { StyledModalFooter } from "./Popup/StyledPopup";
 import ProfileImages from "./ProfileImages/ProfileImages";
 import { useSelector } from "react-redux";
-
-interface Image {
-  _id: string;
-  url: string;
-  fileName: string;
-  petSitterId: string;
-}
+import { ProfileGalleryImageValues } from "../../../interfaces/profileGalleryImage";
 
 const ProfileGallery: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -48,26 +38,12 @@ const ProfileGallery: React.FC = () => {
   const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
   const [upload, { isLoading: isUploading, isSuccess: isUploadSuccess, isError: isUploadError }] =
     useUploadMutation();
-  const [remove, { isSuccess: isRemoveSuccess, isError: isRemoveError }] = useDeleteMutation();
-  const [getImages, setGetImages] = useState<Image[]>([]);
   const toast = useToast();
 
   const petOwner = useSelector((state: any) => state.petOwner);
-  const {
-    data,
-    isLoading: isProfileImageLoading,
-    refetch: refetchImages,
-  } = useGetPetSitterImagesQuery(petOwner.petSitter._id);
-
-  useEffect(() => {
-    if (data !== undefined && data.images !== undefined) {
-      setGetImages(data.images);
-    } else {
-      setGetImages([]);
-    }
-  }, [data, setGetImages]);
-
-  console.log(getImages);
+  const { isLoading: isProfileImageLoading, refetch: refetchImages } = useUserGetOwnImagesQuery(
+    petOwner._id
+  );
 
   const handlePopupClose = () => {
     setOpen(false);
@@ -90,8 +66,7 @@ const ProfileGallery: React.FC = () => {
     e.currentTarget.value = null;
   };
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  const handleImageSubmit = async () => {
     setOpen(false);
     if (!image) {
       alert("No file selected");
@@ -104,66 +79,48 @@ const ProfileGallery: React.FC = () => {
     refetchImages();
   };
 
-  const handleRemoveImg = async (e: any, fileName: string) => {
-    e.preventDefault();
-    const bodyData = {
-      fileName: fileName,
-    };
-    await remove({ petOwnerId: petOwner._id, body: bodyData });
-    refetchImages();
-  };
-
   const { onClose } = useDisclosure();
 
   if (isProfileImageLoading) {
     return <Box>is loading</Box>;
   }
 
-  const uploadSuccessId = "uploadSuccess";
-  const uploadFailId = "uploadFail";
-  const removeSuccessId = "removeSuccess";
-  const removeFailId = "removeFail";
+  // const uploadSuccessId = "uploadSuccess";
+  // const uploadFailId = "uploadFail";
 
-  isUploadSuccess &&
-    !toast.isActive(uploadSuccessId) &&
-    toast({
-      id: uploadSuccessId,
-      title: "Image uploaded successfully",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-      containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-    });
-  isUploadError &&
-    !toast.isActive(uploadFailId) &&
-    toast({
-      id: uploadFailId,
-      title: "Image upload failed",
-      status: "error",
-      duration: 3000,
-      isClosable: true,
-      containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-    });
-  isRemoveSuccess &&
-    !toast.isActive(removeSuccessId) &&
-    toast({
-      id: removeSuccessId,
-      title: "Image removed successfully",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-      containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-    });
-  isRemoveError &&
-    !toast.isActive(removeFailId) &&
-    toast({
-      id: removeFailId,
-      title: "Image remove failed",
-      status: "error",
-      duration: 3000,
-      isClosable: true,
-      containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-    });
+  // useEffect(() => {
+  //   if (isUploadSuccess) {
+  //     toast({
+  //       id: uploadSuccessId,
+  //       title: "Image uploaded successfully",
+  //       status: "success",
+  //       duration: 3000,
+  //       isClosable: true,
+  //       containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+  //     });
+  //   }
+  // }, [isUploadSuccess, toast]);
+
+  // isUploadSuccess &&
+  //   !toast.isActive(uploadSuccessId) &&
+  //   toast({
+  //     id: uploadSuccessId,
+  //     title: "Image uploaded successfully",
+  //     status: "success",
+  //     duration: 3000,
+  //     isClosable: true,
+  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+  //   });
+  // isUploadError &&
+  //   !toast.isActive(uploadFailId) &&
+  //   toast({
+  //     id: uploadFailId,
+  //     title: "Image upload failed",
+  //     status: "error",
+  //     duration: 3000,
+  //     isClosable: true,
+  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+  //   });
 
   return (
     <FormWrapper title="Profile gallery">
@@ -207,56 +164,13 @@ const ProfileGallery: React.FC = () => {
               </Box>
             </ModalBody>
             <StyledModalFooter>
-              <Button onClick={handlePopupClose}>Rotate</Button>
-              <Button onClick={handleSubmit}>Complete</Button>
+              {/* <Button onClick={handlePopupClose}>Rotate</Button> */}
+              <Button onClick={handleImageSubmit}>Complete</Button>
             </StyledModalFooter>
           </ModalContent>
         </Modal>
       </StyledFormControl>
-      <Box marginTop="2rem" display="grid" gridTemplateColumns="repeat(3, 1fr)" gap="1rem">
-        {getImages.map((uploadedImg: { _id: string; url: string; fileName: string }) => (
-          <Box
-            display="flex"
-            flexWrap="wrap"
-            alignItems="center"
-            justifyContent="center"
-            border="1px solid rgb(206, 206, 206)"
-            borderRadius="4px"
-            backgroundColor="white"
-            key={uploadedImg._id}
-          >
-            <Box
-              padding="0.5rem"
-              borderBottom="1px solid rgb(206, 206, 206)"
-              borderRadius="4px 4px 0 0"
-              backgroundColor="rgb(249, 249, 249)"
-              width="100%"
-              cursor="-web-grab"
-            >
-              move
-            </Box>
-            <Box padding="1rem">
-              <Image
-                src={uploadedImg.url}
-                alt={uploadedImg.fileName}
-                width="100%"
-                height="300px"
-                borderRadius="4px"
-                objectFit="contain"
-              />
-              <Button
-                marginLeft="auto"
-                marginRight="auto"
-                marginTop="1rem"
-                width="100%"
-                onClick={(e) => handleRemoveImg(e, uploadedImg.fileName)}
-              >
-                Remove
-              </Button>
-            </Box>
-          </Box>
-        ))}
-      </Box>
+      <ProfileImages />
     </FormWrapper>
   );
 };
