@@ -11,7 +11,7 @@ import OrderPage from "./pages/OrderPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import BecomePetSitter from "./pages/BecomePetSitter";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import PetSitterCardList from "./components/userCard/PetSitterCardList/PetSitterCardList";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 import AuthRoute from "./components/AuthRoute";
 
@@ -23,87 +23,88 @@ const App = () => {
   //Get user login
   return (
     <BrowserRouter>
-      <PetSitterCardList />
-      <Route path="/">
-        <Route
-          index
-          path="/"
-          element={
-            <AuthRoute>
-              <HomePage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <AuthRoute>
-              <LoginPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <AuthRoute>
-              <RegisterPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/becomePetSitter"
-          element={
-            <AuthRoute>
-              <BecomePetSitter />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/userProfile/:formPage/:id"
-          element={
-            <AuthRoute authRequired>
-              <UserProfilePage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/chat/:id"
-          element={
-            <AuthRoute authRequired>
-              <ChatPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/message/:id"
-          element={
-            <AuthRoute authRequired>
-              <MessagePage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/order"
-          element={
-            <AuthRoute authRequired>
-              <OrderPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/payment"
-          element={
-            <AuthRoute authRequired>
-              <PaymentPage />
-            </AuthRoute>
-          }
-        />
-        <Route path="/adminLogin" element={<AdminLoginPage />} />
-        <Route
-          path="/adminPage"
-          element={admin ? <AdminHomePage /> : <Navigate to="/adminLogin" />}
-        />
-      </Route>
+      <Routes>
+        <Route path="/">
+          <Route
+            index
+            path="/"
+            element={
+              <AuthRoute>
+                <HomePage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <AuthRoute>
+                <LoginPage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <AuthRoute>
+                <RegisterPage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/becomePetSitter"
+            element={
+              <AuthRoute>
+                <BecomePetSitter />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/userProfile/:formPage/:id"
+            element={
+              <AuthRoute authRequired>
+                <UserProfilePage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/chat/:id"
+            element={
+              <AuthRoute authRequired>
+                <ChatPage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/message/:id"
+            element={
+              <AuthRoute authRequired>
+                <MessagePage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/order"
+            element={
+              <AuthRoute authRequired>
+                <OrderPage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <AuthRoute authRequired>
+                <PaymentPage />
+              </AuthRoute>
+            }
+          />
+          <Route path="/adminLogin" element={<AdminLoginPage />} />
+          <Route
+            path="/adminPage"
+            element={admin ? <AdminHomePage /> : <Navigate to="/adminLogin" />}
+          />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };
