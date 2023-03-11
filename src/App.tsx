@@ -10,6 +10,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import OrderPage from "./pages/OrderPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import BecomePetSitter from "./pages/BecomePetSitter";
+import PetSitterDetails from "./pages/PetSitterDetails";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import AuthRoute from "./components/AuthRoute";
@@ -66,14 +67,6 @@ const App = () => {
             }
           />
           <Route
-            path="/chat/:id"
-            element={
-              <AuthRoute authRequired>
-                <ChatPage />
-              </AuthRoute>
-            }
-          />
-          <Route
             path="/message/:id"
             element={
               <AuthRoute authRequired>
@@ -101,6 +94,23 @@ const App = () => {
           <Route
             path="/adminPage"
             element={admin ? <AdminHomePage /> : <Navigate to="/adminLogin" />}
+          />
+
+          <Route
+            path="/petSitterDetails/:id"
+            element={
+              <AuthRoute>
+                <PetSitterDetails />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/chat/:id"
+            element={
+              <AuthRoute>
+                <ChatPage />
+              </AuthRoute>
+            }
           />
         </Route>
       </Routes>
