@@ -1,4 +1,4 @@
-import { Button, Box, Image, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { useRef, useState, useEffect } from "react";
 import {
   useDeleteMutation,
@@ -6,8 +6,17 @@ import {
   useUpdateImagesOrderMutation,
 } from "../../../../redux/imageApi";
 import { useSelector } from "react-redux";
-import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { ProfileGalleryImageValues } from "../../../../interfaces/profileGalleryImage";
+import SortableList, { SortableItem } from "react-easy-sort";
+import { arrayMoveImmutable } from "array-move";
+import {
+  ImageCardsContainer,
+  ImageCard,
+  MoveBox,
+  ImageContentContainer,
+  ImageBox,
+  RemoveBtn,
+} from "./styledProfileImages";
 
 const ProfileImages: React.FC = () => {
   const [remove, { isSuccess: isRemoveSuccess, isError: isRemoveError }] = useDeleteMutation();
@@ -66,144 +75,37 @@ const ProfileImages: React.FC = () => {
   //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
   //   });
 
-  // const [enabled, setEnabled] = useState(false);
-  // useEffect(() => {
-  //   const animation = requestAnimationFrame(() => setEnabled(true));
-  //   return () => {
-  //     cancelAnimationFrame(animation);
-  //     setEnabled(false);
-  //   };
-  // }, []);
-  // if (!enabled) {
-  //   return null;
-  // }
-
-  const handleDragEnd = async (result: DropResult) => {
-    if (!result.destination) return;
-    const newGetImages = [...getImages];
-    const [reorderedImage] = newGetImages.splice(result.source.index, 1);
-    newGetImages.splice(result.destination.index, 0, reorderedImage);
+  const onSortEnd = async (oldIndex: number, newIndex: number) => {
+    const newGetImages = arrayMoveImmutable(getImages, oldIndex, newIndex);
     setGetImages(newGetImages);
     await updateOrder({ petOwnerId: petOwner._id, body: newGetImages });
   };
 
   return (
-    <>
-      {/* <Box marginTop="2rem" display="grid" gridTemplateColumns="repeat(3, 1fr)" gap="1rem">
+    <ImageCardsContainer>
+      <SortableList
+        onSortEnd={onSortEnd}
+        className="list"
+        draggedItemClassName="dragged"
+        style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}
+      >
         {getImages.map(
           (uploadedImg: { _id: string; url: string; fileName: string; orderNumber: number }) => (
-            <Box
-              display="flex"
-              flexWrap="wrap"
-              alignItems="center"
-              justifyContent="center"
-              border="1px solid rgb(206, 206, 206)"
-              borderRadius="4px"
-              backgroundColor="white"
-              key={uploadedImg._id}
-            >
-              <Box
-                padding="0.5rem"
-                borderBottom="1px solid rgb(206, 206, 206)"
-                borderRadius="4px 4px 0 0"
-                backgroundColor="rgb(249, 249, 249)"
-                width="100%"
-                cursor="-web-grab"
-              >
-                move
-              </Box>
-              <Box padding="1rem">
-                <Image
-                  src={uploadedImg.url}
-                  alt={uploadedImg.fileName}
-                  width="100%"
-                  height="300px"
-                  borderRadius="4px"
-                  objectFit="contain"
-                />
-                <Button
-                  marginLeft="auto"
-                  marginRight="auto"
-                  marginTop="1rem"
-                  width="100%"
-                  onClick={(e) => handleRemoveImg(e, uploadedImg.fileName)}
-                >
-                  Remove
-                </Button>
-              </Box>
-            </Box>
+            <SortableItem key={uploadedImg._id}>
+              <ImageCard>
+                <MoveBox>move</MoveBox>
+                <ImageContentContainer>
+                  <ImageBox src={uploadedImg.url} alt={uploadedImg.fileName} />
+                  <RemoveBtn onClick={(e: any) => handleRemoveImg(e, uploadedImg.fileName)}>
+                    Remove
+                  </RemoveBtn>
+                </ImageContentContainer>
+              </ImageCard>
+            </SortableItem>
           )
         )}
-      </Box> */}
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="getImages">
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {getImages.map(
-                (uploadedImg: {
-                  _id: string;
-                  url: string;
-                  fileName: string;
-                  orderNumber: number;
-                }) => (
-                  <Draggable
-                    key={uploadedImg._id}
-                    draggableId={uploadedImg._id}
-                    index={uploadedImg.orderNumber}
-                  >
-                    {(provided) => (
-                      <Box
-                        display="flex"
-                        flexWrap="wrap"
-                        alignItems="center"
-                        justifyContent="center"
-                        border="1px solid rgb(206, 206, 206)"
-                        borderRadius="4px"
-                        backgroundColor="white"
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                      >
-                        <Box
-                          padding="0.5rem"
-                          borderBottom="1px solid rgb(206, 206, 206)"
-                          borderRadius="4px 4px 0 0"
-                          backgroundColor="rgb(249, 249, 249)"
-                          width="100%"
-                          cursor="-web-grab"
-                        >
-                          move
-                        </Box>
-                        <Box padding="1rem">
-                          <Image
-                            src={uploadedImg.url}
-                            alt={uploadedImg.fileName}
-                            width="100%"
-                            height="300px"
-                            borderRadius="4px"
-                            objectFit="contain"
-                          />
-                          <Button
-                            marginLeft="auto"
-                            marginRight="auto"
-                            marginTop="1rem"
-                            width="100%"
-                            onClick={(e) => handleRemoveImg(e, uploadedImg.fileName)}
-                          >
-                            Remove
-                          </Button>
-                        </Box>
-                      </Box>
-                    )}
-                  </Draggable>
-                )
-              )}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </>
+      </SortableList>
+    </ImageCardsContainer>
   );
 };
 
