@@ -22,9 +22,13 @@ const AddressInput = ({ changeLocation, formik }: AddressInputProps) => {
     apiKey: process.env.REACT_APP_GOOGLE_MAP_KEY,
     onPlaceSelected: (place) => {
       formik.setFieldValue("location", place.formatted_address);
-      formik.setFieldValue("latitude", place.geometry.location.lat());
-      formik.setFieldValue("longitude", place.geometry.location.lng());
-      changeLocation(place.formatted_address);
+      if (place.geometry && place.geometry.location) {
+        formik.setFieldValue("latitude", place.geometry.location.lat());
+        formik.setFieldValue("longitude", place.geometry.location.lng());
+      }
+      if (place.formatted_address) {
+        changeLocation(place.formatted_address);
+      }
       setTimeout(formik.handleSubmit, 0);
     },
     options: {
