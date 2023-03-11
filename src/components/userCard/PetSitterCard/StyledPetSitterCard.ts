@@ -4,7 +4,7 @@ import { devices } from "../../../styles/breakPoints";
 
 export const CardHeaderLeft = styled(Flex)`
   &&& {
-    gap: 4;
+    gap: 16px;
   }
 `;
 
