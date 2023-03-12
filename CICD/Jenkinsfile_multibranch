@@ -4,6 +4,7 @@ pipeline {
 
     environment {
         CI = 'false'
+        REACT_APP_BASE_URL = credentials('REACT_APP_BASE_URL')
     }
 
     triggers {
@@ -30,22 +31,9 @@ pipeline {
         }
         
 
-        stage('Build for UAT') {
-            when {
-                branch 'dev'
-            }
+        stage('Build') {
             steps {
-                echo "Building for UAT"
-                sh 'npm run build'
-            }
-        }
-
-        stage('Build for Production') {
-            when {
-                branch 'main'
-            }
-            steps {
-                echo "Building for Production"
+                echo "Building"
                 sh 'npm run build'
             }
         }
