@@ -14,8 +14,72 @@ import {
   StyledFooterTopFlex,
   StyledFooterBottomFlex,
 } from "./StyledFooter";
+
 const primary = theme.colors.background.primary;
 const quaternary = theme.colors.background.quaternary;
+
+const learnMore = [
+  "How does Pet Nanny work?",
+  "Testimonials",
+  "The Pet Nanny Guarantee",
+  "Payments and refunds",
+  "FAQ for Pet Owners",
+  "FAQ for Pet Sitters",
+  "Dog boarding",
+  "Doggy day care",
+  "Dog walking",
+  "Dog sitting",
+  "Cat sitting",
+  "Pet sitting",
+  "House sitting",
+];
+const popularCities = [
+  "Melbourne",
+  "Sydney",
+  "Brisbane",
+  "Perth",
+  "Gold Coast",
+  "Adelaide",
+  "Sunshine Coast",
+  "Tweed Heads",
+  "Canberra",
+  "Penrith",
+];
+const images = [
+  { src: visa, alt: "visa" },
+  { src: mastercard, alt: "mastercard" },
+  { src: americanExpress, alt: "americanExpress" },
+];
+const aboutUs = ["Our Story", "In the press", "Blog", "Help"];
+const countries = ["Australia(EN)", "Canada(EN)", "HongKong(CN)", "America(EN)"];
+const socialMedia = [
+  { url: "https://www.facebook.com/", webName: "Facebook" },
+  { url: "https://twitter.com/", webName: "Twitter" },
+  { url: "https://www.instagram.com/", webName: "Instagram" },
+];
+const optionsOfCountries = countries.map((country) => (
+  <option key={country} value={country}>
+    {country}
+  </option>
+));
+const createListItems = (items: string[]) => {
+  return items.map((item) => (
+    <StyledListItem key={item}>
+      <Link>{item}</Link>
+    </StyledListItem>
+  ));
+};
+
+const ListOfLearnMore = createListItems(learnMore);
+const ListOfPopularCities = createListItems(popularCities);
+const ListOfAboutUs = createListItems(aboutUs);
+
+const image = images.map((image) => <Image key={image.alt} src={image.src} alt={image.alt} />);
+const ListOfSocialMedia = socialMedia.map((item) => (
+  <StyledListItem key={item.webName}>
+    <Link href={item.url}>{item.webName}</Link>
+  </StyledListItem>
+));
 
 const Footer = () => {
   return (
@@ -24,124 +88,24 @@ const Footer = () => {
         <StyledFooterTopFlex>
           <StyledListBox>
             <Heading>Learn More</Heading>
-            <UnorderedList>
-              <StyledListItem>
-                <Link>How does Pawshake work?</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Testimonials</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>The Pawshake Guarantee</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Payments and refunds</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>FAQ for Pet Owners</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>FAQ for Pet Sitters</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Dog boarding</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Doggy day care</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Dog walking</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Cat sitting</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Dog sitting</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Pet sitting</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>House sitting</Link>
-              </StyledListItem>
-            </UnorderedList>
+            <UnorderedList>{ListOfLearnMore}</UnorderedList>
           </StyledListBox>
           <StyledListBox>
             <Heading>Popular Cities</Heading>
-            <UnorderedList>
-              <StyledListItem>
-                <Link>Melbourne</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Sydney</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Brisbane</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Perth</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Adelaide</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Gold Coast</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Sunshine Coast</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Penrith</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Tweed Heads</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Mornington</Link>
-              </StyledListItem>
-            </UnorderedList>
+            <UnorderedList>{ListOfPopularCities}</UnorderedList>
             <Box pl="1rem" mt="1rem" fontWeight={550}>
               <Link href="">Top doggy day care cities</Link>
             </Box>
           </StyledListBox>
           <StyledListBox>
             <Heading>About Us</Heading>
-            <UnorderedList>
-              <StyledListItem>
-                <Link>Our Story</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>In the press</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Blog</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link>Help</Link>
-              </StyledListItem>
-            </UnorderedList>
+            <UnorderedList>{ListOfAboutUs}</UnorderedList>
             <Heading>Payment Methods</Heading>
-            <StyledImageBox>
-              <Image src={visa} alt="visa" />
-
-              <Image src={mastercard} alt="mastercard" />
-
-              <Image src={americanExpress} alt="americanExpress" />
-            </StyledImageBox>
+            <StyledImageBox>{image}</StyledImageBox>
           </StyledListBox>
           <StyledListBox>
             <Heading>Find us on</Heading>
-            <UnorderedList>
-              <StyledListItem>
-                <Link href="https://www.facebook.com/">Facebook</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link href="https://twitter.com/">Twitter</Link>
-              </StyledListItem>
-              <StyledListItem>
-                <Link href="https://www.instagram.com/">Instagram</Link>
-              </StyledListItem>
-            </UnorderedList>
+            <UnorderedList>{ListOfSocialMedia}</UnorderedList>
           </StyledListBox>
         </StyledFooterTopFlex>
       </StyledFooterFlex>
@@ -156,12 +120,7 @@ const Footer = () => {
             </Text>
           </Box>
           <StyledSelectBox>
-            <Select iconColor="rgb(116, 116, 116)">
-              <option value="Australia(EN)">Australia(EN)</option>
-              <option value="Canada(EN)">Canada(EN)</option>
-              <option value="HongKong(CN)">HongKong(CN)</option>
-              <option value="America(EN)">America(EN)</option>
-            </Select>
+            <Select iconColor="rgb(116, 116, 116)">{optionsOfCountries}</Select>
           </StyledSelectBox>
         </StyledFooterBottomFlex>
       </StyledFooterFlex>
