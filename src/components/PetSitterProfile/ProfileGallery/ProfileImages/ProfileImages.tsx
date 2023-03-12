@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   useDeleteMutation,
   useUserGetOwnImagesQuery,
@@ -24,11 +24,7 @@ const ProfileImages: React.FC = () => {
   const toast = useToast();
 
   const petOwner = useSelector((state: any) => state.petOwner);
-  const {
-    data: imagesData,
-    isLoading: isProfileImageLoading,
-    refetch: refetchImages,
-  } = useUserGetOwnImagesQuery(petOwner._id);
+  const { data: imagesData, refetch: refetchImages } = useUserGetOwnImagesQuery(petOwner._id);
 
   const [updateOrder, { isSuccess: isUpdateOrderSuccess }] = useUpdateImagesOrderMutation(
     petOwner._id
@@ -54,26 +50,48 @@ const ProfileImages: React.FC = () => {
   const removeSuccessId = "removeSuccess";
   const removeFailId = "removeFail";
 
-  // isRemoveSuccess &&
-  //   !toast.isActive(removeSuccessId) &&
-  //   toast({
-  //     id: removeSuccessId,
-  //     title: "Image removed successfully",
-  //     status: "success",
-  //     duration: 3000,
-  //     isClosable: true,
-  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-  //   });
-  // isRemoveError &&
-  //   !toast.isActive(removeFailId) &&
-  //   toast({
-  //     id: removeFailId,
-  //     title: "Image remove failed",
-  //     status: "error",
-  //     duration: 3000,
-  //     isClosable: true,
-  //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-  //   });
+  useEffect(() => {
+    if (isRemoveSuccess) {
+      if (!toast.isActive(removeSuccessId)) {
+        toast({
+          id: removeSuccessId,
+          title: "Image removed successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+      }
+    }
+    if (isRemoveError) {
+      if (!toast.isActive(removeFailId)) {
+        toast({
+          id: removeFailId,
+          title: "Image remove failed",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+      }
+    }
+  }, [isRemoveSuccess, isRemoveError]);
+
+  const updateOrderSuccessId = "updateOrderSuccess";
+  useEffect(() => {
+    if (isUpdateOrderSuccess) {
+      if (!toast.isActive(updateOrderSuccessId)) {
+        toast({
+          id: updateOrderSuccessId,
+          title: "Images reorder successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+      }
+    }
+  }, [isUpdateOrderSuccess]);
 
   const onSortEnd = async (oldIndex: number, newIndex: number) => {
     const newGetImages = arrayMoveImmutable(getImages, oldIndex, newIndex);

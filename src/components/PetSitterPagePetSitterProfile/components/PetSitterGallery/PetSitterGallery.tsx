@@ -35,8 +35,7 @@ const PetSitterGallery = () => {
   const location = useLocation();
   const petSitterId = extractIdFromURL(location.pathname);
 
-  const { data: petSitterImages, isLoading: isProfileImageLoading } =
-    useUserGetPetSitterImagesQuery(petSitterId);
+  const { data: petSitterImages } = useUserGetPetSitterImagesQuery(petSitterId);
 
   useEffect(() => {
     if (petSitterImages !== undefined) {
