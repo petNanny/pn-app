@@ -27,7 +27,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo "Testing"
-                sh 'npm test'
+                sh 'npm test -- --base-url=$REACT_APP_BASE_URL'
             }
         }
         
@@ -35,7 +35,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building"
-                sh 'npm run build'
+                sh 'npm run build -- --base-url=$REACT_APP_BASE_URL'
             }
         }
         
