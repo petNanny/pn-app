@@ -4,8 +4,8 @@ pipeline {
 
     environment {
         CI = 'false'
-    //REACT_APP_BASE_URL = credentials('REACT_APP_BASE_URL')
-        REACT_APP_BASE_URL = 'http://pn-server-alb-501562088.ap-southeast-2.elb.amazonaws.com/api'
+        //REACT_APP_BASE_URL = credentials('REACT_APP_BASE_URL')
+        UAT_URL = 'http://pn-server-alb-501562088.ap-southeast-2.elb.amazonaws.com/api'
     }
 
     triggers {
@@ -27,7 +27,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo "Testing"
-                sh 'npm test -- --base-url=$REACT_APP_BASE_URL'
+                sh 'npm test'
             }
         }
         
@@ -35,7 +35,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building"
-                sh 'npm run build -- --base-url=$REACT_APP_BASE_URL'
+                sh 'npm run build -- --env.REACT_APP_BASE_URL=$UAT_URL'
             }
         }
         
