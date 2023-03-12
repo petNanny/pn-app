@@ -4,7 +4,8 @@ pipeline {
 
     environment {
         CI = 'false'
-        REACT_APP_BASE_URL = credentials('REACT_APP_BASE_URL')
+    //REACT_APP_BASE_URL = credentials('REACT_APP_BASE_URL')
+        REACT_APP_BASE_URL = 'http://pn-server-alb-501562088.ap-southeast-2.elb.amazonaws.com/api'
     }
 
     triggers {
