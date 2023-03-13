@@ -22,7 +22,11 @@ interface Image {
   petSitterId: string;
 }
 
-const PetSitterGallery = () => {
+interface userName {
+  userName: string;
+}
+
+const PetSitterGallery = ({ userName }: userName) => {
   const defaultImage = {
     _id: "1",
     url: imageNotFound,
@@ -71,7 +75,7 @@ const PetSitterGallery = () => {
             carousel={{ imageFit: "contain" }}
           />
         </PetSitterGalleryImageContainer>
-        <ImageTitle as="h1">Tong</ImageTitle>
+        <ImageTitle as="h1">{userName}</ImageTitle>
       </PetSitterGalleryContainer>
     </>
   );

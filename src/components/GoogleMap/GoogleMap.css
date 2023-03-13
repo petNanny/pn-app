@@ -1,0 +1,81 @@
+.map {
+  width: 100%;
+  /* the height of the map can be adjusted by layout component */
+  height: 800px;
+}
+
+.Marker_InfoWindow {
+  /* background-color: rgb(255, 255, 255); */
+  position: relative;
+  z-index: 3;
+  width: 200px;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  /* transform: translate(-40%, -85%); */
+  box-shadow: rgb(0 0 0 / 30%) 0px 10px 20px -10px;
+  word-break: break-word;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.Marker_InfoWindow p,
+.Marker_InfoWindow div {
+  margin-bottom: 0.25rem;
+}
+
+.Marker_InfoWindow p:nth-of-type(1) {
+  font-weight: 500;
+  color: #747474;
+}
+
+.Avatar_Container {
+  height: 75px;
+  width: 100%;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Avatar_Container img {
+  border-radius: 50%;
+  width: 75px;
+}
+
+.Marker_Distance {
+  margin-bottom: 0.25rem;
+  opacity: 0.62;
+  color: #747474;
+}
+
+.Marker_Star {
+  display: flex;
+}
+
+.Marker_Star img {
+  width: 15px;
+  height: 15px;
+}
+
+.Marker_Star span {
+  margin-left: 0.5rem;
+  color: #fab660;
+}
+
+.Marker_Recurring {
+  margin-bottom: 0.25rem;
+  margin-right: 0.5rem;
+  color: #00c38a;
+  display: flex;
+}
+
+.Marker_Recurring img {
+  width: 21px;
+  height: 21px;
+  color: #00c38a;
+  margin-right: 0.5rem;
+}
