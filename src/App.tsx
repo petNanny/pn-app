@@ -12,6 +12,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import BecomePetSitter from "./pages/BecomePetSitter";
 import PetSitterPage from "./pages/PetSitterPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 import AuthRoute from "./components/AuthRoute";
 
