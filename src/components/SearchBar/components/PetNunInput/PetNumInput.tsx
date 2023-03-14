@@ -1,4 +1,4 @@
-import { Box, Menu, Text, FormControl, useMediaQuery } from "@chakra-ui/react";
+import { Box, Menu, Text, FormControl, useMediaQuery, Portal } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import {
   PetNumInputContainer,
@@ -164,40 +164,42 @@ const PetNumInput = ({
                 <MenuBtnIcon as={MdArrowDropDown} />
               </BoxInMenuButton>
             </StyledMenuButton>
-            <StyledMenuList>
-              {list.map((item) => {
-                return (
-                  <PetSelectItem key={item.id}>
-                    <PetTypeContainer>
-                      <PetTypeText>{item.petType}</PetTypeText>
-                      <PetSizeText>{item.petSize}</PetSizeText>
-                    </PetTypeContainer>
-                    <PetNumSetBox>
-                      <DecreaseBtn
-                        color={item.petItemNum}
-                        onClick={item.handleDecreasePet}
-                        data-testid={item.decreaseTestID}
-                      >
-                        -
-                      </DecreaseBtn>
-                      <PetSelectItemNum>{item.petItemNum}</PetSelectItemNum>
-                      <IncreaseBtn
-                        onClick={item.handleIncreasePet}
-                        data-testid={item.increaseTestID}
-                      >
-                        +
-                      </IncreaseBtn>
-                    </PetNumSetBox>
-                  </PetSelectItem>
-                );
-              })}
-              <PetSelectItem>
-                <ClearBtn onClick={handlePetsClear}>Clear</ClearBtn>
-                <Box>
-                  <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
-                </Box>
-              </PetSelectItem>
-            </StyledMenuList>
+            <Portal>
+              <StyledMenuList>
+                {list.map((item) => {
+                  return (
+                    <PetSelectItem key={item.id}>
+                      <PetTypeContainer>
+                        <PetTypeText>{item.petType}</PetTypeText>
+                        <PetSizeText>{item.petSize}</PetSizeText>
+                      </PetTypeContainer>
+                      <PetNumSetBox>
+                        <DecreaseBtn
+                          color={item.petItemNum}
+                          onClick={item.handleDecreasePet}
+                          data-testid={item.decreaseTestID}
+                        >
+                          -
+                        </DecreaseBtn>
+                        <PetSelectItemNum>{item.petItemNum}</PetSelectItemNum>
+                        <IncreaseBtn
+                          onClick={item.handleIncreasePet}
+                          data-testid={item.increaseTestID}
+                        >
+                          +
+                        </IncreaseBtn>
+                      </PetNumSetBox>
+                    </PetSelectItem>
+                  );
+                })}
+                <PetSelectItem>
+                  <ClearBtn onClick={handlePetsClear}>Clear</ClearBtn>
+                  <Box>
+                    <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
+                  </Box>
+                </PetSelectItem>
+              </StyledMenuList>
+            </Portal>
           </Menu>
         </FormControl>
       </PetNumInputContainer>
