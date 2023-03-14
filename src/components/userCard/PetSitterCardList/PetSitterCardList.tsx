@@ -1,4 +1,5 @@
 import PetSitterCard from "../PetSitterCard/PetSitterCard";
+import { UserCardContainer } from "./styledPetSitterCardList";
 
 export interface PetSitter {
   id: number;
@@ -76,7 +77,7 @@ export const petSitter: PetSitter[] = [
 
 const PetSitterCardList = () => {
   return (
-    <div>
+    <UserCardContainer>
       {petSitter.map((petSitter) => (
         <PetSitterCard
           key={petSitter.id}
@@ -90,7 +91,7 @@ const PetSitterCardList = () => {
           rating={petSitter.rating}
         />
       ))}
-    </div>
+    </UserCardContainer>
   );
 };
 
