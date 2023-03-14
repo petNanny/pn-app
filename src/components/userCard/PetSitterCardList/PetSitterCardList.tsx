@@ -1,3 +1,4 @@
+import { Flex } from "@chakra-ui/react";
 import PetSitterCard from "../PetSitterCard/PetSitterCard";
 
 export interface PetSitter {
@@ -76,7 +77,7 @@ export const petSitter: PetSitter[] = [
 
 const PetSitterCardList = () => {
   return (
-    <div>
+    <Flex flexDirection="column">
       {petSitter.map((petSitter) => (
         <PetSitterCard
           key={petSitter.id}
@@ -90,7 +91,8 @@ const PetSitterCardList = () => {
           rating={petSitter.rating}
         />
       ))}
-    </div>
+      <p>1</p>
+    </Flex>
   );
 };
 
