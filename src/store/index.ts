@@ -1,7 +1,7 @@
 import { configureStore, combineReducers, ThunkAction, Action } from "@reduxjs/toolkit";
 import { apiSlice } from "../redux/api/apiSlice";
 import authReducer from "./reducer/authSlice";
-import { layoutSlice } from "./reducer/boardingPageSlice";
+import boardingPageReducer from "./reducer/boardingPageSlice";
 import petOwnerReducer from "./reducer/petOwnerSlice";
 
 export const store = configureStore({
@@ -15,8 +15,7 @@ export const store = configureStore({
       [apiSlice.reducerPath]: apiSlice.reducer,
       auth: authReducer,
       petOwner: petOwnerReducer,
-      // boardingPage: layoutSlice,
-      // need to find a way for importing boardingPageSlice into store
+      boardingPage: boardingPageReducer,
     })(state, action);
   },
   middleware: (getDefaultMiddleware) =>

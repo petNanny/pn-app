@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  showGoogleMap: false,
+  showMapOrCard: false,
 };
 
-export const layoutSlice = createSlice({
+export const boardingPageSlice = createSlice({
   name: "boardingPage",
   initialState,
   reducers: {
-    toggleShowGoogleMap: (state) => {
-      state.showGoogleMap = !state.showGoogleMap;
+    toggleShowMapOrCard: (state) => {
+      state.showMapOrCard = !state.showMapOrCard;
     },
   },
 });
 
-export const { toggleShowGoogleMap } = layoutSlice.actions;
+export const { toggleShowMapOrCard } = boardingPageSlice.actions;
 
-export default layoutSlice.reducer;
+export default boardingPageSlice.reducer;

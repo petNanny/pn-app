@@ -19,6 +19,8 @@ import { useMediaQuery } from "@chakra-ui/react";
 import searchFilterSchema from "../../schemas/searchFilterValidator";
 
 import { SearchFormValues } from "../../interfaces/searchForm";
+import { toggleShowMapOrCard } from "../../store/reducer/boardingPageSlice";
+import { useStoreDispatch, useStoreSelector } from "../../store/hook";
 
 const SearchBar = () => {
   const [serviceHeading, setServiceHeading] = useState("Dog Boarding");
@@ -45,7 +47,6 @@ const SearchBar = () => {
   const changeServiceDetail = (value: string) => {
     setServiceDetail(value);
   };
-
   const changeLocation = (value: string) => {
     setLocation(value);
   };
@@ -99,6 +100,10 @@ const SearchBar = () => {
     setShowFilter(true);
   };
 
+  const dispatch = useStoreDispatch();
+
+  const showMapOrCard = useStoreSelector((state) => state.boardingPage.showMapOrCard);
+
   return (
     <>
       <SearchBox>
@@ -143,7 +148,9 @@ const SearchBar = () => {
         {isLaptop ? (
           <MobileButtonsContainer>
             <StyledMobileBtn onClick={handleFilterBtn}>Edit Filters</StyledMobileBtn>
-            <StyledMobileBtn>Show Map</StyledMobileBtn>
+            <StyledMobileBtn onClick={() => dispatch(toggleShowMapOrCard())}>
+              {showMapOrCard ? `Show List` : `Show Map`}
+            </StyledMobileBtn>
           </MobileButtonsContainer>
         ) : null}
       </SearchBox>
