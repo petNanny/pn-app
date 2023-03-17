@@ -12,12 +12,12 @@ const ErrorPage = () => {
           id="error-logo"
         />
         <Heading color="#5CACE2">
-          Oops... something went wrong. Can I go
-          <NavLink to="/">
-            <Heading color="lightblue">
-              <Text as="u">home now?</Text>
-            </Heading>
-          </NavLink>
+          Oops... something went wrong. we are working to
+          <Heading color="#ADD8E6">
+            <NavLink to="/">
+              <Text as="u">fix it</Text>.
+            </NavLink>
+          </Heading>
         </Heading>
       </ErrorPageContent>
     </PageLayout>
