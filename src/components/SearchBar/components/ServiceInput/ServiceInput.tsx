@@ -7,6 +7,7 @@ import {
   Img,
   FormControl,
   useMediaQuery,
+  Portal,
 } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import homeDogBoarding from "../../../../assets/Icons/homeDogBoarding.svg";
@@ -182,57 +183,59 @@ const ServiceInput = ({ changeServiceHeading, changeServiceDetail, formik }: Ser
                 <MenuBtnIcon as={MdArrowDropDown} />
               </BoxInMenuButton>
             </StyledMenuButton>
-            <StyledMenuList>
-              <MenuOptionGroup type="radio">
-                <TitleBox>
-                  <Text>At the sitter&apos;s home</Text>
-                </TitleBox>
-                <StyledMenuDivider />
-                {AtSitterHomeServices.map((item) => {
-                  return (
-                    <StyledMenuItemOption
-                      key={item.id}
-                      value={item.value}
-                      onClick={item.handleClick}
-                      data-testid={item.testID}
-                    >
-                      <BoxInMenuItemOption>
-                        <MenuItemOptionImageBox>
-                          <Img src={item.img} />
-                        </MenuItemOptionImageBox>
-                        <Box>
-                          <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
-                          <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
-                        </Box>
-                      </BoxInMenuItemOption>
-                    </StyledMenuItemOption>
-                  );
-                })}
-                <TitleBox>
-                  <Text>At your home </Text>
-                </TitleBox>
-                <StyledMenuDivider />
-                {AtOwnerHomeServices.map((item) => {
-                  return (
-                    <StyledMenuItemOption
-                      key={item.id}
-                      value={item.value}
-                      onClick={item.handleClick}
-                    >
-                      <BoxInMenuItemOption>
-                        <MenuItemOptionImageBox>
-                          <Img src={item.img} />
-                        </MenuItemOptionImageBox>
-                        <Box>
-                          <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
-                          <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
-                        </Box>
-                      </BoxInMenuItemOption>
-                    </StyledMenuItemOption>
-                  );
-                })}
-              </MenuOptionGroup>
-            </StyledMenuList>
+            <Portal>
+              <StyledMenuList>
+                <MenuOptionGroup type="radio">
+                  <TitleBox>
+                    <Text>At the sitter&apos;s home</Text>
+                  </TitleBox>
+                  <StyledMenuDivider />
+                  {AtSitterHomeServices.map((item) => {
+                    return (
+                      <StyledMenuItemOption
+                        key={item.id}
+                        value={item.value}
+                        onClick={item.handleClick}
+                        data-testid={item.testID}
+                      >
+                        <BoxInMenuItemOption>
+                          <MenuItemOptionImageBox>
+                            <Img src={item.img} />
+                          </MenuItemOptionImageBox>
+                          <Box>
+                            <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
+                            <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
+                          </Box>
+                        </BoxInMenuItemOption>
+                      </StyledMenuItemOption>
+                    );
+                  })}
+                  <TitleBox>
+                    <Text>At your home </Text>
+                  </TitleBox>
+                  <StyledMenuDivider />
+                  {AtOwnerHomeServices.map((item) => {
+                    return (
+                      <StyledMenuItemOption
+                        key={item.id}
+                        value={item.value}
+                        onClick={item.handleClick}
+                      >
+                        <BoxInMenuItemOption>
+                          <MenuItemOptionImageBox>
+                            <Img src={item.img} />
+                          </MenuItemOptionImageBox>
+                          <Box>
+                            <MenuItemOptionTitle>{item.title}</MenuItemOptionTitle>
+                            <MenuItemOptionInfo>{item.info}</MenuItemOptionInfo>
+                          </Box>
+                        </BoxInMenuItemOption>
+                      </StyledMenuItemOption>
+                    );
+                  })}
+                </MenuOptionGroup>
+              </StyledMenuList>
+            </Portal>
           </Menu>
         </FormControl>
       </ServiceInputContainer>

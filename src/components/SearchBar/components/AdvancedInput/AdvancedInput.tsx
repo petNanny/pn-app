@@ -1,4 +1,4 @@
-import { Box, Menu, Stack, FormControl, useMediaQuery } from "@chakra-ui/react";
+import { Box, Menu, Stack, FormControl, useMediaQuery, Portal } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import { useEffect, useState } from "react";
 import {
@@ -92,13 +92,15 @@ const AdvancedInput = ({ formik }: AdvancedInputProps) => {
   }, [isFencedBackyard, setFencedBackyardCount]);
 
   const handleAdvancedFormReset = () => {
-    formik.resetForm;
     setNoDogCount(0);
     setNoChildrenCount(0);
     setFencedBackyardCount(0);
     setIsNoDog(false);
     setIsNoChildren(false);
     setIsFencedBackyard(false);
+    formik.values.noDogs = false;
+    formik.values.noChildren = false;
+    formik.values.fencedBackyard = false;
   };
 
   const [isTablet] = useMediaQuery("(max-width: 768px)", { ssr: true, fallback: false });
@@ -118,55 +120,60 @@ const AdvancedInput = ({ formik }: AdvancedInputProps) => {
                 <MenuBtnIcon as={MdArrowDropDown} />
               </MenuBtnInBox>
             </MenuBtn>
-            <StyledMenuList>
-              <MenuTitle>General</MenuTitle>
-              <Box>
-                <Stack>
-                  <StyledCheckbox
-                    onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                      formik.handleChange(e);
-                      handleText1();
-                    }}
-                    value={formik.values.noDogs}
-                    name="noDogs"
-                    data-testid="advancedInputNoDogs"
-                  >
-                    <AdvancedCheckItemText>Sitter has no dogs</AdvancedCheckItemText>
-                  </StyledCheckbox>
-                  <StyledCheckbox
-                    onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                      formik.handleChange(e);
-                      handleText2();
-                    }}
-                    value={formik.values.noChildren}
-                    name="noChildren"
-                    data-testid="advancedInputNoChildren"
-                  >
-                    <AdvancedCheckItemText>Sitter has no children</AdvancedCheckItemText>
-                  </StyledCheckbox>
-                  <StyledCheckbox
-                    onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                      formik.handleChange(e);
-                      handleText3();
-                    }}
-                    value={formik.values.fencedBackyard}
-                    name="fencedBackyard"
-                  >
-                    <AdvancedCheckItemText>
-                      Sitter has a fully fenced backyard
-                    </AdvancedCheckItemText>
-                  </StyledCheckbox>
-                </Stack>
-              </Box>
-              <ButtonsBox>
+            <Portal>
+              <StyledMenuList>
+                <MenuTitle>General</MenuTitle>
                 <Box>
-                  <ClearBtn onClick={handleAdvancedFormReset}>Clear</ClearBtn>
+                  <Stack>
+                    <StyledCheckbox
+                      isChecked={isNoDog}
+                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                        formik.handleChange(e);
+                        handleText1();
+                      }}
+                      value={formik.values.noDogs}
+                      name="noDogs"
+                      data-testid="advancedInputNoDogs"
+                    >
+                      <AdvancedCheckItemText>Sitter has no dogs</AdvancedCheckItemText>
+                    </StyledCheckbox>
+                    <StyledCheckbox
+                      isChecked={isNoChildren}
+                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                        formik.handleChange(e);
+                        handleText2();
+                      }}
+                      value={formik.values.noChildren}
+                      name="noChildren"
+                      data-testid="advancedInputNoChildren"
+                    >
+                      <AdvancedCheckItemText>Sitter has no children</AdvancedCheckItemText>
+                    </StyledCheckbox>
+                    <StyledCheckbox
+                      isChecked={isFencedBackyard}
+                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                        formik.handleChange(e);
+                        handleText3();
+                      }}
+                      value={formik.values.fencedBackyard}
+                      name="fencedBackyard"
+                    >
+                      <AdvancedCheckItemText>
+                        Sitter has a fully fenced backyard
+                      </AdvancedCheckItemText>
+                    </StyledCheckbox>
+                  </Stack>
                 </Box>
-                <Box>
-                  <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
-                </Box>
-              </ButtonsBox>
-            </StyledMenuList>
+                <ButtonsBox>
+                  <Box>
+                    <ClearBtn onClick={handleAdvancedFormReset}>Clear</ClearBtn>
+                  </Box>
+                  <Box>
+                    <ApplyBtn onClick={formik.handleSubmit}>Apply</ApplyBtn>
+                  </Box>
+                </ButtonsBox>
+              </StyledMenuList>
+            </Portal>
           </Menu>
         </FormControl>
       </AdvancedInputContainer>
