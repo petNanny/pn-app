@@ -14,6 +14,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SearchBar from "./components/SearchBar/SearchBar";
 
 import AuthRoute from "./components/AuthRoute";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 const App = () => {
   //TODO: add user status to change the route, e.g. if user not login, user can't access chat page, or you can delete the useState value to null.
@@ -104,6 +105,14 @@ const App = () => {
             element={admin ? <AdminHomePage /> : <Navigate to="/adminLogin" />}
           />
         </Route>
+        <Route
+          path="/error"
+          element={
+            <AuthRoute>
+              <ErrorPage />
+            </AuthRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
