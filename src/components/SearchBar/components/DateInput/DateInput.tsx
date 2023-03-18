@@ -13,7 +13,7 @@ import {
   StyledPopoverFooter,
   StyledDaysLeftText,
 } from "./styledDateInput";
-import { FormControl, Box } from "@chakra-ui/react";
+import { FormControl, Box, Portal } from "@chakra-ui/react";
 import { FormikProps } from "formik";
 import { format, eachDayOfInterval, max, min, add } from "date-fns";
 import { DateRange, DayPicker } from "react-day-picker";
@@ -26,8 +26,9 @@ interface DateInputProps {
 }
 
 const DateInput = ({ formik }: DateInputProps) => {
-  const initRef = useRef<any>();
   const today = new Date();
+  const initRef = useRef<any>();
+
   const [rangeDays, setRangeDays] = useState<DateRange | undefined>();
   const [multiDays, setMultiDays] = useState<Date[]>();
   const [isMultiMode, setIsMultiMode] = useState(false);
@@ -35,11 +36,12 @@ const DateInput = ({ formik }: DateInputProps) => {
   let rangeModeInputText = <p>start date &gt; end date</p>;
   if (rangeDays?.from) {
     if (!rangeDays.to) {
-      rangeModeInputText = (
-        <p>
-          {format(rangeDays.from, "dd/MM/yyyy")} &gt; {format(rangeDays.from, "dd/MM/yyyy")}
-        </p>
-      );
+      rangeModeInputText = <p>{format(rangeDays.from, "dd/MM/yyyy")} &gt; end date?</p>;
+      const noEndDate: DateRange = {
+        from: rangeDays.from,
+        to: rangeDays.from,
+      };
+      setRangeDays(noEndDate);
     } else if (rangeDays.to) {
       rangeModeInputText = (
         <p>
@@ -67,7 +69,7 @@ const DateInput = ({ formik }: DateInputProps) => {
       return eachDayOfInterval({
         start: rangeDays.from,
         end: rangeDays.to,
-      });
+      }).map((date) => date.toISOString());
     }
   };
 
@@ -78,15 +80,21 @@ const DateInput = ({ formik }: DateInputProps) => {
 
   const handleBlur = () => {
     isMultiMode
-      ? formik.setFieldValue("selectedDate", multiDays)
-      : formik.setFieldValue("selectedDate", getDatesInRange());
+      ? formik.setFieldValue(
+          "selectedDates",
+          multiDays?.map((date) => date.toISOString())
+        )
+      : formik.setFieldValue("selectedDates", getDatesInRange());
     setTimeout(formik.handleSubmit, 0);
   };
 
   const handleApplyBtn = () => {
     isMultiMode
-      ? formik.setFieldValue("selectedDate", multiDays)
-      : formik.setFieldValue("selectedDate", getDatesInRange());
+      ? formik.setFieldValue(
+          "selectedDates",
+          multiDays?.map((date) => date.toISOString())
+        )
+      : formik.setFieldValue("selectedDates", getDatesInRange());
     setTimeout(formik.handleSubmit, 0);
   };
 
@@ -107,79 +115,82 @@ const DateInput = ({ formik }: DateInputProps) => {
                     )}
                   </TriggerBtn>
                 </PopoverTrigger>
-                <PopoverContent>
-                  <StyledPopoverBody>
-                    <style>{StyledDayPicker}</style>
-                    {isMultiMode ? (
-                      <DayPicker
-                        mode="multiple"
-                        min={1}
-                        max={15}
-                        selected={multiDays}
-                        onSelect={setMultiDays}
-                        fromDate={today}
-                        toDate={
-                          multiDays === undefined ? undefined : add(multiDays[0], { days: 30 })
-                        }
-                      />
-                    ) : (
-                      <DayPicker
-                        mode={"range"}
-                        selected={rangeDays}
-                        onSelect={setRangeDays}
-                        pagedNavigation
-                        numberOfMonths={1}
-                        fromDate={today}
-                      />
-                    )}
-                    <DatesSelectModeBox>
-                      <DatesSelectModeBtn
-                        isChecked={isMultiMode}
-                        onChange={() => setIsMultiMode(!isMultiMode)}
-                      >
-                        Non-consecutive days
-                      </DatesSelectModeBtn>
+                <Portal>
+                  <PopoverContent>
+                    <StyledPopoverBody>
+                      <style>{StyledDayPicker}</style>
                       {isMultiMode ? (
-                        <StyledDaysLeftText>
-                          Select up to 15 days within a 30-day timespan. {daysLeft} days left.
-                        </StyledDaysLeftText>
-                      ) : null}
-                    </DatesSelectModeBox>
-                  </StyledPopoverBody>
-                  <StyledPopoverFooter>
-                    <ButtonsBox>
-                      <ClearBtn
-                        onClick={() => {
-                          setRangeDays(undefined);
-                          setMultiDays(undefined);
-                        }}
-                      >
-                        Clear
-                      </ClearBtn>
-                      {isMultiMode ? (
-                        <ApplyBtn
-                          ref={initRef}
-                          onClick={() => {
-                            handleApplyBtn;
-                            onClose();
-                          }}
-                        >
-                          Apply
-                        </ApplyBtn>
+                        <DayPicker
+                          mode="multiple"
+                          min={1}
+                          max={15}
+                          selected={multiDays}
+                          onSelect={setMultiDays}
+                          fromDate={today}
+                          toDate={
+                            multiDays === undefined ? undefined : add(multiDays[0], { days: 30 })
+                          }
+                        />
                       ) : (
-                        <ApplyBtn
-                          ref={initRef}
+                        <DayPicker
+                          defaultMonth={today}
+                          mode={"range"}
+                          selected={rangeDays}
+                          onSelect={setRangeDays}
+                          pagedNavigation
+                          numberOfMonths={1}
+                          fromDate={today}
+                        />
+                      )}
+                      <DatesSelectModeBox>
+                        <DatesSelectModeBtn
+                          isChecked={isMultiMode}
+                          onChange={() => setIsMultiMode(!isMultiMode)}
+                        >
+                          Non-consecutive days
+                        </DatesSelectModeBtn>
+                        {isMultiMode ? (
+                          <StyledDaysLeftText>
+                            Select up to 15 days within a 30-day timespan. {daysLeft} days left.
+                          </StyledDaysLeftText>
+                        ) : null}
+                      </DatesSelectModeBox>
+                    </StyledPopoverBody>
+                    <StyledPopoverFooter>
+                      <ButtonsBox>
+                        <ClearBtn
                           onClick={() => {
-                            handleApplyBtn;
-                            onClose();
+                            setRangeDays(undefined);
+                            setMultiDays(undefined);
                           }}
                         >
-                          Apply
-                        </ApplyBtn>
-                      )}
-                    </ButtonsBox>
-                  </StyledPopoverFooter>
-                </PopoverContent>
+                          Clear
+                        </ClearBtn>
+                        {isMultiMode ? (
+                          <ApplyBtn
+                            ref={initRef}
+                            onClick={() => {
+                              handleApplyBtn;
+                              onClose();
+                            }}
+                          >
+                            Apply
+                          </ApplyBtn>
+                        ) : (
+                          <ApplyBtn
+                            ref={initRef}
+                            onClick={() => {
+                              handleApplyBtn;
+                              onClose();
+                            }}
+                          >
+                            Apply
+                          </ApplyBtn>
+                        )}
+                      </ButtonsBox>
+                    </StyledPopoverFooter>
+                  </PopoverContent>
+                </Portal>
               </>
             )}
           </Popover>

@@ -1,4 +1,6 @@
 import PetSitterCard from "../PetSitterCard/PetSitterCard";
+import { useState, useEffect } from "react";
+import { getDistance } from "geolib";
 
 export interface PetSitter {
   id: number;
@@ -7,87 +9,70 @@ export interface PetSitter {
   suburb: string;
   introduction: string;
   price: number;
-  distance: number;
-  rating: number;
+  distance: string;
+  // rating: number;
+}
+interface CardListProps {
+  results: [];
+  centerLat: number;
+  centerLng: number;
+  isResultsLoading: boolean | undefined;
 }
 
-export const petSitter: PetSitter[] = [
-  {
-    id: 1,
-    avatar: "https://robohash.org/laboriosametdolor.png?size=50x50&set=set1",
-    name: "Antuk",
-    suburb: "Banjar Peguyangan",
-    introduction: "K6oXNCNgAQPgXOfBaJN6aoXCcPh5wh9QIwkEc8Jo2axbDxHyeW0y5p3puRjt",
-    price: 615,
-    distance: 29,
-    rating: 5,
-  },
-  {
-    id: 2,
-    avatar: "https://robohash.org/laboriosametdolor.png?size=50x50&set=set1",
-    name: "Antuk",
-    suburb: "Banjar Peguyangan",
-    introduction: "K6oXNCNgAQPgXOfBaJN6aoXCcPh5wh9QIwkEc8Jo2axbDxHyeW0y5p3puRjt",
-    price: 615,
-    distance: 29,
-    rating: 5,
-  },
-  {
-    id: 3,
-    avatar: "https://robohash.org/laboriosametdolor.png?size=50x50&set=set1",
-    name: "Antuk",
-    suburb: "Banjar Peguyangan",
-    introduction: "K6oXNCNgAQPgXOfBaJN6aoXCcPh5wh9QIwkEc8Jo2axbDxHyeW0y5p3puRjt",
-    price: 615,
-    distance: 29,
-    rating: 2,
-  },
-  {
-    id: 4,
-    avatar: "https://robohash.org/laboriosametdolor.png?size=50x50&set=set1",
-    name: "Antuk",
-    suburb: "Banjar Peguyangan",
-    introduction: "K6oXNCNgAQPgXOfBaJN6aoXCcPh5wh9QIwkEc8Jo2axbDxHyeW0y5p3puRjt",
-    price: 615,
-    distance: 29,
-    rating: 4,
-  },
-  {
-    id: 5,
-    avatar: "https://robohash.org/laboriosametdolor.png?size=50x50&set=set1",
-    name: "Antuk",
-    suburb: "Banjar Peguyangan",
-    introduction: "K6oXNCNgAQPgXOfBaJN6aoXCcPh5wh9QIwkEc8Jo2axbDxHyeW0y5p3puRjt",
-    price: 615,
-    distance: 29,
-    rating: 3,
-  },
-  {
-    id: 1,
-    avatar: "https://robohash.org/laboriosametdolor.png?size=50x50&set=set1",
-    name: "Antuk",
-    suburb: "Banjar Peguyangan",
-    introduction: "K6oXNCNgAQPgXOfBaJN6aoXCcPh5wh9QIwkEc8Jo2axbDxHyeW0y5p3puRjt",
-    price: 615,
-    distance: 29,
-    rating: 5,
-  },
-];
+const PetSitterCardList = ({ results, centerLat, centerLng, isResultsLoading }: CardListProps) => {
+  const [rawResults, setRawResults] = useState<[]>();
 
-const PetSitterCardList = () => {
+  useEffect(() => {
+    setRawResults(results);
+  }, [results]);
+
+  if (!rawResults || rawResults.length === 0) return <div>no result</div>;
+
+  const distances = rawResults.map((result: any) => {
+    return getDistance(
+      { latitude: centerLat, longitude: centerLng },
+      { latitude: result.geoCode.coordinates[1], longitude: result.geoCode.coordinates[0] }
+    );
+  });
+
+  const displayedDistances = distances.map((distance: number) => {
+    if (distance <= 1000) {
+      return "< 1 km";
+    } else if (distance <= 5000) {
+      return "< 5 km";
+    } else if (distance <= 10000) {
+      return "< 10 km";
+    } else if (distance <= 20000) {
+      return "< 20 km";
+    } else {
+      return "< 50 km";
+    }
+  });
+
+  const displayedResults = rawResults.map((result: [], index: number) => {
+    return {
+      ...result,
+      distance: displayedDistances[index],
+    };
+  });
+
+  console.log(displayedResults);
+
+  if (isResultsLoading) return <div>loading</div>;
+
   return (
     <div>
-      {petSitter.map((petSitter) => (
+      {displayedResults.map((petSitter: any) => (
         <PetSitterCard
-          key={petSitter.id}
-          id={petSitter.id}
-          name={petSitter.name}
-          avatar={petSitter.avatar}
-          suburb={petSitter.suburb}
-          price={petSitter.price}
+          key={petSitter._id}
+          id={petSitter._id}
+          name={petSitter.petOwner.userName}
+          avatar={petSitter.petOwner.avatar}
+          suburb={petSitter.address.city}
+          price={petSitter.service[0].Rate}
           introduction={petSitter.introduction}
           distance={petSitter.distance}
-          rating={petSitter.rating}
+          // rating={petSitter.rating}
         />
       ))}
     </div>

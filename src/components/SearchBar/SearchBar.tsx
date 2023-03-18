@@ -17,13 +17,25 @@ import DateInput from "./components/DateInput/DateInput";
 import { useFormik, FormikProps } from "formik";
 import { useMediaQuery } from "@chakra-ui/react";
 import searchFilterSchema from "../../schemas/searchFilterValidator";
-
 import { SearchFormValues } from "../../interfaces/searchForm";
+import { useFilterPetSitterMutation } from "../../redux/petSitterApi";
 
-const SearchBar = () => {
+interface SearchBarProps {
+  getResults: React.Dispatch<React.SetStateAction<[]>>;
+  getCenterLat: React.Dispatch<React.SetStateAction<number>>;
+  getCenterLng: React.Dispatch<React.SetStateAction<number>>;
+  getIsResultsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SearchBar = ({
+  getResults,
+  getCenterLat,
+  getCenterLng,
+  getIsResultsLoading,
+}: SearchBarProps) => {
   const [serviceHeading, setServiceHeading] = useState("Dog Boarding");
   const [serviceDetail, setServiceDetail] = useState("Overnight stay at the sitter's home.");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState("Sydney NSW, Australia");
   const [totalPetsNum, setTotalPetsNum] = useState(0);
   const [smallDogNum, setSmallDogNum] = useState(0);
   const [mediumDogNum, setMediumDogNum] = useState(0);
@@ -50,15 +62,25 @@ const SearchBar = () => {
     setLocation(value);
   };
 
+  const [
+    filter,
+    {
+      isSuccess: isFilterSuccess,
+      isError: isFilterError,
+      isLoading: isFilterLoading,
+      data: filterResults,
+    },
+  ] = useFilterPetSitterMutation();
+
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   const formik: FormikProps<SearchFormValues> = useFormik<SearchFormValues>({
     initialValues: {
-      location: "",
-      latitude: undefined,
-      longitude: undefined,
+      location: "Sydney NSW, Australia",
+      latitude: -33.8688197,
+      longitude: 151.2092955,
       petService: "Dog boarding",
-      selectedDate: [],
+      selectedDates: [],
       noDogs: false,
       noChildren: false,
       fencedBackyard: false,
@@ -81,8 +103,33 @@ const SearchBar = () => {
       values.totalPets = totalPetsNum;
       await sleep(500);
       console.log(values);
+      await filter({ body: values });
     },
   });
+
+  useEffect(() => {
+    const getResultOnLoad = async () => {
+      await filter({ body: formik.values });
+    };
+    getResultOnLoad();
+  }, []);
+
+  useEffect(() => {
+    getIsResultsLoading(isFilterLoading);
+  }, [isFilterLoading]);
+
+  useEffect(() => {
+    if (isFilterSuccess) {
+      getResults(filterResults);
+    }
+  }, [filterResults]);
+
+  useEffect(() => {
+    if (formik.values.latitude && formik.values.longitude) {
+      getCenterLat(formik.values.latitude);
+      getCenterLng(formik.values.longitude);
+    }
+  }, [formik.values.latitude, formik.values.longitude]);
 
   const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 

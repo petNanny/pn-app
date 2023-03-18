@@ -255,7 +255,11 @@ const MyRender = (status: Status): React.ReactElement => {
 const GoogleMap = () => {
   return (
     <GoogleMapContainer>
-      <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? ""} render={MyRender}>
+      <Wrapper
+        apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? ""}
+        render={MyRender}
+        // libraries={["places"]}
+      >
         <MyMapComponent />
       </Wrapper>
     </GoogleMapContainer>
