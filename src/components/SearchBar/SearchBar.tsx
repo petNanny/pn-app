@@ -22,17 +22,10 @@ import { useFilterPetSitterMutation } from "../../redux/petSitterApi";
 
 interface SearchBarProps {
   getResults: React.Dispatch<React.SetStateAction<[]>>;
-  getCenterLat: React.Dispatch<React.SetStateAction<number>>;
-  getCenterLng: React.Dispatch<React.SetStateAction<number>>;
   getIsResultsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchBar = ({
-  getResults,
-  getCenterLat,
-  getCenterLng,
-  getIsResultsLoading,
-}: SearchBarProps) => {
+const SearchBar = ({ getResults, getIsResultsLoading }: SearchBarProps) => {
   const [serviceHeading, setServiceHeading] = useState("Dog Boarding");
   const [serviceDetail, setServiceDetail] = useState("Overnight stay at the sitter's home.");
   const [location, setLocation] = useState("Sydney NSW, Australia");
@@ -123,13 +116,6 @@ const SearchBar = ({
       getResults(filterResults);
     }
   }, [filterResults]);
-
-  useEffect(() => {
-    if (formik.values.latitude && formik.values.longitude) {
-      getCenterLat(formik.values.latitude);
-      getCenterLng(formik.values.longitude);
-    }
-  }, [formik.values.latitude, formik.values.longitude]);
 
   const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 

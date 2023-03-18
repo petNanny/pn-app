@@ -7,26 +7,12 @@ import { useState } from "react";
 
 const HomePage = () => {
   const [filterResults, setFilterResults] = useState<[]>([]);
-  const [centerLat, setCenterLat] = useState<number>(-33.87015275384432);
-  const [centerLng, setCenterLng] = useState<number>(151.21098410907578);
   const [isResultsLoading, setIsResultsLoading] = useState<boolean>(false);
-  console.log("out results", filterResults);
-  console.log("home", isResultsLoading);
 
   return (
     <PageLayout>
-      <SearchBar
-        getResults={setFilterResults}
-        getCenterLat={setCenterLat}
-        getCenterLng={setCenterLng}
-        getIsResultsLoading={setIsResultsLoading}
-      />
-      <PetSitterCardList
-        results={filterResults}
-        centerLat={centerLat}
-        centerLng={centerLng}
-        isResultsLoading={isResultsLoading}
-      />
+      <SearchBar getResults={setFilterResults} getIsResultsLoading={setIsResultsLoading} />
+      <PetSitterCardList results={filterResults} isResultsLoading={isResultsLoading} />
       <GoogleMap />
     </PageLayout>
   );
