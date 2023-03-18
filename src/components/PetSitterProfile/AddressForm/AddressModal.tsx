@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { RootState } from "../../../store";
 import {
   Button,
   Modal,
@@ -9,22 +10,21 @@ import {
   ModalBody,
   ModalCloseButton,
   FormControl,
-  FormLabel,
+  useToast,
 } from "@chakra-ui/react";
-import SearchPanel from "./SearchPanel";
-import { useCallback } from "react";
-import { Dispatch } from "@reduxjs/toolkit";
 import { updatePetSitterInfo } from "../../../store/reducer/petSitterSlice";
 import { useDispatch } from "react-redux";
+import PlacesAutocomplete from "./SearchPanel/SearchPanel";
+import { useUpdateOnePetSitterMutation } from "../../../redux/petSitterApi";
+import { useSelector } from "react-redux";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
 }
 
 interface IAddress {
-  streetNumber: string;
+  streetNumber: string | null;
   street: string;
   city: string;
   council: string;
@@ -35,16 +35,42 @@ interface IAddress {
   longitude: string;
 }
 
-const AddressModal = ({ isOpen, onClose, onConfirm }: Props) => {
-  const [getAddress, setGetAddress] = useState("");
-  const dispatch = useDispatch();
+const AddressModal = ({ isOpen, onClose }: Props) => {
+  const [getAddress, setGetAddress] = useState<IAddress | null>(null);
+  const petOwner = useSelector((state: RootState) => state.petOwner);
+  const petSitter = petOwner.petSitter;
 
-  const handleGetAddress = useCallback((address: any) => {
-    console.log(address, "addressaddressaddress");
+  const [updateAddress, { isLoading, isSuccess, isError, error }] = useUpdateOnePetSitterMutation();
+  const dispatch = useDispatch();
+  const toast = useToast();
+
+  const handleGetAddress = useCallback((address: IAddress | null) => {
     setGetAddress(address);
   }, []);
-  const handleAddressSave = useCallback(({ address }: any) => {
-    dispatch(updatePetSitterInfo(address));
+
+  const handleAddressSave = useCallback((petSitter: any, getAddress: IAddress | null) => {
+    try {
+      updateAddress({ ...petSitter, address: getAddress });
+      dispatch(updatePetSitterInfo({ ...petSitter, address: getAddress }));
+      toast({
+        title: "Address changed.",
+        description: "We've changed your address for you.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+      });
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Address changed failure.",
+        description: "We can't change your address.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+      });
+    }
   }, []);
 
   return (
@@ -55,8 +81,7 @@ const AddressModal = ({ isOpen, onClose, onConfirm }: Props) => {
         <ModalCloseButton />
         <ModalBody pb={6}>
           <FormControl>
-            <FormLabel htmlFor="address"></FormLabel>
-            <SearchPanel handleGetAddress={handleGetAddress} />
+            <PlacesAutocomplete handleGetAddress={handleGetAddress} />
           </FormControl>
         </ModalBody>
         <ModalFooter>
@@ -66,7 +91,7 @@ const AddressModal = ({ isOpen, onClose, onConfirm }: Props) => {
             height="50px"
             width="100%"
             onClick={() => {
-              handleAddressSave(getAddress);
+              handleAddressSave(petSitter, getAddress);
             }}
           >
             Save

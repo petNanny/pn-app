@@ -23,8 +23,8 @@ export const petSitterApi = apiSlice.injectEndpoints({
     updateOnePetSitter: builder.mutation({
       query: (petSitter) => ({
         url: `/petSitters/updatePetSitter/${petSitter._id}`,
-        method: "PATCH",
-        body: { ...petSitter },
+        method: "POST",
+        body: petSitter,
       }),
       invalidatesTags: (result, error, arg) => [{ type: "PetSitter", id: arg.id }],
     }),
