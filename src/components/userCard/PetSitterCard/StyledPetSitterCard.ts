@@ -1,4 +1,4 @@
-import { Card, Flex, Avatar, Heading, Text } from "@chakra-ui/react";
+import { Card, Flex, Avatar, Heading, Text, Box } from "@chakra-ui/react";
 import styled from "styled-components";
 import { devices } from "../../../styles/breakPoints";
 
@@ -38,7 +38,7 @@ export const PetSitterCardContainer = styled(Card)`
       background: lightcyan;
     }
     @media ${devices.laptop} {
-      width: 40%;
+      width: 100%;
     }
   }
 `;
