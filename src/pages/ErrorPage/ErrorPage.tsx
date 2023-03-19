@@ -10,6 +10,7 @@ const ErrorPage = () => {
         <img
           src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2VmNzc2MTM0ZjIxNjdhM2JhNzRmMWEwMzY4MDMzNThhNjVkYzFiNiZjdD1n/AKWXpDjlLgYFe1cZou/giphy.gif"
           id="error-logo"
+          alt="PetNanny 404 Page"
         />
         <Heading color="#5CACE2">
           Oops... something went wrong. we are working to
