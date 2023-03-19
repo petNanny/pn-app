@@ -47,6 +47,13 @@ const ProfileImages: React.FC = () => {
     refetchImages();
   };
 
+  const onSortEnd = async (oldIndex: number, newIndex: number) => {
+    const newGetImages = arrayMoveImmutable(getImages, oldIndex, newIndex);
+    setGetImages(newGetImages);
+    await updateOrder({ petOwnerId: petOwner._id, body: newGetImages });
+    refetchImages();
+  };
+
   const removeSuccessId = "removeSuccess";
   const removeFailId = "removeFail";
 
@@ -92,12 +99,6 @@ const ProfileImages: React.FC = () => {
       }
     }
   }, [isUpdateOrderSuccess]);
-
-  const onSortEnd = async (oldIndex: number, newIndex: number) => {
-    const newGetImages = arrayMoveImmutable(getImages, oldIndex, newIndex);
-    setGetImages(newGetImages);
-    await updateOrder({ petOwnerId: petOwner._id, body: newGetImages });
-  };
 
   return (
     <ImageCardsContainer>
