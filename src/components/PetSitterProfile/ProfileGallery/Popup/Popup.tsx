@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { useEffect, createRef } from "react";
+import { createRef } from "react";
 import { useUploadMutation, useUserGetOwnImagesQuery } from "../../../../redux/imageApi";
 import { StyledModalFooter } from "./StyledPopup";
 import { useSelector } from "react-redux";
@@ -28,29 +28,24 @@ interface PopupProps {
 }
 
 const Popup = ({ open, setOpen, croppedImage, newImgBlob, setNewImgBlob }: PopupProps) => {
-  const [upload, { isSuccess: isUploadSuccess, isError: isUploadError }] = useUploadMutation();
+  const [upload] = useUploadMutation();
   const toast = useToast();
-
   const petOwner = useSelector((state: any) => state.petOwner);
   const { refetch: refetchImages } = useUserGetOwnImagesQuery(petOwner._id);
-
   const cropperRef = createRef<ReactCropperElement>();
+  const fileName = uuid().slice(0, 16);
+  const { onClose } = useDisclosure();
+  const uploadSuccessId = "uploadSuccess";
+  const uploadFailId = "uploadFail";
+
   const handlePopupClose = () => {
     setOpen(false);
   };
 
-  // const handleRotate = () => {
-  //   const imageElement = cropperRef?.current;
-  //   const cropper = imageElement?.cropper;
-  //   cropper?.rotate(90);
-  // };
-
-  const fileName = uuid().slice(0, 16);
-
   const handCropperEnd = () => {
-    if (typeof cropperRef.current?.cropper !== undefined) {
+    if (cropperRef.current?.cropper) {
       const croppedCanvas = cropperRef.current?.cropper.getCroppedCanvas();
-      if (croppedCanvas !== undefined) {
+      if (croppedCanvas) {
         croppedCanvas.toBlob((blob) => {
           if (blob !== null) {
             const file = new File([blob], fileName, { type: "image/jpeg" });
@@ -70,41 +65,35 @@ const Popup = ({ open, setOpen, croppedImage, newImgBlob, setNewImgBlob }: Popup
     const formData = new FormData();
     formData.append("file", newImgBlob);
 
-    await upload({ petOwnerId: petOwner._id, body: formData });
+    await upload({ petOwnerId: petOwner._id, body: formData })
+      .unwrap()
+      .then(() => {
+        if (!toast.isActive(uploadSuccessId)) {
+          toast({
+            id: uploadSuccessId,
+            title: "Image uploaded successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+          });
+        }
+      })
+      .catch((err) => {
+        if (!toast.isActive(uploadFailId)) {
+          toast({
+            id: uploadFailId,
+            title: "Image upload failed",
+            description: err.data.error,
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+          });
+        }
+      });
     refetchImages();
   };
-
-  const { onClose } = useDisclosure();
-
-  const uploadSuccessId = "uploadSuccess";
-  const uploadFailId = "uploadFail";
-
-  useEffect(() => {
-    if (isUploadSuccess) {
-      if (!toast.isActive(uploadSuccessId)) {
-        toast({
-          id: uploadSuccessId,
-          title: "Image uploaded successfully",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-        });
-      }
-    }
-    if (isUploadError) {
-      if (!toast.isActive(uploadFailId)) {
-        toast({
-          id: uploadFailId,
-          title: "Image upload failed",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-        });
-      }
-    }
-  }, [isUploadSuccess, isUploadError]);
 
   return (
     <>

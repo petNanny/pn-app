@@ -22,40 +22,22 @@ const ProfileImages: React.FC = () => {
   const [remove, { isSuccess: isRemoveSuccess, isError: isRemoveError }] = useDeleteMutation();
   const [getImages, setGetImages] = useState<ProfileGalleryImageValues[]>([]);
   const toast = useToast();
-
   const petOwner = useSelector((state: any) => state.petOwner);
   const { data: imagesData, refetch: refetchImages } = useUserGetOwnImagesQuery(petOwner._id);
-
   const [updateOrder, { isSuccess: isUpdateOrderSuccess }] = useUpdateImagesOrderMutation(
     petOwner._id
   );
+  const removeSuccessId = "removeSuccess";
+  const removeFailId = "removeFail";
+  const updateOrderSuccessId = "updateOrderSuccess";
 
   useEffect(() => {
-    if (imagesData !== undefined) {
+    if (imagesData) {
       setGetImages(imagesData);
     } else {
       setGetImages([]);
     }
   }, [imagesData, setGetImages]);
-
-  const handleRemoveImg = async (e: any, fileName: string) => {
-    e.preventDefault();
-    const bodyData = {
-      fileName: fileName,
-    };
-    await remove({ petOwnerId: petOwner._id, body: bodyData });
-    refetchImages();
-  };
-
-  const onSortEnd = async (oldIndex: number, newIndex: number) => {
-    const newGetImages = arrayMoveImmutable(getImages, oldIndex, newIndex);
-    setGetImages(newGetImages);
-    await updateOrder({ petOwnerId: petOwner._id, body: newGetImages });
-    refetchImages();
-  };
-
-  const removeSuccessId = "removeSuccess";
-  const removeFailId = "removeFail";
 
   useEffect(() => {
     if (isRemoveSuccess) {
@@ -84,7 +66,6 @@ const ProfileImages: React.FC = () => {
     }
   }, [isRemoveSuccess, isRemoveError]);
 
-  const updateOrderSuccessId = "updateOrderSuccess";
   useEffect(() => {
     if (isUpdateOrderSuccess) {
       if (!toast.isActive(updateOrderSuccessId)) {
@@ -99,6 +80,22 @@ const ProfileImages: React.FC = () => {
       }
     }
   }, [isUpdateOrderSuccess]);
+
+  const handleRemoveImg = async (e: any, fileName: string) => {
+    e.preventDefault();
+    const bodyData = {
+      fileName: fileName,
+    };
+    await remove({ petOwnerId: petOwner._id, body: bodyData });
+    refetchImages();
+  };
+
+  const onSortEnd = async (oldIndex: number, newIndex: number) => {
+    const newGetImages = arrayMoveImmutable(getImages, oldIndex, newIndex);
+    setGetImages(newGetImages);
+    await updateOrder({ petOwnerId: petOwner._id, body: newGetImages });
+    refetchImages();
+  };
 
   return (
     <ImageCardsContainer>

@@ -12,24 +12,6 @@ const ProfileGallery: React.FC = () => {
   const [newImgBlob, setNewImgBlob] = useState<File | null>(null);
   const [upload, { isSuccess: isUploadSuccess, isError: isUploadError }] = useUploadMutation();
   const toast = useToast();
-
-  const onInputChange = (e: any) => {
-    if (e.target.files) {
-      setNewImgBlob(e.target.files[0]);
-    }
-    const selectedImg = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setCroppedImage(reader.result as any);
-    };
-    reader.readAsDataURL(selectedImg);
-    setOpen(true);
-  };
-
-  const handleInputClick = (e: any) => {
-    e.currentTarget.value = null;
-  };
-
   const uploadSuccessId = "uploadSuccess";
   const uploadFailId = "uploadFail";
 
@@ -55,6 +37,23 @@ const ProfileGallery: React.FC = () => {
       });
     }
   }, [isUploadSuccess, isUploadError]);
+
+  const onInputChange = (e: any) => {
+    if (e.target.files) {
+      setNewImgBlob(e.target.files[0]);
+    }
+    const selectedImg = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCroppedImage(reader.result as any);
+    };
+    reader.readAsDataURL(selectedImg);
+    setOpen(true);
+  };
+
+  const handleInputClick = (e: any) => {
+    e.currentTarget.value = null;
+  };
 
   return (
     <FormWrapper title="Profile gallery">

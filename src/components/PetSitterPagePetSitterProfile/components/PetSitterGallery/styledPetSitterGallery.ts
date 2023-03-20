@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Box, Image, Heading } from "@chakra-ui/react";
+import { Button, Box, Image, Heading, CircularProgress } from "@chakra-ui/react";
 import { devices } from "../../../../styles/breakPoints";
 
 export const PetSitterGalleryContainer = styled(Box)`
@@ -14,6 +14,20 @@ export const PetSitterGalleryImageContainer = styled(Box)`
     position: relative;
     border-radius: 4px;
     overflow: hidden;
+  }
+`;
+
+export const LoadingBox = styled(CircularProgress)`
+  &&& {
+    height: 14rem;
+    max-width: 100%;
+    margin: auto;
+    @media ${devices.tablet} {
+      height: 20rem;
+    }
+    @media ${devices.laptop} {
+      height: 26rem;
+    }
   }
 `;
 

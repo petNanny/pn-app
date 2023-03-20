@@ -1,4 +1,4 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import imageNotFound from "../../../../assets/temps/imageNotFound.jpg";
 import {
   PetSitterGalleryContainer,
@@ -7,52 +7,58 @@ import {
   BackImage,
   MoreImagesBtn,
   ImageTitle,
+  LoadingBox,
 } from "./styledPetSitterGallery";
 import { useUserGetPetSitterImagesQuery } from "../../../../redux/imageApi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { extractIdFromURL } from "../../../../utils/common";
 import { useLocation } from "react-router-dom";
 
-interface Image {
+interface userName {
+  userName: string;
+}
+
+interface PetSitterImageValue {
   _id: string;
   url: string;
   fileName: string;
   petSitterId: string;
 }
 
-interface userName {
-  userName: string;
-}
-
 const PetSitterGallery = ({ userName }: userName) => {
-  const defaultImage = {
-    _id: "1",
-    url: imageNotFound,
-    fileName: "image not found",
-    petSitterId: "0",
-  };
-  const [getImages, setGetImages] = useState<Image[]>([defaultImage]);
   const [imageGalleryOpen, setImageGalleryOpen] = useState(false);
 
   const location = useLocation();
   const petSitterId = extractIdFromURL(location.pathname);
 
-  const { data: petSitterImages } = useUserGetPetSitterImagesQuery(petSitterId);
+  const { data: petSitterImages, isLoading: isPetSitterImagesLoading } =
+    useUserGetPetSitterImagesQuery(petSitterId);
 
-  useEffect(() => {
-    if (petSitterImages !== undefined) {
-      setGetImages(petSitterImages);
+  let slides: any = [],
+    coverImage,
+    backImage,
+    imagesLength;
+  if (petSitterImages) {
+    if (petSitterImages.length === 0) {
+      coverImage = imageNotFound;
+      backImage = imageNotFound;
+      imagesLength = 0;
+    } else {
+      coverImage = petSitterImages[0].url;
+      backImage = petSitterImages[0].url;
+      imagesLength = petSitterImages.length;
     }
-  }, [petSitterImages]);
-
-  const slides = getImages.map((image) => {
-    return { ...image, src: image.url, url: undefined };
-  });
+    slides = petSitterImages.map((image: PetSitterImageValue) => {
+      return { ...image, src: image.url, url: undefined };
+    });
+  }
 
   const handleMoreImgBtn = () => {
-    setImageGalleryOpen(true);
+    if (petSitterImages.length > 0) {
+      return setImageGalleryOpen(true);
+    }
   };
 
   const handleImageGalleryCloseBtn = () => {
@@ -63,11 +69,15 @@ const PetSitterGallery = ({ userName }: userName) => {
     <>
       <PetSitterGalleryContainer>
         <PetSitterGalleryImageContainer>
-          <Box>
-            <CoverImage src={getImages[0].url} alt={getImages[0].fileName} />
-            <BackImage src={getImages[0].url} alt={getImages[0].fileName} />
-          </Box>
-          <MoreImagesBtn onClick={handleMoreImgBtn}>See more ({getImages.length})</MoreImagesBtn>
+          {isPetSitterImagesLoading ? (
+            <LoadingBox isIndeterminate color="green.300" />
+          ) : (
+            <Box>
+              <CoverImage src={coverImage} alt={userName} />
+              <BackImage src={backImage} alt={userName} />
+            </Box>
+          )}
+          <MoreImagesBtn onClick={handleMoreImgBtn}>See more ({imagesLength})</MoreImagesBtn>
           <Lightbox
             open={imageGalleryOpen}
             close={handleImageGalleryCloseBtn}

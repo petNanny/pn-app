@@ -8,34 +8,20 @@ import PetSitterMobileHeader from "./components/PetSitterMobileHeader/PetSitterM
 import { useGetOnePetSitterQuery } from "../../redux/petSitterApi";
 import { extractIdFromURL } from "../../utils/common";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 const PetSitterPagePetSitterProfile = () => {
-  const defaultData = {
-    petOwner: {
-      userName: "",
-      avatar: "",
-    },
-    introduction: "",
-    address: {
-      city: "",
-    },
-  };
-  const [petData, setPetData] = useState(defaultData);
   const location = useLocation();
   const petSitterId = extractIdFromURL(location.pathname);
   const { data: petSitterData } = useGetOnePetSitterQuery(petSitterId);
 
-  useEffect(() => {
-    if (petSitterData !== undefined && petSitterData.petOwner !== undefined) {
-      setPetData(petSitterData);
-    }
-  }, [petSitterData]);
-
-  const userName = petData.petOwner.userName;
-  const userAvatar = petData.petOwner.avatar;
-  const userIntro = petData.introduction;
-  const userSuburb = petData.address.city;
+  let userName, userAvatar, userIntro, userSuburb;
+  if (petSitterData) {
+    ({
+      petOwner: { userName, avatar: userAvatar },
+      introduction: userIntro,
+      address: { city: userSuburb },
+    } = petSitterData);
+  }
 
   return (
     <>
