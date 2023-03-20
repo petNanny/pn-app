@@ -91,7 +91,6 @@ const PetSitterCardList = () => {
           rating={petSitter.rating}
         />
       ))}
-      <p>1</p>
     </Flex>
   );
 };
