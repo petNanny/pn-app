@@ -1,12 +1,35 @@
 import { Spinner } from "@chakra-ui/react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { GoogleMapContainer } from "./StyledGoogleMap";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./GoogleMap.css";
 import markerPaw from "./assets/paw.png";
 import recurringIcon from "./assets/recurring.svg";
 import star from "./assets/star.svg";
 import { petSitterData } from "../../interfaces/petSitterData";
+
+interface GoogleMapProps {
+  results: result[];
+  centerPoint: number[];
+}
+
+interface result {
+  geoCode: {
+    coordinates: [longitude: number, latitude: number];
+  };
+  petOwner: {
+    avatar: string;
+    userName: string;
+  };
+  address: {
+    city: string;
+  };
+  service: [
+    {
+      Rate: number;
+    }
+  ];
+}
 
 const petSitters: petSitterData[] = [
   {
@@ -173,12 +196,13 @@ const petSitters: petSitterData[] = [
   },
 ];
 
-const MyMapComponent = () => {
+const MyMapComponent = ({ results, centerPoint }: GoogleMapProps) => {
+  console.log(results);
   const ref = useRef<HTMLDivElement>(null);
   //sydney opera house
   const defaultCenter: google.maps.LatLngLiteral = {
-    lat: -33.85657,
-    lng: 151.21527,
+    lat: centerPoint[0],
+    lng: centerPoint[1],
   };
   const defaultZoom = 12;
   const minZoom = 10;
@@ -197,8 +221,16 @@ const MyMapComponent = () => {
       content: contentString,
     });
 
-    petSitters.map(
-      ({ field_address: { latitude, longitude }, avatar, name, suburb, rating, price }) => {
+    results.map(
+      ({
+        geoCode: {
+          coordinates: [longitude, latitude],
+        },
+        petOwner: { avatar, userName: name },
+        address: { city: suburb },
+        // rating,
+        service: [{ Rate: price }],
+      }) => {
         const marker = new google.maps.Marker({
           position: {
             lat: latitude,
@@ -224,7 +256,7 @@ const MyMapComponent = () => {
             `${Array(5)
               .fill('<img alt="star" src=' + star + ">")
               .join("")}` +
-            `<span>${rating}</span>
+            `<span></span>
           </div>
           <div class="Marker_Recurring">
             <img alt="recurring order" src=${recurringIcon}>
@@ -252,7 +284,7 @@ const MyRender = (status: Status): React.ReactElement => {
   return <Spinner />;
 };
 
-const GoogleMap = () => {
+const GoogleMap = ({ results, centerPoint }: GoogleMapProps) => {
   return (
     <GoogleMapContainer>
       <Wrapper
@@ -260,7 +292,7 @@ const GoogleMap = () => {
         render={MyRender}
         // libraries={["places"]}
       >
-        <MyMapComponent />
+        <MyMapComponent results={results} centerPoint={centerPoint} />
       </Wrapper>
     </GoogleMapContainer>
   );

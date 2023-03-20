@@ -1,7 +1,7 @@
 export interface SearchFormValues {
   location: string;
-  latitude: number | undefined;
-  longitude: number | undefined;
+  latitude: number;
+  longitude: number;
   petService: string;
   selectedDates: [];
   noDogs: boolean;

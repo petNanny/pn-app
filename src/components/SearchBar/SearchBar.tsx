@@ -19,13 +19,15 @@ import { useMediaQuery } from "@chakra-ui/react";
 import searchFilterSchema from "../../schemas/searchFilterValidator";
 import { SearchFormValues } from "../../interfaces/searchForm";
 import { useFilterPetSitterMutation } from "../../redux/petSitterApi";
+import NewAddressInput from "./components/AddressInput/NewAddressInput";
 
 interface SearchBarProps {
   getResults: React.Dispatch<React.SetStateAction<[]>>;
   getIsResultsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  getCenterPoint: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-const SearchBar = ({ getResults, getIsResultsLoading }: SearchBarProps) => {
+const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBarProps) => {
   const [serviceHeading, setServiceHeading] = useState("Dog Boarding");
   const [serviceDetail, setServiceDetail] = useState("Overnight stay at the sitter's home.");
   const [location, setLocation] = useState("Sydney NSW, Australia");
@@ -117,6 +119,10 @@ const SearchBar = ({ getResults, getIsResultsLoading }: SearchBarProps) => {
     }
   }, [filterResults]);
 
+  useEffect(() => {
+    getCenterPoint([formik.values.latitude, formik.values.longitude]);
+  }, [formik.values.latitude, formik.values.longitude]);
+
   const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 
   useEffect(() => {
@@ -171,6 +177,7 @@ const SearchBar = ({ getResults, getIsResultsLoading }: SearchBarProps) => {
             {isLaptop ? (
               <MobileSearchBtn onClick={handleSearchBtn}>Search Now</MobileSearchBtn>
             ) : null}
+            {/* <NewAddressInput changeLocation={changeLocation} formik={formik} /> */}
           </InputsContainer>
         )}
         {isLaptop ? (

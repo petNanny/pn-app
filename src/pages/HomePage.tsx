@@ -8,12 +8,17 @@ import { useState } from "react";
 const HomePage = () => {
   const [filterResults, setFilterResults] = useState<[]>([]);
   const [isResultsLoading, setIsResultsLoading] = useState<boolean>(false);
+  const [centerPoint, setCenterPoint] = useState<number[]>([]);
 
   return (
     <PageLayout>
-      <SearchBar getResults={setFilterResults} getIsResultsLoading={setIsResultsLoading} />
+      <SearchBar
+        getResults={setFilterResults}
+        getIsResultsLoading={setIsResultsLoading}
+        getCenterPoint={setCenterPoint}
+      />
       <PetSitterCardList results={filterResults} isResultsLoading={isResultsLoading} />
-      <GoogleMap />
+      <GoogleMap results={filterResults} centerPoint={centerPoint} />
     </PageLayout>
   );
 };
