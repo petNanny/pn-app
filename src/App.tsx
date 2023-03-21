@@ -10,6 +10,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import OrderPage from "./pages/OrderPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import BecomePetSitter from "./pages/BecomePetSitter";
+import PetSitterDetailsPage from "./pages/PetSitterDetailsPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SearchBar from "./components/SearchBar/SearchBar";
 
@@ -55,6 +56,14 @@ const App = () => {
             element={
               <AuthRoute>
                 <BecomePetSitter />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/petSitter/details/:id"
+            element={
+              <AuthRoute>
+                <PetSitterDetailsPage />
               </AuthRoute>
             }
           />

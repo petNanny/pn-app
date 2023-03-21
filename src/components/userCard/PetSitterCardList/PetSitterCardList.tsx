@@ -3,14 +3,14 @@ import { UserCardContainer } from "./styledPetSitterCardList";
 import { CircularProgress } from "@chakra-ui/react";
 
 export interface PetSitter {
-  id: number;
+  id: string;
   avatar: string;
   name: string;
   suburb: string;
   introduction: string;
   price: number;
   distance: string;
-  // rating: number;
+  rating: number;
 }
 interface CardListProps {
   results: [];
@@ -34,7 +34,7 @@ const PetSitterCardList = ({ results, isResultsLoading }: CardListProps) => {
           price={petSitter.service[0].Rate}
           introduction={petSitter.introduction}
           distance={petSitter.distance}
-          // rating={petSitter.rating}
+          rating={petSitter.rating || 5}
         />
       ))}
     </UserCardContainer>

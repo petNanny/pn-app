@@ -20,7 +20,7 @@ export const petOwnerApi = apiSlice.injectEndpoints({
       query: (petOwner) => ({
         url: `/petOwners/${petOwner._id}`,
         method: "PATCH",
-        body: { ...petOwner },
+        body: petOwner,
       }),
       invalidatesTags: (result, error, arg) => [{ type: "PetOwner", id: arg.id }],
     }),
