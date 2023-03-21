@@ -3,6 +3,7 @@ import { apiSlice } from "../redux/api/apiSlice";
 import authReducer from "./reducer/authSlice";
 import boardingPageReducer from "./reducer/boardingPageSlice";
 import petOwnerReducer from "./reducer/petOwnerSlice";
+import petSitterReducer from "./reducer/petSitterSlice";
 
 export const store = configureStore({
   reducer: (state, action) => {
@@ -16,6 +17,7 @@ export const store = configureStore({
       auth: authReducer,
       petOwner: petOwnerReducer,
       boardingPage: boardingPageReducer,
+      petSitter: petSitterReducer,
     })(state, action);
   },
   middleware: (getDefaultMiddleware) =>
