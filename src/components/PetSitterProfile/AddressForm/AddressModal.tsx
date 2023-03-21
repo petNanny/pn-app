@@ -50,7 +50,14 @@ const AddressModal = ({ isOpen, onClose }: Props) => {
 
   const handleAddressSave = useCallback((petSitter: any, getAddress: IAddress | null) => {
     try {
-      updateAddress({ ...petSitter, address: getAddress });
+      updateAddress({
+        ...petSitter,
+        address: getAddress,
+        geoCode: {
+          type: "Point",
+          coordinates: [getAddress?.longitude, getAddress?.latitude],
+        },
+      });
       dispatch(updatePetSitterInfo({ ...petSitter, address: getAddress }));
       toast({
         title: "Address changed.",
