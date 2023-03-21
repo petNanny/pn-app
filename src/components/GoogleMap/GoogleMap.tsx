@@ -197,7 +197,6 @@ const petSitters: petSitterData[] = [
 ];
 
 const MyMapComponent = ({ results, centerPoint }: GoogleMapProps) => {
-  console.log(results);
   const ref = useRef<HTMLDivElement>(null);
   //sydney opera house
   const defaultCenter: google.maps.LatLngLiteral = {

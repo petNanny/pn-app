@@ -1,6 +1,7 @@
 import { configureStore, combineReducers, ThunkAction, Action } from "@reduxjs/toolkit";
 import { apiSlice } from "../redux/api/apiSlice";
 import authReducer from "./reducer/authSlice";
+import boardingPageReducer from "./reducer/boardingPageSlice";
 import petOwnerReducer from "./reducer/petOwnerSlice";
 
 export const store = configureStore({
@@ -14,9 +15,9 @@ export const store = configureStore({
       [apiSlice.reducerPath]: apiSlice.reducer,
       auth: authReducer,
       petOwner: petOwnerReducer,
+      boardingPage: boardingPageReducer,
     })(state, action);
   },
-
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

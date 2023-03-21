@@ -18,6 +18,8 @@ import { useFormik, FormikProps } from "formik";
 import { useMediaQuery } from "@chakra-ui/react";
 import searchFilterSchema from "../../schemas/searchFilterValidator";
 import { SearchFormValues } from "../../interfaces/searchForm";
+import { toggleShowMapOrCard } from "../../store/reducer/boardingPageSlice";
+import { useStoreDispatch, useStoreSelector } from "../../store/hook";
 import { useFilterPetSitterMutation } from "../../redux/petSitterApi";
 import NewAddressInput from "./components/AddressInput/NewAddressInput";
 
@@ -52,7 +54,6 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
   const changeServiceDetail = (value: string) => {
     setServiceDetail(value);
   };
-
   const changeLocation = (value: string) => {
     setLocation(value);
   };
@@ -97,7 +98,6 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
       values.smallAnimal = smallAnimalNum;
       values.totalPets = totalPetsNum;
       await sleep(500);
-      console.log(values);
       await filter({ body: values });
     },
   });
@@ -137,6 +137,10 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
   const handleFilterBtn = () => {
     setShowFilter(true);
   };
+
+  const dispatch = useStoreDispatch();
+
+  const showMapOrCard = useStoreSelector((state) => state.boardingPage.showMapOrCard);
 
   return (
     <>
@@ -183,7 +187,9 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
         {isLaptop ? (
           <MobileButtonsContainer>
             <StyledMobileBtn onClick={handleFilterBtn}>Edit Filters</StyledMobileBtn>
-            <StyledMobileBtn>Show Map</StyledMobileBtn>
+            <StyledMobileBtn onClick={() => dispatch(toggleShowMapOrCard())}>
+              {showMapOrCard ? `Show List` : `Show Map`}
+            </StyledMobileBtn>
           </MobileButtonsContainer>
         ) : null}
       </SearchBox>

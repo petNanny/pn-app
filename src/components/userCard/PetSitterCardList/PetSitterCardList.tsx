@@ -1,5 +1,5 @@
 import PetSitterCard from "../PetSitterCard/PetSitterCard";
-import { useState, useEffect } from "react";
+import { UserCardContainer } from "./styledPetSitterCardList";
 import { CircularProgress } from "@chakra-ui/react";
 
 export interface PetSitter {
@@ -23,7 +23,7 @@ const PetSitterCardList = ({ results, isResultsLoading }: CardListProps) => {
   if (isResultsLoading) return <CircularProgress isIndeterminate color="green.300" />;
 
   return (
-    <div>
+    <UserCardContainer>
       {results.map((petSitter: any) => (
         <PetSitterCard
           key={petSitter._id}
@@ -37,7 +37,7 @@ const PetSitterCardList = ({ results, isResultsLoading }: CardListProps) => {
           // rating={petSitter.rating}
         />
       ))}
-    </div>
+    </UserCardContainer>
   );
 };
 

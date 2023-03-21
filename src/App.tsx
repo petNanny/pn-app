@@ -1,6 +1,6 @@
 import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/HomePage/HomePage";
 import ChatPage from "./pages/ChatPage";
 import MessagePage from "./pages/MessagePage";
 import RegisterPage from "./pages/RegisterPage";
