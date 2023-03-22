@@ -10,28 +10,28 @@ import {
 import redHollowHeart from "../../../../assets/Icons/redHollowHeart.svg";
 
 interface MobileHeaderValues {
-  userAvatar: string;
-  userName: string;
-  userIntro: string;
-  userSuburb: string;
+  petSitterAvatar: string;
+  petSitterName: string;
+  petSitterIntro: string;
+  petSitterSuburb: string;
 }
 
 const PetSitterMobileHeader = ({
-  userAvatar,
-  userName,
-  userIntro,
-  userSuburb,
+  petSitterAvatar,
+  petSitterName,
+  petSitterIntro,
+  petSitterSuburb,
 }: MobileHeaderValues) => {
   return (
     <>
       <MobileHeaderContainer>
-        <MobileHeaderAvatar name={userName} src={userAvatar} />
+        <MobileHeaderAvatar name={petSitterName} src={petSitterAvatar} />
         <MobileHeaderPetSitterInfo>
           <SavedForFavoriteBtn>
             <Image src={redHollowHeart} />
           </SavedForFavoriteBtn>
-          <MobileHeaderIntro as="h2">{userIntro}</MobileHeaderIntro>
-          <MobileHeaderSuburb>{userSuburb}</MobileHeaderSuburb>
+          <MobileHeaderIntro as="h2">{petSitterIntro}</MobileHeaderIntro>
+          <MobileHeaderSuburb>{petSitterSuburb}</MobileHeaderSuburb>
         </MobileHeaderPetSitterInfo>
       </MobileHeaderContainer>
     </>

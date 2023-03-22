@@ -6,18 +6,17 @@ import {
   CoverImage,
   BackImage,
   MoreImagesBtn,
-  ImageTitle,
+  NameBox,
   LoadingBox,
 } from "./styledPetSitterGallery";
 import { useUserGetPetSitterImagesQuery } from "../../../../redux/imageApi";
 import { useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-import { extractIdFromURL } from "../../../../utils/common";
-import { useLocation } from "react-router-dom";
 
-interface userName {
-  userName: string;
+interface petSitterValues {
+  petSitterName: string;
+  petSitterId: string;
 }
 
 interface PetSitterImageValue {
@@ -27,11 +26,8 @@ interface PetSitterImageValue {
   petSitterId: string;
 }
 
-const PetSitterGallery = ({ userName }: userName) => {
+const PetSitterGallery = ({ petSitterName, petSitterId }: petSitterValues) => {
   const [imageGalleryOpen, setImageGalleryOpen] = useState(false);
-
-  const location = useLocation();
-  const petSitterId = extractIdFromURL(location.pathname);
 
   const { data: petSitterImages, isLoading: isPetSitterImagesLoading } =
     useUserGetPetSitterImagesQuery(petSitterId);
@@ -73,8 +69,8 @@ const PetSitterGallery = ({ userName }: userName) => {
             <LoadingBox isIndeterminate color="green.300" />
           ) : (
             <Box>
-              <CoverImage src={coverImage} alt={userName} />
-              <BackImage src={backImage} alt={userName} />
+              <CoverImage src={coverImage} alt={petSitterName} />
+              <BackImage src={backImage} alt={petSitterName} />
             </Box>
           )}
           <MoreImagesBtn onClick={handleMoreImgBtn}>See more ({imagesLength})</MoreImagesBtn>
@@ -85,7 +81,7 @@ const PetSitterGallery = ({ userName }: userName) => {
             carousel={{ imageFit: "contain" }}
           />
         </PetSitterGalleryImageContainer>
-        <ImageTitle as="h1">{userName}</ImageTitle>
+        <NameBox as="h1">{petSitterName}</NameBox>
       </PetSitterGalleryContainer>
     </>
   );

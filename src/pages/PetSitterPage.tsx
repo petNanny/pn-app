@@ -1,10 +1,10 @@
 import PageLayout from "../components/Layout/PageLayout";
-import PetSitterPagePetSitterProfile from "../components/PetSitterPagePetSitterProfile/PetSitterPagePetSitterProfile";
+import PetSitterDetail from "../components/PetSitterDetail/PetSitterDetail";
 
 const PetSitterPage = () => {
   return (
     <PageLayout>
-      <PetSitterPagePetSitterProfile />
+      <PetSitterDetail />
     </PageLayout>
   );
 };

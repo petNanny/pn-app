@@ -85,7 +85,7 @@ export const MoreImagesBtn = styled(Button)`
   }
 `;
 
-export const ImageTitle = styled(Heading)`
+export const NameBox = styled(Heading)`
   &&& {
     position: absolute;
     left: calc(8rem + 8px);
