@@ -13,7 +13,7 @@ const ErrorPage = () => {
           Oops... something went wrong. we are working to fix it.
           <Heading color="#ADD8E6">
             <NavLink to="/">
-              <Text as="u">Home Page</Text>.
+              <Text as="u">Home Page</Text>
             </NavLink>
           </Heading>
         </Heading>
