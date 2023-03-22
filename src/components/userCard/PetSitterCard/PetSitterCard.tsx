@@ -20,7 +20,7 @@ const PetSitterCard = (props: PetSitter) => {
   const navigate = useNavigate();
 
   const handleClickPetSitter = () => {
-    navigate(`/petSitter/details/${id}`);
+    navigate(`/petSitter/${id}`);
   };
   return (
     <PetSitterCardContainer onClick={handleClickPetSitter}>

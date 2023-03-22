@@ -10,6 +10,7 @@ import DescriptionForm from "./PetSitterProfile/DescriptionForm/DescriptionForm"
 import ExperienceForm from "./PetSitterProfile/ExperienceForm/ExperienceForm";
 import PaymentForm from "./PetSitterProfile/PaymentForm/PaymentForm";
 import CompleteApplicationForm from "./PetSitterProfile/CompleteApplicationForm/CompleteApplicationForm";
+import ProfileGallery from "./PetSitterProfile/ProfileGallery/ProfileGallery";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 const PetSitter = () => {
@@ -41,6 +42,7 @@ const PetSitter = () => {
           {formPage === "experience" && id === petOwner._id && <ExperienceForm />}
           {formPage === "payment-information" && id === petOwner._id && <PaymentForm />}
           {formPage === "submission" && id === petOwner._id && <CompleteApplicationForm />}
+          {formPage === "profile-gallery" && id === petOwner._id && <ProfileGallery />}
         </Flex>
       </Flex>
     </Container>
