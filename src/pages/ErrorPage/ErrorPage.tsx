@@ -10,10 +10,10 @@ const ErrorPage = () => {
       <ErrorPageContent>
         <img src={ErrorImage} id="error-logo" alt="PetNanny 404 Page" />
         <Heading color="#5CACE2">
-          Oops... something went wrong. we are working to
+          Oops... something went wrong. we are working to fix it.
           <Heading color="#ADD8E6">
             <NavLink to="/">
-              <Text as="u">fix it</Text>.
+              <Text as="u">Home Page</Text>.
             </NavLink>
           </Heading>
         </Heading>
