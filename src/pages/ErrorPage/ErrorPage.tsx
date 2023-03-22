@@ -2,7 +2,7 @@ import { Heading, Text } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import PageLayout from "../../components/Layout/PageLayout";
 import { ErrorPageContent } from "./styledErrorPage";
-import ErrorImage from "./assets/3.jpg";
+import ErrorImage from "./assets/errorImage.jpg";
 
 const ErrorPage = () => {
   return (
