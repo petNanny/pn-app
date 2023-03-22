@@ -14,15 +14,18 @@ interface PagnationType {
   onPageChange: (page: number) => void;
 }
 
+/*
+	Create an array of certain length and set the elements within it from
+  start value to end value.
+*/
 const range = (start: number, end: number): number[] => {
   const length = end - start + 1;
-  /*
-  	Create an array of certain length and set the elements within it from
-    start value to end value.
-  */
   return Array.from({ length }, (_, i) => i + start);
 };
 
+/*
+	Create an array for Pagination component
+*/
 const usePagination = (
   totalCount: number,
   pageSize: number,
@@ -99,19 +102,9 @@ const usePagination = (
   return paginationRange;
 };
 
-const PetSitterPaginationTest = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  return (
-    <PetSitterPagination
-      totalCount={70}
-      pageSize={8}
-      siblingCount={1}
-      currentPage={currentPage}
-      onPageChange={(page) => setCurrentPage(page)}
-    />
-  );
-};
-
+/*
+	Create Pagination component
+*/
 const PetSitterPagination = (props: PagnationType) => {
   const {
     totalCount: totalCount,
@@ -180,6 +173,22 @@ const PetSitterPagination = (props: PagnationType) => {
         </PaginationItem>
       )}
     </PaginationContainer>
+  );
+};
+
+/*
+	an example of how to use Pagination component
+*/
+const PetSitterPaginationTest = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  return (
+    <PetSitterPagination
+      totalCount={70}
+      pageSize={8}
+      siblingCount={1}
+      currentPage={currentPage}
+      onPageChange={(page) => setCurrentPage(page)}
+    />
   );
 };
 
