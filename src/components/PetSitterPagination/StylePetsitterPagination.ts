@@ -24,7 +24,6 @@ export const PaginationItem = styled.li`
       background-color: lightcyan;
       cursor: pointer;
     }
-
     &.selected {
       background-color: #4299e1;
     }
@@ -42,12 +41,8 @@ export const PaginationItem = styled.li`
       &.left {
         transform: rotate(-135deg) translate(-50%);
       }
-
       &.right {
         transform: rotate(45deg);
-      }
-      &.disabled {
-        display: none;
       }
     }
   }

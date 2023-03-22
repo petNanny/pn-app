@@ -1,7 +1,8 @@
 import { Divider } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import classnames from "classnames";
 import { PaginationContainer, PaginationItem } from "./StylePetsitterPagination";
+import { fetchPetSitterListByPage } from "../../services/GetPetSitterListService";
 
 const DOTS = 0;
 
@@ -99,7 +100,7 @@ const usePagination = (
 };
 
 const PetSitterPaginationTest = () => {
-  const [currentPage, setCurrentPage] = useState(2);
+  const [currentPage, setCurrentPage] = useState(1);
   return (
     <PetSitterPagination
       totalCount={70}
@@ -140,13 +141,13 @@ const PetSitterPagination = (props: PagnationType) => {
   return (
     <PaginationContainer>
       {/* Left navigation arrow */}
-      <PaginationItem onClick={onPrevious}>
-        <div
-          className={classnames("arrow left", {
-            disabled: currentPage === 1,
-          })}
-        />
-      </PaginationItem>
+      {currentPage === 1 ? (
+        <div></div>
+      ) : (
+        <PaginationItem onClick={onPrevious}>
+          <div className={classnames("arrow left")} />
+        </PaginationItem>
+      )}
       {paginationRange.map((pageNumber, i) => {
         // If the pageItem is a DOT, render the DOTS unicode character
         if (pageNumber === DOTS) {
@@ -171,21 +172,15 @@ const PetSitterPagination = (props: PagnationType) => {
         );
       })}
       {/*  Right Navigation arrow */}
-      <PaginationItem onClick={onNext}>
-        <div
-          className={classnames("arrow right", {
-            disabled: currentPage === lastPage,
-          })}
-        />
-      </PaginationItem>
+      {currentPage === lastPage ? (
+        <div></div>
+      ) : (
+        <PaginationItem onClick={onNext}>
+          <div className={classnames("arrow right")} />
+        </PaginationItem>
+      )}
     </PaginationContainer>
   );
 };
-//   return (
-//     <div>
-//       <p>123</p>
-//     </div>
-//   );
-// };
 
 export default PetSitterPaginationTest;
