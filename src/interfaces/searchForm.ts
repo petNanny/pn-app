@@ -14,6 +14,8 @@ export interface SearchFormValues {
   cat: number;
   smallAnimal: number;
   totalPets: number;
+  page: number;
+  pageLimit: number;
 }
 
 export interface SearchResultsValues {

@@ -21,15 +21,22 @@ import { SearchFormValues } from "../../interfaces/searchForm";
 import { toggleShowMapOrCard } from "../../store/reducer/boardingPageSlice";
 import { useStoreDispatch, useStoreSelector } from "../../store/hook";
 import { useFilterPetSitterMutation } from "../../redux/petSitterApi";
-import NewAddressInput from "./components/AddressInput/NewAddressInput";
 
 interface SearchBarProps {
   getResults: React.Dispatch<React.SetStateAction<[]>>;
   getIsResultsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   getCenterPoint: React.Dispatch<React.SetStateAction<number[]>>;
+  getTotalPages: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
 }
 
-const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBarProps) => {
+const SearchBar = ({
+  getResults,
+  getIsResultsLoading,
+  getCenterPoint,
+  getTotalPages,
+  currentPage,
+}: SearchBarProps) => {
   const [serviceHeading, setServiceHeading] = useState("Dog Boarding");
   const [serviceDetail, setServiceDetail] = useState("Overnight stay at the sitter's home.");
   const [location, setLocation] = useState("Sydney NSW, Australia");
@@ -41,6 +48,8 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
   const [catNum, setCatNum] = useState(0);
   const [smallAnimalNum, setSmallAnimalNum] = useState(0);
   const [showFilter, setShowFilter] = useState(true);
+
+  const pageLimit = 1;
 
   useEffect(() => {
     setTotalPetsNum(
@@ -87,6 +96,8 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
       cat: 0,
       smallAnimal: 0,
       totalPets: 0,
+      page: 1,
+      pageLimit: pageLimit,
     },
     validationSchema: searchFilterSchema,
     onSubmit: async (values) => {
@@ -97,6 +108,9 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
       values.cat = catNum;
       values.smallAnimal = smallAnimalNum;
       values.totalPets = totalPetsNum;
+      values.page = currentPage;
+      values.pageLimit = pageLimit;
+      console.log(values);
       await sleep(500);
       await filter({ body: values });
     },
@@ -114,14 +128,22 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
   }, [isFilterLoading]);
 
   useEffect(() => {
-    if (isFilterSuccess) {
-      getResults(filterResults);
+    if (isFilterSuccess && filterResults) {
+      getResults(filterResults.updatedResults);
     }
   }, [filterResults]);
 
   useEffect(() => {
     getCenterPoint([formik.values.latitude, formik.values.longitude]);
   }, [formik.values.latitude, formik.values.longitude]);
+
+  useEffect(() => {
+    getTotalPages(filterResults?.totalPages);
+  }, [filterResults?.totalPages]);
+
+  useEffect(() => {
+    formik.handleSubmit();
+  }, [currentPage]);
 
   const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 
@@ -181,7 +203,6 @@ const SearchBar = ({ getResults, getIsResultsLoading, getCenterPoint }: SearchBa
             {isLaptop ? (
               <MobileSearchBtn onClick={handleSearchBtn}>Search Now</MobileSearchBtn>
             ) : null}
-            {/* <NewAddressInput changeLocation={changeLocation} formik={formik} /> */}
           </InputsContainer>
         )}
         {isLaptop ? (

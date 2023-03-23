@@ -13,6 +13,8 @@ const HomePage = () => {
   const [filterResults, setFilterResults] = useState<[]>([]);
   const [isResultsLoading, setIsResultsLoading] = useState<boolean>(false);
   const [centerPoint, setCenterPoint] = useState<number[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   return (
     <PageLayout>
@@ -20,10 +22,18 @@ const HomePage = () => {
         getResults={setFilterResults}
         getIsResultsLoading={setIsResultsLoading}
         getCenterPoint={setCenterPoint}
+        getTotalPages={setTotalPages}
+        currentPage={currentPage}
       />
       <LaptopAndDesktop>
         <Layout>
-          <PetSitterCardList results={filterResults} isResultsLoading={isResultsLoading} />
+          <PetSitterCardList
+            results={filterResults}
+            isResultsLoading={isResultsLoading}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+          />
           <GoogleMap results={filterResults} centerPoint={centerPoint} />
         </Layout>
       </LaptopAndDesktop>
@@ -32,7 +42,13 @@ const HomePage = () => {
           {showMapOrCard ? (
             <GoogleMap results={filterResults} centerPoint={centerPoint} />
           ) : (
-            <PetSitterCardList results={filterResults} isResultsLoading={isResultsLoading} />
+            <PetSitterCardList
+              results={filterResults}
+              isResultsLoading={isResultsLoading}
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
           )}
         </Layout>
       </MobileAndTablet>
