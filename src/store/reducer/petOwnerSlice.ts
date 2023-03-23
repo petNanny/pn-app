@@ -10,6 +10,7 @@ export interface PetOwnerState {
   avatar: string;
   phone: string;
   roles: string[];
+  petSitterId: string;
 }
 
 export const initialState: PetOwnerState = {
@@ -21,6 +22,7 @@ export const initialState: PetOwnerState = {
   avatar: "",
   phone: "",
   roles: [],
+  petSitterId: "",
 };
 
 export const petOwnerSlice = createSlice({

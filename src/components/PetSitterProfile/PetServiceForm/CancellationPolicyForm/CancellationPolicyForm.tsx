@@ -1,17 +1,42 @@
 import { FormControl, FormLabel, Select, Stack, Text, Divider } from "@chakra-ui/react";
 import FormWrapper from "../../FormWrapper/FormWrapper";
+import { useFormik } from "formik";
+import { useGetOnePetOwnerQuery } from "../../../../redux/petOwnerApi";
+import { useParams } from "react-router-dom";
+const CancellationPolicyForm = (handleGetPolicy: any) => {
+  const { id } = useParams();
+  const { data } = useGetOnePetOwnerQuery(id);
 
-const CancellationPolicyForm = () => {
+  const { values, handleSubmit, handleChange, handleBlur } = useFormik({
+    initialValues: {
+      policy: data.petSitter.policy,
+    },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+      handleGetPolicy(values.policy);
+    },
+  });
   return (
     <FormWrapper title="Cancellation policy">
-      <form>
+      <form onSubmit={handleSubmit}>
         <FormControl>
           <FormLabel fontWeight="md" color="#747474">
             Cancellation policy
           </FormLabel>
-          <Select color="#747474">
-            <option>Flexible</option>
-            <option>Moderate</option>
+          <Select
+            color="#747474"
+            height="50px"
+            focusBorderColor="#00C38A"
+            // value={values.policy}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          >
+            <option value="flexible" label="flexible">
+              Flexible
+            </option>
+            <option value="moderate" label="moderate">
+              Moderate
+            </option>
           </Select>
         </FormControl>
       </form>

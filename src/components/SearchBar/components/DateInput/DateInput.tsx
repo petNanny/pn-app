@@ -13,7 +13,7 @@ import {
   StyledPopoverFooter,
   StyledDaysLeftText,
 } from "./styledDateInput";
-import { FormControl, Box } from "@chakra-ui/react";
+import { FormControl, Box, Portal } from "@chakra-ui/react";
 import { FormikProps } from "formik";
 import { format, eachDayOfInterval, max, min, add } from "date-fns";
 import { DateRange, DayPicker } from "react-day-picker";
@@ -107,79 +107,81 @@ const DateInput = ({ formik }: DateInputProps) => {
                     )}
                   </TriggerBtn>
                 </PopoverTrigger>
-                <PopoverContent>
-                  <StyledPopoverBody>
-                    <style>{StyledDayPicker}</style>
-                    {isMultiMode ? (
-                      <DayPicker
-                        mode="multiple"
-                        min={1}
-                        max={15}
-                        selected={multiDays}
-                        onSelect={setMultiDays}
-                        fromDate={today}
-                        toDate={
-                          multiDays === undefined ? undefined : add(multiDays[0], { days: 30 })
-                        }
-                      />
-                    ) : (
-                      <DayPicker
-                        mode={"range"}
-                        selected={rangeDays}
-                        onSelect={setRangeDays}
-                        pagedNavigation
-                        numberOfMonths={1}
-                        fromDate={today}
-                      />
-                    )}
-                    <DatesSelectModeBox>
-                      <DatesSelectModeBtn
-                        isChecked={isMultiMode}
-                        onChange={() => setIsMultiMode(!isMultiMode)}
-                      >
-                        Non-consecutive days
-                      </DatesSelectModeBtn>
+                <Portal>
+                  <PopoverContent>
+                    <StyledPopoverBody>
+                      <style>{StyledDayPicker}</style>
                       {isMultiMode ? (
-                        <StyledDaysLeftText>
-                          Select up to 15 days within a 30-day timespan. {daysLeft} days left.
-                        </StyledDaysLeftText>
-                      ) : null}
-                    </DatesSelectModeBox>
-                  </StyledPopoverBody>
-                  <StyledPopoverFooter>
-                    <ButtonsBox>
-                      <ClearBtn
-                        onClick={() => {
-                          setRangeDays(undefined);
-                          setMultiDays(undefined);
-                        }}
-                      >
-                        Clear
-                      </ClearBtn>
-                      {isMultiMode ? (
-                        <ApplyBtn
-                          ref={initRef}
-                          onClick={() => {
-                            handleApplyBtn;
-                            onClose();
-                          }}
-                        >
-                          Apply
-                        </ApplyBtn>
+                        <DayPicker
+                          mode="multiple"
+                          min={1}
+                          max={15}
+                          selected={multiDays}
+                          onSelect={setMultiDays}
+                          fromDate={today}
+                          toDate={
+                            multiDays === undefined ? undefined : add(multiDays[0], { days: 30 })
+                          }
+                        />
                       ) : (
-                        <ApplyBtn
-                          ref={initRef}
+                        <DayPicker
+                          mode={"range"}
+                          selected={rangeDays}
+                          onSelect={setRangeDays}
+                          pagedNavigation
+                          numberOfMonths={1}
+                          fromDate={today}
+                        />
+                      )}
+                      <DatesSelectModeBox>
+                        <DatesSelectModeBtn
+                          isChecked={isMultiMode}
+                          onChange={() => setIsMultiMode(!isMultiMode)}
+                        >
+                          Non-consecutive days
+                        </DatesSelectModeBtn>
+                        {isMultiMode ? (
+                          <StyledDaysLeftText>
+                            Select up to 15 days within a 30-day timespan. {daysLeft} days left.
+                          </StyledDaysLeftText>
+                        ) : null}
+                      </DatesSelectModeBox>
+                    </StyledPopoverBody>
+                    <StyledPopoverFooter>
+                      <ButtonsBox>
+                        <ClearBtn
                           onClick={() => {
-                            handleApplyBtn;
-                            onClose();
+                            setRangeDays(undefined);
+                            setMultiDays(undefined);
                           }}
                         >
-                          Apply
-                        </ApplyBtn>
-                      )}
-                    </ButtonsBox>
-                  </StyledPopoverFooter>
-                </PopoverContent>
+                          Clear
+                        </ClearBtn>
+                        {isMultiMode ? (
+                          <ApplyBtn
+                            ref={initRef}
+                            onClick={() => {
+                              handleApplyBtn;
+                              onClose();
+                            }}
+                          >
+                            Apply
+                          </ApplyBtn>
+                        ) : (
+                          <ApplyBtn
+                            ref={initRef}
+                            onClick={() => {
+                              handleApplyBtn;
+                              onClose();
+                            }}
+                          >
+                            Apply
+                          </ApplyBtn>
+                        )}
+                      </ButtonsBox>
+                    </StyledPopoverFooter>
+                  </PopoverContent>
+                </Portal>
               </>
             )}
           </Popover>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/HomePage/HomePage";
 import ChatPage from "./pages/ChatPage";
 import MessagePage from "./pages/MessagePage";
 import RegisterPage from "./pages/RegisterPage";
@@ -10,10 +10,17 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import OrderPage from "./pages/OrderPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import BecomePetSitter from "./pages/BecomePetSitter";
+<<<<<<< HEAD
 import PetSitterDetails from "./pages/PetSitterDetails";
+||||||| d1ce891
+=======
+import PetSitterPage from "./pages/PetSitterPage";
+>>>>>>> 9d1b07fb8f17abeba3c9cb3c0dc905c4f44804fb
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 import AuthRoute from "./components/AuthRoute";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 const App = () => {
   //TODO: add user status to change the route, e.g. if user not login, user can't access chat page, or you can delete the useState value to null.
@@ -55,6 +62,14 @@ const App = () => {
             element={
               <AuthRoute>
                 <BecomePetSitter />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/petSitter/:id"
+            element={
+              <AuthRoute>
+                <PetSitterPage />
               </AuthRoute>
             }
           />
@@ -113,6 +128,14 @@ const App = () => {
             }
           />
         </Route>
+        <Route
+          path="/error"
+          element={
+            <AuthRoute>
+              <ErrorPage />
+            </AuthRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
