@@ -2,7 +2,6 @@ import { Divider } from "@chakra-ui/react";
 import { useMemo, useState, useEffect } from "react";
 import classnames from "classnames";
 import { PaginationContainer, PaginationItem } from "./StylePetsitterPagination";
-import { fetchPetSitterListByPage } from "../../services/GetPetSitterListService";
 
 const DOTS = 0;
 
