@@ -10,7 +10,6 @@ const PetSitter = () => {
         <Box className="sitterDetails">
           <p>SitterDetails</p>
         </Box>
-
         <Box className="contactSitter">
           <ContactSitter />
         </Box>

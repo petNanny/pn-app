@@ -9,6 +9,7 @@ import avatar from "../../assets/avatar/avatar1.png";
 import filledHeart from "../../assets/favorite/favorite.svg";
 import voidHeart from "../../assets/favorite/notFavorite.svg";
 import { useNavigate } from "react-router-dom";
+import ChooseService from "./components/ChooseService";
 
 const { primary, lightgrey, grey } = theme.colors.background;
 const images = [
@@ -114,6 +115,9 @@ const StyledBox = styled(Box)`
         .sitterName {
           font-size: 1.5rem;
           font-weight: 500;
+        }
+        .location {
+          color: #707070;
         }
         .favorite {
           display: flex;
