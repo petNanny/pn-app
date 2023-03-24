@@ -55,7 +55,7 @@ const SignUp = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
-        navigate("/chat");
+        navigate("/login");
         actions.setSubmitting(false);
       } catch (err: any) {
         toast({

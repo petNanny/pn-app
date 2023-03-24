@@ -11,6 +11,8 @@ import ExperienceForm from "./PetSitterProfile/ExperienceForm/ExperienceForm";
 import PaymentForm from "./PetSitterProfile/PaymentForm/PaymentForm";
 import CompleteApplicationForm from "./PetSitterProfile/CompleteApplicationForm/CompleteApplicationForm";
 import ProfileGallery from "./PetSitterProfile/ProfileGallery/ProfileGallery";
+import MyPetForm from "./PetSitterProfile/MyPetForm/MyPetForm";
+import AddNewPet from "./PetSitterProfile/AddNewPet/AddNewPet";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 const PetSitter = () => {
@@ -43,6 +45,8 @@ const PetSitter = () => {
           {formPage === "payment-information" && id === petOwner._id && <PaymentForm />}
           {formPage === "submission" && id === petOwner._id && <CompleteApplicationForm />}
           {formPage === "profile-gallery" && id === petOwner._id && <ProfileGallery />}
+          {formPage === "my-pets" && id === petOwner._id && <MyPetForm />}
+          {formPage === "new-pet" && id === petOwner._id && <AddNewPet />}
         </Flex>
       </Flex>
     </Container>
