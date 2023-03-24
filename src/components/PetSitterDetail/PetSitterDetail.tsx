@@ -5,6 +5,7 @@ import PetSitterMobileHeader from "./components/PetSitterMobileHeader/PetSitterM
 import { useGetOnePetSitterQuery } from "../../redux/petSitterApi";
 import { Stack, Button, Text, Image } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import { ErrorContent } from "../../pages/ErrorPage/ErrorPage";
 
 const PetSitterDetail = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const PetSitterDetail = () => {
       _id: petSitterId,
     } = petSitterData);
   } else {
-    return <div>not found</div>;
+    return <ErrorContent />;
   }
 
   return (
