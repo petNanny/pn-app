@@ -1,15 +1,11 @@
 import {
-  Input,
-  Button,
   Box,
   Avatar,
-  Heading,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalFooter,
-  ModalBody,
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -25,10 +21,10 @@ import {
   CancelBtn,
   ConfirmBtn,
 } from "./styledPetsList";
-import { number } from "yup";
 
 const PetsList = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [deletePetId, setDeletePetId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const { data: allPetsData, refetch: refetchAllPets } = useGetAllPetsQuery(id);
@@ -37,9 +33,18 @@ const PetsList = () => {
 
   if (!allPetsData || allPetsData.length === 0) return null;
 
-  const handleDeletePet = async (petId: number) => {
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleModalOpen = (petId: number) => {
+    setIsModalOpen(true);
+    setDeletePetId(petId);
+  };
+
+  const handleDeletePet = async (petId: number | null) => {
     await deletePet({ petOwnerId: petId });
-    onClose();
+    setIsModalOpen(false);
     refetchAllPets();
   };
 
@@ -61,15 +66,15 @@ const PetsList = () => {
             </InfoBox>
             <InfoBox>Year of birth: {pet.yearOfBirth}</InfoBox>
             <Box display="flex" width="100%">
-              <RemoveBtn onClick={onOpen}>Remove</RemoveBtn>
-              <Modal size="xs" onClose={onClose} isOpen={isOpen} isCentered>
+              <RemoveBtn onClick={() => handleModalOpen(pet._id)}>Remove</RemoveBtn>
+              <Modal size="xs" onClose={handleModalClose} isOpen={isModalOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                   <ModalHeader>Are You Sure?</ModalHeader>
                   <ModalCloseButton />
                   <ModalFooter>
-                    <CancelBtn onClick={onClose}>No</CancelBtn>
-                    <ConfirmBtn onClick={() => handleDeletePet(pet._id)}>Yes</ConfirmBtn>
+                    <CancelBtn onClick={handleModalClose}>No</CancelBtn>
+                    <ConfirmBtn onClick={() => handleDeletePet(deletePetId)}>Yes</ConfirmBtn>
                   </ModalFooter>
                 </ModalContent>
               </Modal>

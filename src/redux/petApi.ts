@@ -2,9 +2,9 @@ import { apiSlice } from "./api/apiSlice";
 
 export const petApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // userGetOwnImages: builder.query({
-    //   query: (_id) => `/pets/add/${_id}`,
-    // }),
+    getOnePet: builder.query({
+      query: (_id) => `/pets/onePet/${_id}`,
+    }),
 
     getAllPets: builder.query({
       query: (_id) => `/pets/allPets/${_id}`,
@@ -37,7 +37,7 @@ export const petApi = apiSlice.injectEndpoints({
 
 export const {
   useUserAddPetMutation,
-  // useUserGetOwnImagesQuery,
+  useGetOnePetQuery,
   useGetAllPetsQuery,
   useUserDeletePetMutation,
   useUserUpdatePetMutation,

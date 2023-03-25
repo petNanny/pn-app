@@ -1,8 +1,6 @@
 import FormWrapper from "../FormWrapper/FormWrapper";
-import { Input, Button } from "@chakra-ui/react";
-import { AddButton, DividedLine } from "./styledMyPetForm";
+import { AddButton } from "./styledMyPetForm";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import PetsList from "./components/PetsList/PetsList";
 
 const MyPetForm = () => {
@@ -15,7 +13,6 @@ const MyPetForm = () => {
   return (
     <FormWrapper title="Your pets">
       <AddButton onClick={handleAddPet}>Add a pet</AddButton>
-      {/* <DividedLine /> */}
       <PetsList />
     </FormWrapper>
   );
