@@ -1,6 +1,6 @@
 export interface petData {
-  avatar: string;
-  name: string;
+  avatar: File | null;
+  petName: string;
   species: string;
   breed: string;
   size: string;

@@ -1,6 +1,5 @@
 import FormWrapper from "../FormWrapper/FormWrapper";
 import {
-  Stack,
   FormControl,
   FormLabel,
   Text,
@@ -9,69 +8,89 @@ import {
   Button,
   Select,
   Box,
-  Checkbox,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { petData } from "../../../interfaces/petData";
 import { GenderOptionBtn, StyledCheckbox, CheckItemText } from "./styledAddNewPet";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import addPetSchema from "../../../schemas/addPetValidator";
+import { useUserAddPetMutation, useGetAllPetsQuery } from "../../../redux/petApi";
+import AddPetAvatar from "./components/AddPetAvatar/AddPetAvatar";
+import { Navigate, generatePath } from "react-router-dom";
 
 const AddNewPet = () => {
   const toast = useToast();
+  const petOwner = useSelector((state: any) => state.petOwner);
+  const [newImgBlob, setNewImgBlob] = useState<File | null>(null);
+  const [addPet, { isSuccess: isAddPetSuccess }] = useUserAddPetMutation();
+  const { refetch: refetchAllPets } = useGetAllPetsQuery(petOwner._id);
   const [genderValue, setGenderValue] = useState("Male");
-  const { values, handleChange, handleSubmit, errors, touched, handleBlur, setFieldValue } =
-    useFormik({
-      initialValues: {
-        avatar:
-          "https://icon-library.com/images/2018/7702845_dog-pawprint-plantillas-de-tatuajes-temporal-png-download.png",
-        name: "",
-        species: "Dog",
-        breed: "",
-        size: "Medium",
-        gender: "Male",
-        yearOfBirth: new Date().getFullYear(),
-        neutered: false,
-        vaccinated: false,
-        chipped: false,
-        houseTrained: false,
-        friendlyWithDogs: false,
-        friendlyWithCats: false,
-        friendlyWithKids: false,
-        friendlyWithAdults: false,
-        description: "",
-      },
-      // validationSchema: updatePetOwnerValidator,
-      onSubmit: async (values: petData) => {
-        values.gender = genderValue;
-        console.log(values);
-        // try {
-        //   await updatePetOwner({
-        //     ...data,
-        //     firstName: values.firstName,
-        //     lastName: values.lastName,
-        //     userName: values.userName,
-        //   }).unwrap();
-        //   toast({
-        //     title: "Your info changed.",
-        //     description: "We've changed your info for you.",
-        //     status: "success",
-        //     duration: 9000,
-        //     isClosable: true,
-        //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-        //   });
-        // } catch (error) {
-        //   toast({
-        //     title: "Your info changed error.",
-        //     description: "We've can't change your info for you.",
-        //     status: "error",
-        //     duration: 9000,
-        //     isClosable: true,
-        //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-        //   });
-        // }
-      },
-    });
+  const { values, handleChange, handleSubmit, errors, touched, handleBlur } = useFormik({
+    initialValues: {
+      avatar: null,
+      petName: "",
+      species: "Dog",
+      breed: "",
+      size: "Medium",
+      gender: "Male",
+      yearOfBirth: new Date().getFullYear(),
+      neutered: false,
+      vaccinated: false,
+      chipped: false,
+      houseTrained: false,
+      friendlyWithDogs: false,
+      friendlyWithCats: false,
+      friendlyWithKids: false,
+      friendlyWithAdults: false,
+      description: "",
+    },
+    validationSchema: addPetSchema,
+    onSubmit: async (values: petData) => {
+      values.gender = genderValue;
+      const formData = new FormData();
+      if (newImgBlob) {
+        formData.append("avatar", newImgBlob);
+      }
+      formData.append("petName", values.petName);
+      formData.append("species", values.species);
+      formData.append("breed", values.breed);
+      formData.append("size", values.size);
+      formData.append("gender", values.gender);
+      formData.append("yearOfBirth", values.yearOfBirth.toString());
+      formData.append("neutered", values.neutered.toString());
+      formData.append("vaccinated", values.vaccinated.toString());
+      formData.append("chipped", values.chipped.toString());
+      formData.append("houseTrained", values.houseTrained.toString());
+      formData.append("friendlyWithDogs", values.friendlyWithDogs.toString());
+      formData.append("friendlyWithCats", values.friendlyWithCats.toString());
+      formData.append("friendlyWithKids", values.friendlyWithKids.toString());
+      formData.append("friendlyWithAdults", values.friendlyWithAdults.toString());
+      formData.append("description", values.description);
+      try {
+        await addPet({
+          petOwnerId: petOwner._id,
+          body: formData,
+        }).unwrap();
+        toast({
+          title: "Add a pet successfully.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+        refetchAllPets();
+      } catch (error) {
+        toast({
+          title: "Add a pet failed.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+      }
+    },
+  });
 
   const formBooleanData = [
     {
@@ -129,25 +148,32 @@ const AddNewPet = () => {
     years.push(year);
   }
 
+  if (isAddPetSuccess) {
+    return <Navigate to={generatePath("/userProfile/my-pets/:id", { id: petOwner._id })} replace />;
+  }
+
   return (
     <FormWrapper title="Your pets">
       <form onSubmit={handleSubmit} autoComplete="off">
+        <FormControl marginBottom="4">
+          <AddPetAvatar uploadImg={newImgBlob} setUploadImg={setNewImgBlob} />
+        </FormControl>
         <FormControl marginBottom="4">
           <FormLabel color="#939393" fontWeight="md">
             Name
           </FormLabel>
           <Input
-            id="name"
-            name="name"
+            id="petName"
+            name="petName"
             height="50px"
             focusBorderColor="#00C38A"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.name}
+            value={values.petName}
           />
-          {errors.name && touched.name ? (
+          {errors.petName && touched.petName ? (
             <Text color="red" fontSize="sm" padding="1">
-              {errors.name}
+              {errors.petName}
             </Text>
           ) : null}
         </FormControl>

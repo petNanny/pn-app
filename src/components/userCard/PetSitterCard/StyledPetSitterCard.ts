@@ -12,7 +12,7 @@ export const UserAvatar = styled(Avatar)`
   &&& {
     width: 4rem;
     height: 4rem;
-  },
+  }
 `;
 
 export const CardHeaderMiddle = styled(Flex)`
