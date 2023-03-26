@@ -23,21 +23,33 @@
     "date-fns": "^2.29.3",
     "date-fns-tz": "^2.0.0",
     "draft-js": "^0.11.7",
+<<<<<<< HEAD
     "focus-trap-react": "^10.1.0",
+||||||| d1ce891
+=======
     "draft-js": "^0.11.7",
     "focus-trap-react": "^10.1.0",
+>>>>>>> 9d1b07fb8f17abeba3c9cb3c0dc905c4f44804fb
     "formik": "^2.2.9",
     "framer-motion": "^8.5.5",
     "react": "^18.2.0",
+<<<<<<< HEAD
     "react-date-range": "^1.4.0",
     "react-datepicker": "^4.10.0",
+||||||| d1ce891
+=======
     "react-cropper": "^2.1.8",
+>>>>>>> 9d1b07fb8f17abeba3c9cb3c0dc905c4f44804fb
     "react-day-picker": "^8.6.0",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
+<<<<<<< HEAD
     "react-google-autocomplete": "^2.7.3",
+||||||| d1ce891
+=======
     "react-easy-sort": "^1.5.1",
     "react-google-autocomplete": "^2.7.3",
+>>>>>>> 9d1b07fb8f17abeba3c9cb3c0dc905c4f44804fb
     "react-icons": "^4.7.1",
     "react-popper": "^2.3.0",
     "react-redux": "^8.0.5",
@@ -84,9 +96,13 @@
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
     "@types/draft-js": "^0.11.10",
+<<<<<<< HEAD
     "@types/react-date-range": "^1.4.4",
     "@types/react-dates": "^21.8.3",
+||||||| d1ce891
+=======
     "@types/google.maps": "^3.52.3",
+>>>>>>> 9d1b07fb8f17abeba3c9cb3c0dc905c4f44804fb
     "@types/react-draft-wysiwyg": "^1.13.4",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
