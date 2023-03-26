@@ -16,54 +16,67 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import addPetSchema from "../../../schemas/addPetValidator";
 import {
-  useUserAddPetMutation,
-  useGetAllPetsQuery,
   useGetOnePetQuery,
   useUserUpdatePetMutation,
+  useGetAllPetsQuery,
 } from "../../../redux/petApi";
 import EditPetAvatar from "./components/EditPetAvatar/EditPetAvatar";
-import { Navigate, generatePath, useParams } from "react-router-dom";
-
-interface PetsListProps {
-  testId: number | null;
-}
+import { Navigate, generatePath, useParams, useNavigate } from "react-router-dom";
 
 const EditPet = () => {
   const toast = useToast();
   const { id } = useParams();
+  const petId = useSelector((state: any) => state.pet.petId);
   const petOwner = useSelector((state: any) => state.petOwner);
   const [newImgBlob, setNewImgBlob] = useState<File | null>(null);
-  const [addPet, { isSuccess: isAddPetSuccess }] = useUserAddPetMutation();
-  // const [updatePet, { isSuccess: isUpdatePetSuccess }] = useUserUpdatePetMutation();
-  // const { refetch: refetchAllPets } = useGetAllPetsQuery(petOwner._id);
-  const { data: petData, isLoading: isPetDataLoading } = useGetOnePetQuery(id);
+  const [updatePet, { isSuccess: isUpdatePetSuccess }] = useUserUpdatePetMutation();
+  const { refetch: refetchAllPets } = useGetAllPetsQuery(petOwner._id);
+  const testId = "642003da9205d0ad820fbbc4";
+  const {
+    data: petData,
+    isLoading: isPetDataLoading,
+    refetch: refetchOnePet,
+  } = useGetOnePetQuery(id);
   const [genderValue, setGenderValue] = useState("Male");
+  const navigate = useNavigate();
 
-  const api = useGetOnePetQuery(id);
-  console.log("api", api);
-
-  console.log("pet owner", id);
-  // console.log("pet id", testId);
-  console.log("petData", petData);
+  console.log("urlId", id);
+  console.log("petId", petId);
 
   const { values, handleChange, handleSubmit, errors, touched, handleBlur } = useFormik({
     initialValues: {
       avatar: null,
       petName: petData.petName,
       species: petData.species,
-      breed: "" || petData.breed,
+      breed: petData.breed,
       size: petData.size,
       gender: petData.gender,
       yearOfBirth: petData.yearOfBirth,
-      neutered: false,
-      vaccinated: false,
-      chipped: false,
-      houseTrained: false,
-      friendlyWithDogs: false,
-      friendlyWithCats: false,
-      friendlyWithKids: false,
-      friendlyWithAdults: false,
-      description: "",
+      neutered: petData.neutered,
+      vaccinated: petData.vaccinated,
+      chipped: petData.chipped,
+      houseTrained: petData.houseTrained,
+      friendlyWithDogs: petData.friendlyWithDogs,
+      friendlyWithCats: petData.friendlyWithCats,
+      friendlyWithKids: petData.friendlyWithKids,
+      friendlyWithAdults: petData.friendlyWithAdults,
+      description: petData.description,
+      // avatar: null,
+      // petName: "",
+      // species: "Dog",
+      // breed: "",
+      // size: "Medium",
+      // gender: "Male",
+      // yearOfBirth: new Date().getFullYear(),
+      // neutered: false,
+      // vaccinated: false,
+      // chipped: false,
+      // houseTrained: false,
+      // friendlyWithDogs: false,
+      // friendlyWithCats: false,
+      // friendlyWithKids: false,
+      // friendlyWithAdults: false,
+      // description: "",
     },
     validationSchema: addPetSchema,
     onSubmit: async (values: petData) => {
@@ -87,30 +100,38 @@ const EditPet = () => {
       formData.append("friendlyWithKids", values.friendlyWithKids.toString());
       formData.append("friendlyWithAdults", values.friendlyWithAdults.toString());
       formData.append("description", values.description);
-      // try {
-      //   await updatePet({
-      //     petId: testId,
-      //     body: formData,
-      //   }).unwrap();
-      //   toast({
-      //     title: "Update a pet successfully.",
-      //     status: "success",
-      //     duration: 9000,
-      //     isClosable: true,
-      //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-      //   });
-      //   // refetchAllPets();
-      // } catch (error) {
-      //   toast({
-      //     title: "Update a pet failed.",
-      //     status: "error",
-      //     duration: 9000,
-      //     isClosable: true,
-      //     containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
-      //   });
-      // }
+      try {
+        await updatePet({
+          petId: petId,
+          body: formData,
+        }).unwrap();
+        toast({
+          title: "Update a pet successfully.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+        refetchOnePet();
+        refetchAllPets();
+        navigate(`/userProfile/my-pets/${petOwner._id}`);
+      } catch (error) {
+        toast({
+          title: "Update a pet failed.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+      }
     },
   });
+
+  console.log("values", values);
+
+  useEffect(() => {
+    setGenderValue(values.gender);
+  }, []);
 
   const formBooleanData = [
     {
@@ -168,12 +189,12 @@ const EditPet = () => {
     years.push(year);
   }
 
-  if (!petData) {
-    return <div>not found</div>;
-  }
-
   if (isPetDataLoading) {
     return <div>is loading</div>;
+  }
+
+  if (petData === "undefined") {
+    return <Navigate to={generatePath(`/userProfile/my-pets/${id}`)} replace />;
   }
 
   // if (isUpdatePetSuccess) {
@@ -184,11 +205,11 @@ const EditPet = () => {
     <FormWrapper title="Your pets">
       <form onSubmit={handleSubmit} autoComplete="off">
         <FormControl marginBottom="4">
-          <EditPetAvatar
+          {/* <EditPetAvatar
             uploadImg={newImgBlob}
             setUploadImg={setNewImgBlob}
             getAvatar={petData?.avatar}
-          />
+          /> */}
         </FormControl>
         <FormControl marginBottom="4">
           <FormLabel color="#939393" fontWeight="md">
@@ -330,7 +351,12 @@ const EditPet = () => {
         </FormControl>
         {formBooleanData.map((item) => (
           <FormControl marginBottom="4" key={item.name}>
-            <StyledCheckbox onChange={handleChange} value={item.value} name={item.name}>
+            <StyledCheckbox
+              onChange={handleChange}
+              value={item.value}
+              name={item.name}
+              isChecked={item.value}
+            >
               <CheckItemText>{item.text}</CheckItemText>
             </StyledCheckbox>
           </FormControl>

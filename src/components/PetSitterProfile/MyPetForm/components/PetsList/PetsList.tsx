@@ -11,7 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useGetAllPetsQuery, useUserDeletePetMutation } from "../../../../../redux/petApi";
+import {
+  useGetAllPetsQuery,
+  useUserDeletePetMutation,
+  useGetOnePetQuery,
+} from "../../../../../redux/petApi";
 import {
   PetCard,
   NameBox,
@@ -21,8 +25,11 @@ import {
   CancelBtn,
   ConfirmBtn,
 } from "./styledPetsList";
+import { useDispatch } from "react-redux";
+import { setPetId } from "../../../../../store/reducer/petSlice";
 
 const PetsList = () => {
+  const dispatch = useDispatch();
   const [deletePetId, setDeletePetId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -43,9 +50,15 @@ const PetsList = () => {
   };
 
   const handleDeletePet = async (petId: number | null) => {
-    await deletePet({ petOwnerId: petId });
+    await deletePet({ petId: petId });
     setIsModalOpen(false);
     refetchAllPets();
+  };
+
+  const handleEditPet = (petId: number) => {
+    const newPetId = petId.toString();
+    dispatch(setPetId(newPetId));
+    navigate(`/userProfile/edit-pet/${newPetId}`);
   };
 
   return (
@@ -60,9 +73,7 @@ const PetsList = () => {
               {pet.gender}
               &nbsp;
               {pet.species}
-              {pet.breed ? `&nbsp;, ${pet.breed}` : ``}
-              &nbsp;
-              {pet.breed}
+              {pet.breed ? `, ${pet.breed}` : ``}
             </InfoBox>
             <InfoBox>Year of birth: {pet.yearOfBirth}</InfoBox>
             <Box display="flex" width="100%">
@@ -78,7 +89,7 @@ const PetsList = () => {
                   </ModalFooter>
                 </ModalContent>
               </Modal>
-              <EditBtn>Edit</EditBtn>
+              <EditBtn onClick={() => handleEditPet(pet._id)}>Edit</EditBtn>
             </Box>
           </Box>
         </PetCard>

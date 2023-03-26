@@ -19,15 +19,15 @@ export const petApi = apiSlice.injectEndpoints({
     }),
 
     userDeletePet: builder.mutation({
-      query: ({ petOwnerId }) => ({
-        url: `/pets/delete/${petOwnerId}`,
+      query: ({ petId }) => ({
+        url: `/pets/delete/${petId}`,
         method: "DELETE",
       }),
     }),
 
     userUpdatePet: builder.mutation({
-      query: ({ body, petOwnerId }) => ({
-        url: `/pets/update/${petOwnerId}`,
+      query: ({ body, petId }) => ({
+        url: `/pets/update/${petId}`,
         method: "PUT",
         body,
       }),
