@@ -10,12 +10,8 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import OrderPage from "./pages/OrderPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import BecomePetSitter from "./pages/BecomePetSitter";
-<<<<<<< HEAD
 import PetSitterDetails from "./pages/PetSitterDetails";
-||||||| d1ce891
-=======
 import PetSitterPage from "./pages/PetSitterPage";
->>>>>>> 9d1b07fb8f17abeba3c9cb3c0dc905c4f44804fb
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SearchBar from "./components/SearchBar/SearchBar";
 
