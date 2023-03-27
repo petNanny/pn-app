@@ -6,6 +6,7 @@ import PetSitterCardList from "../../components/userCard/PetSitterCardList/PetSi
 import { Layout } from "../../components/Layout/styledPageLayout";
 import { LaptopAndDesktop, MobileAndTablet } from "./styledHomePage";
 import { useStoreSelector } from "../../store/hook";
+import PetSitterPaginationTest from "../../components/PetSitterPagination/PetSitterPagination";
 
 const HomePage = () => {
   const showMapOrCard = useStoreSelector((state) => state.boardingPage.showMapOrCard);
@@ -17,6 +18,7 @@ const HomePage = () => {
           <PetSitterCardList />
           <GoogleMap />
         </Layout>
+        <PetSitterPaginationTest />
       </LaptopAndDesktop>
       <MobileAndTablet>
         <Layout>{showMapOrCard ? <GoogleMap /> : <PetSitterCardList />}</Layout>
