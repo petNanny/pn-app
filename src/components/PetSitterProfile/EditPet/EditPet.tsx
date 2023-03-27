@@ -8,6 +8,7 @@ import {
   Button,
   Select,
   Box,
+  Textarea,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { petData } from "../../../interfaces/petData";
@@ -82,7 +83,7 @@ const EditPet = () => {
         toast({
           title: "Update a pet successfully.",
           status: "success",
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
@@ -94,7 +95,7 @@ const EditPet = () => {
         toast({
           title: "Update a pet failed.",
           status: "error",
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
@@ -326,6 +327,20 @@ const EditPet = () => {
             </StyledCheckbox>
           </FormControl>
         ))}
+        <FormControl marginBottom="4">
+          <FormLabel color="#939393" fontWeight="md">
+            Short description of your pet
+          </FormLabel>
+          <Textarea
+            id="description"
+            name="description"
+            height="187px"
+            focusBorderColor="#00C38A"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.description}
+          />
+        </FormControl>
         <Button
           type="submit"
           bg="#00C38A"

@@ -11,6 +11,7 @@ interface AddPetAvatarProps {
 
 const AddPetAvatar = ({ uploadImg, setUploadImg }: AddPetAvatarProps) => {
   const [croppedImage, setCroppedImage] = useState<string>(defaultPetAvatar);
+  const [image, setImage] = useState<string>(defaultPetAvatar);
   const [open, setOpen] = useState(false);
 
   const onInputChange = (e: any) => {
@@ -32,7 +33,7 @@ const AddPetAvatar = ({ uploadImg, setUploadImg }: AddPetAvatarProps) => {
 
   return (
     <Box display="flex" alignItems="center">
-      <Avatar size="xl" marginRight="1rem" src={croppedImage} />
+      <Avatar size="xl" marginRight="1rem" src={image} />
       <StyledFormLabel>Upload photo</StyledFormLabel>
       <Input
         type="file"
@@ -47,6 +48,7 @@ const AddPetAvatar = ({ uploadImg, setUploadImg }: AddPetAvatarProps) => {
         croppedImage={croppedImage}
         newImgBlob={uploadImg}
         setNewImgBlob={setUploadImg}
+        setImage={setImage}
       />
     </Box>
   );

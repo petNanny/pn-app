@@ -8,6 +8,7 @@ import {
   Button,
   Select,
   Box,
+  Textarea,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { petData } from "../../../interfaces/petData";
@@ -18,6 +19,7 @@ import addPetSchema from "../../../schemas/addPetValidator";
 import { useUserAddPetMutation, useGetAllPetsQuery } from "../../../redux/petApi";
 import AddPetAvatar from "./components/AddPetAvatar/AddPetAvatar";
 import { Navigate, generatePath } from "react-router-dom";
+import { useGetOnePetOwnerQuery } from "../../../redux/petOwnerApi";
 
 const AddNewPet = () => {
   const toast = useToast();
@@ -26,6 +28,7 @@ const AddNewPet = () => {
   const [addPet, { isSuccess: isAddPetSuccess }] = useUserAddPetMutation();
   const { refetch: refetchAllPets } = useGetAllPetsQuery(petOwner._id);
   const [genderValue, setGenderValue] = useState("Male");
+  const { refetch: refetchPetOwner } = useGetOnePetOwnerQuery(petOwner._id);
   const { values, handleChange, handleSubmit, errors, touched, handleBlur } = useFormik({
     initialValues: {
       avatar: null,
@@ -75,16 +78,17 @@ const AddNewPet = () => {
         toast({
           title: "Add a pet successfully.",
           status: "success",
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
+        refetchPetOwner();
         refetchAllPets();
       } catch (error) {
         toast({
           title: "Add a pet failed.",
           status: "error",
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
@@ -303,6 +307,20 @@ const AddNewPet = () => {
             </StyledCheckbox>
           </FormControl>
         ))}
+        <FormControl marginBottom="4">
+          <FormLabel color="#939393" fontWeight="md">
+            Short description of your pet
+          </FormLabel>
+          <Textarea
+            id="description"
+            name="description"
+            height="187px"
+            focusBorderColor="#00C38A"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.description}
+          />
+        </FormControl>
         <Button
           type="submit"
           bg="#00C38A"

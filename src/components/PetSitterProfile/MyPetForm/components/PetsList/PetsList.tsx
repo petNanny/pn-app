@@ -51,7 +51,7 @@ const PetsList = () => {
       toast({
         title: "Delete a pet successfully.",
         status: "success",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
         containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
       });
@@ -59,7 +59,7 @@ const PetsList = () => {
       toast({
         title: "Delete a pet failed.",
         status: "error",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
         containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
       });
@@ -76,7 +76,6 @@ const PetsList = () => {
 
   return (
     <Box>
-      <div>list</div>
       {allPetsData.map((pet: any) => (
         <PetCard key={pet._id}>
           <Avatar size="xl" src={pet.avatar} />

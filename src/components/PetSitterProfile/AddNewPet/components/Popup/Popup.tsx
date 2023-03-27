@@ -22,9 +22,17 @@ interface PopupProps {
   croppedImage: string | undefined;
   newImgBlob: File | null;
   setNewImgBlob: React.Dispatch<React.SetStateAction<File | null>>;
+  setImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Popup = ({ open, setOpen, croppedImage, newImgBlob, setNewImgBlob }: PopupProps) => {
+const Popup = ({
+  open,
+  setOpen,
+  croppedImage,
+  newImgBlob,
+  setNewImgBlob,
+  setImage,
+}: PopupProps) => {
   const cropperRef = createRef<ReactCropperElement>();
   const fileName = uuid().slice(0, 16);
   const { onClose } = useDisclosure();
@@ -53,8 +61,10 @@ const Popup = ({ open, setOpen, croppedImage, newImgBlob, setNewImgBlob }: Popup
       alert("No file selected");
       return;
     }
-    // const formData = new FormData();
-    // formData.append("file", newImgBlob);
+    const imageElement = cropperRef?.current;
+    const cropper = imageElement?.cropper;
+    const img = cropper?.getCroppedCanvas().toDataURL();
+    setImage(img as string);
   };
 
   return (
