@@ -1,40 +1,70 @@
-import { Flex } from "@chakra-ui/react";
 import PetSitterCard from "../PetSitterCard/PetSitterCard";
 import { UserCardContainer } from "./styledPetSitterCardList";
-import { useGetAllPetSittersQuery } from "../../../redux/petSitterApi";
+import { CircularProgress } from "@chakra-ui/react";
+import PetSitterPagination from "../../PetSitterPagination/PetSitterPagination";
 
 export interface PetSitter {
   id: string;
   avatar: string;
-  userName: string;
-  city: string;
+  name: string;
+  suburb: string;
   introduction: string;
   price: number;
-  distance: number;
+  distance: string;
   rating: number;
 }
+interface CardListProps {
+  results: [];
+  isResultsLoading: boolean | undefined;
+  totalPages: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
+  pageSize: number;
+}
 
-const PetSitterCardList = () => {
-  //'1' means passing page 1 to the url
-  const { data } = useGetAllPetSittersQuery(1);
-  const petSittersInfo = data?.data;
+const PetSitterCardList = ({
+  results,
+  isResultsLoading,
+  totalPages,
+  setCurrentPage,
+  currentPage,
+  pageSize,
+}: CardListProps) => {
+  if (!results || results.length === 0) {
+    return (
+      <UserCardContainer>
+        <div>We could not find any sitters that matched your criteria</div>
+        <div>Please change your filters</div>
+      </UserCardContainer>
+    );
+  }
+  if (isResultsLoading) return <CircularProgress isIndeterminate color="green.300" />;
 
   return (
-    <UserCardContainer>
-      {petSittersInfo?.map((onePetSitter: any) => (
-        <PetSitterCard
-          key={onePetSitter._id}
-          id={onePetSitter._id}
-          userName={onePetSitter?.petOwner?.userName}
-          avatar={onePetSitter?.petOwner?.avatar}
-          city={onePetSitter?.address?.city}
-          price={onePetSitter.price || 65}
-          introduction={onePetSitter?.introduction}
-          distance={onePetSitter.distance || 0}
-          rating={onePetSitter.rating || 5}
+    <>
+      <UserCardContainer>
+        {results.map((petSitter: any) => (
+          <PetSitterCard
+            key={petSitter._id}
+            id={petSitter._id}
+            name={petSitter.petOwner.userName}
+            avatar={petSitter.petOwner.avatar}
+            suburb={petSitter.address.city}
+            price={petSitter.service[0].Rate}
+            introduction={petSitter.introduction}
+            distance={petSitter.distance}
+            rating={petSitter.rating || 5}
+          />
+        ))}
+        <PetSitterPagination
+          totalPages={totalPages}
+          pageSize={pageSize}
+          siblingCount={1}
+          currentPage={currentPage}
+          onPageChange={(page) => setCurrentPage(page)}
         />
-      ))}
-    </UserCardContainer>
+      </UserCardContainer>
+    </>
   );
 };
 

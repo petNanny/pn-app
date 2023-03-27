@@ -37,6 +37,14 @@ export const petSitterApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "PetSitter", id: arg.id }],
     }),
+
+    filterPetSitter: builder.mutation({
+      query: ({ body }) => ({
+        url: `/petSitters/filter`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -45,4 +53,5 @@ export const {
   useGetAllPetSittersQuery,
   useCreateOnePetSitterMutation,
   useUpdateOnePetSitterMutation,
+  useFilterPetSitterMutation,
 } = petSitterApi;

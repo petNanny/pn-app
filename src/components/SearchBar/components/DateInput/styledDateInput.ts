@@ -92,12 +92,28 @@ export const StyledDayPicker = `
   .rdp-day_selected, .rdp-day_selected:hover {
     background-color: rgb(0, 195, 138);
   }
+  .rdp-day_range_start {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+  }
 `;
 
 export const StyledPopoverBody = styled(PopoverBody)`
   &&& {
     padding: 0;
   }
+  /* .rdp-day_range_start {
+    border-top-left-radius: 100%;
+    border-bottom-left-radius: 100%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .rdp-day_range_end {
+    border-top-right-radius: 100%;
+    border-bottom-right-radius: 100%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  } */
 `;
 
 export const DatesSelectModeBox = styled(Box)`
