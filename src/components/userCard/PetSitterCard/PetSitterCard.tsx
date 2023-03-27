@@ -22,12 +22,12 @@ const PetSitterCard = ({
   price: petSitterPrice,
   introduction: petSitterIntroduction,
   distance: petSitterDistance,
-  id: petSitterId,
+  id,
   rating: petSitterRating,
 }: PetSitter) => {
   const navigate = useNavigate();
   const handleClickPetSitter = () => {
-    navigate(`/petSitter/details/${petSitterId}`);
+    navigate(`/petSitter/${id}`);
   };
   return (
     <PetSitterCardContainer onClick={handleClickPetSitter}>

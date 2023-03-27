@@ -23,7 +23,9 @@ const AsideMySitterBox = () => {
         <ListItem cursor="pointer">
           <Link to={`/userProfile/description/${petOwner._id}`}>Description</Link>
         </ListItem>
-        <ListItem cursor="pointer">Profile gallery (WIP)</ListItem>
+        <ListItem cursor="pointer">
+          <Link to={`/userProfile/profile-gallery/${petOwner._id}`}>Profile gallery</Link>
+        </ListItem>
         <ListItem cursor="pointer">
           <Link to={`/userProfile/experience/${petOwner._id}`}>Experience</Link>
         </ListItem>
