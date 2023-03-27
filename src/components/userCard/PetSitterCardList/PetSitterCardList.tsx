@@ -2,6 +2,7 @@ import PetSitterCard from "../PetSitterCard/PetSitterCard";
 import { UserCardContainer } from "./styledPetSitterCardList";
 import { CircularProgress } from "@chakra-ui/react";
 import PetSitterPagination from "../../PetSitterPagination/PetSitterPagination";
+import { Text, Box } from "@chakra-ui/react";
 
 export interface PetSitter {
   id: string;
@@ -33,8 +34,10 @@ const PetSitterCardList = ({
   if (!results || results.length === 0) {
     return (
       <UserCardContainer>
-        <div>We could not find any sitters that matched your criteria</div>
-        <div>Please change your filters</div>
+        <Box padding="1rem">
+          <Text>We could not find any sitters that matched your criteria.</Text>
+          <Text>Please change your filters.</Text>
+        </Box>
       </UserCardContainer>
     );
   }
