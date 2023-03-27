@@ -7,15 +7,11 @@ import {
   ModalHeader,
   ModalFooter,
   ModalCloseButton,
-  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import {
-  useGetAllPetsQuery,
-  useUserDeletePetMutation,
-  useGetOnePetQuery,
-} from "../../../../../redux/petApi";
+import { useState } from "react";
+import { useGetAllPetsQuery, useUserDeletePetMutation } from "../../../../../redux/petApi";
 import {
   PetCard,
   NameBox,
@@ -29,14 +25,14 @@ import { useDispatch } from "react-redux";
 import { setPetId } from "../../../../../store/reducer/petSlice";
 
 const PetsList = () => {
+  const toast = useToast();
   const dispatch = useDispatch();
   const [deletePetId, setDeletePetId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const { data: allPetsData, refetch: refetchAllPets } = useGetAllPetsQuery(id);
-  const [deletePet, { isSuccess: isDeletePetSuccess, isError: isDeleteError }] =
-    useUserDeletePetMutation();
+  const [deletePet] = useUserDeletePetMutation();
 
   if (!allPetsData || allPetsData.length === 0) return null;
 
@@ -50,7 +46,24 @@ const PetsList = () => {
   };
 
   const handleDeletePet = async (petId: number | null) => {
-    await deletePet({ petId: petId });
+    try {
+      await deletePet({ petId: petId }).unwrap();
+      toast({
+        title: "Delete a pet successfully.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+      });
+    } catch (error) {
+      toast({
+        title: "Delete a pet failed.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+      });
+    }
     setIsModalOpen(false);
     refetchAllPets();
   };

@@ -89,6 +89,7 @@ const EditPet = () => {
         refetchAllPets();
         refetchPetOwner();
         navigate(`/userProfile/my-pets/${petOwner._id}`);
+        window.scrollTo(0, 0);
       } catch (error) {
         toast({
           title: "Update a pet failed.",

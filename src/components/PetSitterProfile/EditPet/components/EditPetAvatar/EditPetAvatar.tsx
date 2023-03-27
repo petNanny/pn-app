@@ -3,14 +3,15 @@ import { useState } from "react";
 import { StyledFormLabel } from "./styledEditPetAvatar";
 import Popup from "../Popup/Popup";
 
-interface AddPetAvatarProps {
+interface EditPetAvatarProps {
   uploadImg: File | null;
   setUploadImg: React.Dispatch<React.SetStateAction<File | null>>;
   getAvatar: any;
 }
 
-const AddPetAvatar = ({ uploadImg, setUploadImg, getAvatar }: AddPetAvatarProps) => {
-  const [croppedImage, setCroppedImage] = useState<string>(getAvatar);
+const EditPetAvatar = ({ setUploadImg, getAvatar }: EditPetAvatarProps) => {
+  const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
+  const [image, setImage] = useState<string>(getAvatar);
   const [open, setOpen] = useState(false);
 
   const onInputChange = (e: any) => {
@@ -32,7 +33,7 @@ const AddPetAvatar = ({ uploadImg, setUploadImg, getAvatar }: AddPetAvatarProps)
 
   return (
     <Box display="flex" alignItems="center">
-      <Avatar size="xl" marginRight="1rem" src={croppedImage} />
+      <Avatar size="xl" marginRight="1rem" src={image} />
       <StyledFormLabel>Upload photo</StyledFormLabel>
       <Input
         type="file"
@@ -45,11 +46,11 @@ const AddPetAvatar = ({ uploadImg, setUploadImg, getAvatar }: AddPetAvatarProps)
         open={open}
         setOpen={setOpen}
         croppedImage={croppedImage}
-        newImgBlob={uploadImg}
         setNewImgBlob={setUploadImg}
+        setImage={setImage}
       />
     </Box>
   );
 };
 
-export default AddPetAvatar;
+export default EditPetAvatar;
