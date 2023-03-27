@@ -15,37 +15,27 @@ import { GenderOptionBtn, StyledCheckbox, CheckItemText } from "./styledEditPet"
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import addPetSchema from "../../../schemas/addPetValidator";
-import {
-  useGetOnePetQuery,
-  useUserUpdatePetMutation,
-  useGetAllPetsQuery,
-} from "../../../redux/petApi";
+import { useUserUpdatePetMutation, useGetAllPetsQuery } from "../../../redux/petApi";
 import EditPetAvatar from "./components/EditPetAvatar/EditPetAvatar";
 import { Navigate, generatePath, useParams, useNavigate } from "react-router-dom";
+import { useGetOnePetOwnerQuery } from "../../../redux/petOwnerApi";
 
 const EditPet = () => {
   const toast = useToast();
   const { id } = useParams();
-  const petId = useSelector((state: any) => state.pet.petId);
   const petOwner = useSelector((state: any) => state.petOwner);
   const [newImgBlob, setNewImgBlob] = useState<File | null>(null);
-  const [updatePet, { isSuccess: isUpdatePetSuccess }] = useUserUpdatePetMutation();
+  const [updatePet] = useUserUpdatePetMutation();
   const { refetch: refetchAllPets } = useGetAllPetsQuery(petOwner._id);
-  const testId = "642003da9205d0ad820fbbc4";
-  const {
-    data: petData,
-    isLoading: isPetDataLoading,
-    refetch: refetchOnePet,
-  } = useGetOnePetQuery(id);
   const [genderValue, setGenderValue] = useState("Male");
   const navigate = useNavigate();
+  const { refetch: refetchPetOwner } = useGetOnePetOwnerQuery(petOwner._id);
 
-  console.log("urlId", id);
-  console.log("petId", petId);
+  const petData = petOwner.pets.find((pet: any) => pet._id === id);
 
   const { values, handleChange, handleSubmit, errors, touched, handleBlur } = useFormik({
     initialValues: {
-      avatar: null,
+      avatar: petData.avatar,
       petName: petData.petName,
       species: petData.species,
       breed: petData.breed,
@@ -61,22 +51,6 @@ const EditPet = () => {
       friendlyWithKids: petData.friendlyWithKids,
       friendlyWithAdults: petData.friendlyWithAdults,
       description: petData.description,
-      // avatar: null,
-      // petName: "",
-      // species: "Dog",
-      // breed: "",
-      // size: "Medium",
-      // gender: "Male",
-      // yearOfBirth: new Date().getFullYear(),
-      // neutered: false,
-      // vaccinated: false,
-      // chipped: false,
-      // houseTrained: false,
-      // friendlyWithDogs: false,
-      // friendlyWithCats: false,
-      // friendlyWithKids: false,
-      // friendlyWithAdults: false,
-      // description: "",
     },
     validationSchema: addPetSchema,
     onSubmit: async (values: petData) => {
@@ -102,7 +76,7 @@ const EditPet = () => {
       formData.append("description", values.description);
       try {
         await updatePet({
-          petId: petId,
+          petId: id,
           body: formData,
         }).unwrap();
         toast({
@@ -112,8 +86,8 @@ const EditPet = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
-        refetchOnePet();
         refetchAllPets();
+        refetchPetOwner();
         navigate(`/userProfile/my-pets/${petOwner._id}`);
       } catch (error) {
         toast({
@@ -126,8 +100,6 @@ const EditPet = () => {
       }
     },
   });
-
-  console.log("values", values);
 
   useEffect(() => {
     setGenderValue(values.gender);
@@ -189,27 +161,19 @@ const EditPet = () => {
     years.push(year);
   }
 
-  if (isPetDataLoading) {
-    return <div>is loading</div>;
-  }
-
-  if (petData === "undefined") {
+  if (!petData) {
     return <Navigate to={generatePath(`/userProfile/my-pets/${id}`)} replace />;
   }
-
-  // if (isUpdatePetSuccess) {
-  //   return <Navigate to={generatePath("/userProfile/my-pets/:id", { id: petOwner._id })} replace />;
-  // }
 
   return (
     <FormWrapper title="Your pets">
       <form onSubmit={handleSubmit} autoComplete="off">
         <FormControl marginBottom="4">
-          {/* <EditPetAvatar
+          <EditPetAvatar
             uploadImg={newImgBlob}
             setUploadImg={setNewImgBlob}
-            getAvatar={petData?.avatar}
-          /> */}
+            getAvatar={petData.avatar}
+          />
         </FormControl>
         <FormControl marginBottom="4">
           <FormLabel color="#939393" fontWeight="md">
