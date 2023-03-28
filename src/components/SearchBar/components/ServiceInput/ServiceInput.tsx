@@ -43,11 +43,11 @@ interface ServiceInputProps {
 }
 
 const ServiceType = {
-  DogBoarding: "Dog Boarding",
-  DoggyDayCare: "Doggy Day care",
-  DogWalking: "Dog Walking",
-  HomeVisits: "Home Visits",
-  HouseSitting: "House Sitting",
+  DogBoarding: "Dog boarding",
+  DoggyDayCare: "Doggy day care",
+  DogWalking: "Dog walking",
+  HomeVisits: "Home visits",
+  HouseSitting: "House sitting",
 };
 
 const ServiceDetail = {

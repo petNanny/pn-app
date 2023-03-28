@@ -1,10 +1,18 @@
 import styled from "styled-components";
 
-export const PaginationContainer = styled.ul`
+export const PaginationContainer = styled.div`
+  &&& {
+    display: flex;
+    justify-content: center;
+  }
+`;
+
+export const PaginationItemList = styled.ul`
   &&& {
     display: flex;
     list-style-type: none;
     align-items: center;
+    margin: 1rem 0;
   }
 `;
 
