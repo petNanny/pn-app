@@ -1,3 +1,4 @@
+import { Flex } from "@chakra-ui/react";
 import PetSitterCard from "../PetSitterCard/PetSitterCard";
 import { UserCardContainer } from "./styledPetSitterCardList";
 import { useGetAllPetSittersQuery } from "../../../redux/petSitterApi";
