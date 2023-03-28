@@ -15,12 +15,16 @@ import MyPetForm from "./PetSitterProfile/MyPetForm/MyPetForm";
 import AddNewPet from "./PetSitterProfile/AddNewPet/AddNewPet";
 import EditPet from "./PetSitterProfile/EditPet/EditPet";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 const PetSitter = () => {
   const { formPage, id } = useParams();
   const petOwner = useSelector((state: any) => state.petOwner);
   const hasCreatedPetSitterAccount = petOwner.roles.includes("PetSitter");
   const petId = useSelector((state: any) => state.pet.petId);
+
+  if (id !== petOwner._id && id !== petId) {
+    return <Navigate to="/error" replace />;
+  }
 
   return (
     <Container maxW="6xl" padding="4">
