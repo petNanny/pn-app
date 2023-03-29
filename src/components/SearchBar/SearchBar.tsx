@@ -17,15 +17,31 @@ import DateInput from "./components/DateInput/DateInput";
 import { useFormik, FormikProps } from "formik";
 import { useMediaQuery } from "@chakra-ui/react";
 import searchFilterSchema from "../../schemas/searchFilterValidator";
-
 import { SearchFormValues } from "../../interfaces/searchForm";
 import { toggleShowMapOrCard } from "../../store/reducer/boardingPageSlice";
 import { useStoreDispatch, useStoreSelector } from "../../store/hook";
+import { useFilterPetSitterMutation } from "../../redux/petSitterApi";
 
-const SearchBar = () => {
+interface SearchBarProps {
+  getResults: React.Dispatch<React.SetStateAction<[]>>;
+  getIsResultsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  getCenterPoint: React.Dispatch<React.SetStateAction<number[]>>;
+  getTotalPages: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
+  pageSize: number;
+}
+
+const SearchBar = ({
+  getResults,
+  getIsResultsLoading,
+  getCenterPoint,
+  getTotalPages,
+  currentPage,
+  pageSize,
+}: SearchBarProps) => {
   const [serviceHeading, setServiceHeading] = useState("Dog Boarding");
   const [serviceDetail, setServiceDetail] = useState("Overnight stay at the sitter's home.");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState("Sydney NSW, Australia");
   const [totalPetsNum, setTotalPetsNum] = useState(0);
   const [smallDogNum, setSmallDogNum] = useState(0);
   const [mediumDogNum, setMediumDogNum] = useState(0);
@@ -51,15 +67,25 @@ const SearchBar = () => {
     setLocation(value);
   };
 
+  const [
+    filter,
+    {
+      isSuccess: isFilterSuccess,
+      isError: isFilterError,
+      isLoading: isFilterLoading,
+      data: filterResults,
+    },
+  ] = useFilterPetSitterMutation();
+
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   const formik: FormikProps<SearchFormValues> = useFormik<SearchFormValues>({
     initialValues: {
-      location: "",
-      latitude: undefined,
-      longitude: undefined,
+      location: "Sydney NSW, Australia",
+      latitude: -33.8688197,
+      longitude: 151.2092955,
       petService: "Dog boarding",
-      selectedDate: [],
+      selectedDates: [],
       noDogs: false,
       noChildren: false,
       fencedBackyard: false,
@@ -70,6 +96,8 @@ const SearchBar = () => {
       cat: 0,
       smallAnimal: 0,
       totalPets: 0,
+      page: 1,
+      pageLimit: pageSize,
     },
     validationSchema: searchFilterSchema,
     onSubmit: async (values) => {
@@ -80,9 +108,44 @@ const SearchBar = () => {
       values.cat = catNum;
       values.smallAnimal = smallAnimalNum;
       values.totalPets = totalPetsNum;
+      values.page = currentPage;
+      values.pageLimit = pageSize;
       await sleep(500);
+      await filter({ body: values });
     },
   });
+
+  useEffect(() => {
+    const getResultOnLoad = async () => {
+      await filter({ body: formik.values });
+    };
+    getResultOnLoad();
+  }, []);
+
+  useEffect(() => {
+    getIsResultsLoading(isFilterLoading);
+  }, [isFilterLoading]);
+
+  useEffect(() => {
+    if (isFilterSuccess && filterResults) {
+      getResults(filterResults.updatedResults);
+    }
+    if (isFilterError) {
+      getResults([]);
+    }
+  }, [filterResults]);
+
+  useEffect(() => {
+    getCenterPoint([formik.values.latitude, formik.values.longitude]);
+  }, [formik.values.latitude, formik.values.longitude]);
+
+  useEffect(() => {
+    getTotalPages(filterResults?.totalPages);
+  }, [filterResults?.totalPages]);
+
+  useEffect(() => {
+    formik.handleSubmit();
+  }, [currentPage]);
 
   const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 

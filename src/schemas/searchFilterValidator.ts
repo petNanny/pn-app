@@ -3,7 +3,7 @@ import * as Yup from "yup";
 const searchFilterSchema = Yup.object().shape({
   location: Yup.string(),
   petService: Yup.string(),
-  selectedDate: Yup.array(),
+  selectedDates: Yup.array(),
   noDogs: Yup.boolean(),
   noChildren: Yup.boolean(),
   fencedBackyard: Yup.boolean(),

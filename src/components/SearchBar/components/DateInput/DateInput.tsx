@@ -26,8 +26,9 @@ interface DateInputProps {
 }
 
 const DateInput = ({ formik }: DateInputProps) => {
-  const initRef = useRef<any>();
   const today = new Date();
+  const initRef = useRef<any>();
+
   const [rangeDays, setRangeDays] = useState<DateRange | undefined>();
   const [multiDays, setMultiDays] = useState<Date[]>();
   const [isMultiMode, setIsMultiMode] = useState(false);
@@ -35,11 +36,12 @@ const DateInput = ({ formik }: DateInputProps) => {
   let rangeModeInputText = <p>start date &gt; end date</p>;
   if (rangeDays?.from) {
     if (!rangeDays.to) {
-      rangeModeInputText = (
-        <p>
-          {format(rangeDays.from, "dd/MM/yyyy")} &gt; {format(rangeDays.from, "dd/MM/yyyy")}
-        </p>
-      );
+      rangeModeInputText = <p>{format(rangeDays.from, "dd/MM/yyyy")} &gt; end date?</p>;
+      const noEndDate: DateRange = {
+        from: rangeDays.from,
+        to: rangeDays.from,
+      };
+      setRangeDays(noEndDate);
     } else if (rangeDays.to) {
       rangeModeInputText = (
         <p>
@@ -67,7 +69,7 @@ const DateInput = ({ formik }: DateInputProps) => {
       return eachDayOfInterval({
         start: rangeDays.from,
         end: rangeDays.to,
-      });
+      }).map((date) => date.toISOString().substring(0, 10));
     }
   };
 
@@ -78,15 +80,21 @@ const DateInput = ({ formik }: DateInputProps) => {
 
   const handleBlur = () => {
     isMultiMode
-      ? formik.setFieldValue("selectedDate", multiDays)
-      : formik.setFieldValue("selectedDate", getDatesInRange());
+      ? formik.setFieldValue(
+          "selectedDates",
+          multiDays?.map((date) => date.toISOString().substring(0, 10))
+        )
+      : formik.setFieldValue("selectedDates", getDatesInRange());
     setTimeout(formik.handleSubmit, 0);
   };
 
   const handleApplyBtn = () => {
     isMultiMode
-      ? formik.setFieldValue("selectedDate", multiDays)
-      : formik.setFieldValue("selectedDate", getDatesInRange());
+      ? formik.setFieldValue(
+          "selectedDates",
+          multiDays?.map((date) => date.toISOString().substring(0, 10))
+        )
+      : formik.setFieldValue("selectedDates", getDatesInRange());
     setTimeout(formik.handleSubmit, 0);
   };
 
@@ -125,6 +133,7 @@ const DateInput = ({ formik }: DateInputProps) => {
                         />
                       ) : (
                         <DayPicker
+                          defaultMonth={today}
                           mode={"range"}
                           selected={rangeDays}
                           onSelect={setRangeDays}

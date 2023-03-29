@@ -6,7 +6,7 @@ import {
 } from "../../../../redux/petOwnerApi";
 import updatePetOwnerValidator from "./updatePetOwnerValidator";
 import { useParams } from "react-router-dom";
-import { useFormik, ErrorMessage } from "formik";
+import { useFormik } from "formik";
 
 interface Values {
   firstName: string;
