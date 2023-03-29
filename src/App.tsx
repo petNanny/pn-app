@@ -14,7 +14,7 @@ import PetSitterDetails from "./pages/PetSitterDetails";
 import PetSitterPage from "./pages/PetSitterPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SearchBar from "./components/SearchBar/SearchBar";
-
+import VerifyEmailPage from "./pages/VerifyEmailPage";
 import AuthRoute from "./components/AuthRoute";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
@@ -129,6 +129,14 @@ const App = () => {
           element={
             <AuthRoute>
               <ErrorPage />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/verify-email/:userId/:token/"
+          element={
+            <AuthRoute>
+              <VerifyEmailPage />
             </AuthRoute>
           }
         />

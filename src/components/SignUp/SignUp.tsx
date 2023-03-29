@@ -1,5 +1,4 @@
 import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   FormControl,
   FormLabel,
@@ -8,12 +7,14 @@ import {
   InputRightElement,
   FormErrorMessage,
   useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { StyledSignUpBox, StyledButton } from "./styledSignUp";
 import { Formik, Field, Form, FieldProps } from "formik";
 import { useRegisterMutation } from "../../redux/authApi";
 import SignUpValidator from "./SignUpValidator";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import VerifyModal from "./components/VerifyModal/VerifyModal";
 
 type FormikValueInputType = {
   firstName: string;
@@ -30,9 +31,11 @@ type FormikSubmitActionType = {
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [register, { isLoading }] = useRegisterMutation();
-  const navigate = useNavigate();
   const toast = useToast();
+
   const handleFormikSubmit = useCallback(
     async (
       { firstName, lastName, userName, email, password, phone }: FormikValueInputType,
@@ -49,14 +52,15 @@ const SignUp = () => {
         }).unwrap();
         toast({
           title: "Account created.",
-          description: "We've created your account for you.",
+          description:
+            "We've created your account for you, please verify it using your registered email.",
           status: "success",
           duration: 9000,
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
-        navigate("/chat");
         actions.setSubmitting(false);
+        onOpen();
       } catch (err: any) {
         toast({
           title: "Register failure.",
@@ -191,6 +195,7 @@ const SignUp = () => {
               Create account
             </StyledButton>
           </Form>
+          <VerifyModal onClose={onClose} isOpen={isOpen} />
         </StyledSignUpBox>
       )}
     </Formik>
