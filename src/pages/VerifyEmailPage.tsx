@@ -2,22 +2,15 @@ import PageLayout from "../components/Layout/PageLayout";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { useVerifyEmailQuery } from "../redux/authApi";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 
 const VerifyEmailPage = () => {
   const { userId, token } = useParams();
-  const { data, isSuccess, isError } = useVerifyEmailQuery({ userId, token });
-  const navigate = useNavigate();
+  const { data, isSuccess } = useVerifyEmailQuery({ userId, token });
 
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/login");
-    }
-    if (isError) {
-      navigate("/error");
-    }
-  }, []);
+  if (isSuccess) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <PageLayout>
