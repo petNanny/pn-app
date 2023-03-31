@@ -131,12 +131,10 @@ const PetSitterPagination = (props: PaginationType) => {
   }
 
   const onNext = () => {
-    console.log(paginationRange);
     onPageChange(currentPage + 1);
   };
 
   const onPrevious = () => {
-    console.log(paginationRange);
     onPageChange(currentPage - 1);
   };
   const lastPage = paginationRange[paginationRange.length - 1];

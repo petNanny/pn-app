@@ -61,6 +61,12 @@ export interface PetSitterState {
   isActivePetSitter: boolean;
   createdAt: string;
   updatedAt: string;
+  geoCode: {
+    type: string;
+    coordinates: number[];
+  };
+  notAvailableDates: string[];
+  lastUpdateCalendarTime: Date;
 }
 
 export const initialState: PetSitterState = {
@@ -123,6 +129,12 @@ export const initialState: PetSitterState = {
   isActivePetSitter: false,
   createdAt: "",
   updatedAt: "",
+  geoCode: {
+    type: "Point",
+    coordinates: [151.2092955, -33.8688197],
+  },
+  notAvailableDates: [],
+  lastUpdateCalendarTime: new Date(),
 };
 
 export const petSitterSlice = createSlice({

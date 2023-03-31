@@ -13,7 +13,7 @@ import BecomePetSitter from "./pages/BecomePetSitter";
 import PetSitterDetails from "./pages/PetSitterDetails";
 import PetSitterPage from "./pages/PetSitterPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import SearchBar from "./components/SearchBar/SearchBar";
+import CalendarPage from "./pages/CalendarPage";
 
 import AuthRoute from "./components/AuthRoute";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
@@ -129,6 +129,14 @@ const App = () => {
           element={
             <AuthRoute>
               <ErrorPage />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/userProfile/availability/:id"
+          element={
+            <AuthRoute authRequired>
+              <CalendarPage />
             </AuthRoute>
           }
         />

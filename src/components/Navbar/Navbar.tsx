@@ -195,6 +195,11 @@ const Navbar = () => {
                       <MenuItem onClick={() => navigate(`/message/${petOwner._id}`)}>
                         Messages
                       </MenuItem>
+                      <MenuItem
+                        onClick={() => navigate(`/userProfile/availability/${petOwner._id}`)}
+                      >
+                        Calendar
+                      </MenuItem>
                       <MenuItem onClick={() => navigate(`/userProfile/about-me/${petOwner._id}`)}>
                         Profile
                       </MenuItem>

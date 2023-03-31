@@ -69,7 +69,7 @@ const DateInput = ({ formik }: DateInputProps) => {
       return eachDayOfInterval({
         start: rangeDays.from,
         end: rangeDays.to,
-      }).map((date) => date.toISOString().substring(0, 10));
+      }).map((date) => format(date, "yyyy-MM-dd"));
     }
   };
 
@@ -82,7 +82,7 @@ const DateInput = ({ formik }: DateInputProps) => {
     isMultiMode
       ? formik.setFieldValue(
           "selectedDates",
-          multiDays?.map((date) => date.toISOString().substring(0, 10))
+          multiDays?.map((date) => format(date, "yyyy-MM-dd"))
         )
       : formik.setFieldValue("selectedDates", getDatesInRange());
     setTimeout(formik.handleSubmit, 0);
@@ -92,7 +92,7 @@ const DateInput = ({ formik }: DateInputProps) => {
     isMultiMode
       ? formik.setFieldValue(
           "selectedDates",
-          multiDays?.map((date) => date.toISOString().substring(0, 10))
+          multiDays?.map((date) => format(date, "yyyy-MM-dd"))
         )
       : formik.setFieldValue("selectedDates", getDatesInRange());
     setTimeout(formik.handleSubmit, 0);

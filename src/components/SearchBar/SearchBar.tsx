@@ -110,7 +110,6 @@ const SearchBar = ({
       values.totalPets = totalPetsNum;
       values.page = currentPage;
       values.pageLimit = pageSize;
-      console.log(values);
       await sleep(500);
       await filter({ body: values });
     },
