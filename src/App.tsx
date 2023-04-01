@@ -132,6 +132,14 @@ const App = () => {
             </AuthRoute>
           }
         />
+        <Route
+          path="*"
+          element={
+            <AuthRoute>
+              <ErrorPage />
+            </AuthRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -4,13 +4,17 @@ import PetSitterGallery from "./components/PetSitterGallery/PetSitterGallery";
 import PetSitterMobileHeader from "./components/PetSitterMobileHeader/PetSitterMobileHeader";
 import { useGetOnePetSitterQuery } from "../../redux/petSitterApi";
 import { Stack, Button, Text, Image } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
+import { ErrorContent } from "../../pages/ErrorPage/ErrorPage";
 
 const PetSitterDetail = () => {
   const { id } = useParams();
-  const { data: petSitterData } = useGetOnePetSitterQuery(id);
+  const { data: petSitterData, isLoading: isPetSitterLoading } = useGetOnePetSitterQuery(id);
 
   let petSitterName, petSitterAvatar, petSitterIntro, petSitterSuburb, petSitterId;
+
+  if (isPetSitterLoading) return <div>Loading...</div>;
+
   if (petSitterData) {
     ({
       petOwner: { userName: petSitterName, avatar: petSitterAvatar },
@@ -19,7 +23,7 @@ const PetSitterDetail = () => {
       _id: petSitterId,
     } = petSitterData);
   } else {
-    return <div>not found</div>;
+    return <Navigate to="/error" replace />;
   }
 
   return (
