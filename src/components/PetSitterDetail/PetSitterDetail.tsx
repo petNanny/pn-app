@@ -15,8 +15,6 @@ const PetSitterDetail = () => {
   const { id } = useParams();
   const { data: petSitterData, isLoading: isPetSitterLoading } = useGetOnePetSitterQuery(id);
 
-  console.log("petSitterData", petSitterData);
-
   let petSitterName,
     petSitterAvatar,
     petSitterIntro,
