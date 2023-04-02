@@ -10,5 +10,6 @@ export const AvailabilityCalendarContainer = styled(Box)`
     padding: 1rem;
     flex-direction: row-reverse;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 `;

@@ -6,18 +6,16 @@ import {
   CalendarCaptionLabel,
   MonthNavBtn,
   TodayBtn,
-  StyledSetAvailabilityCalendar,
-  AvailabilityCalendarLegend,
-  AvailabilityCalendarLegendItem,
-  AvailabilityCalendarLegendAvailableIcon,
-  AvailabilityCalendarLegendNotAvailableIcon,
-  AvailabilityCalendarLegendItemLabel,
-} from "./styledCalendar";
-import { useGetOnePetOwnerQuery } from "../../../redux/petOwnerApi";
-import { useParams } from "react-router-dom";
+  StyledAvailabilityCalendar,
+  StyledModifiersStyles,
+} from "./styledPetSitterCalendar";
 import "react-day-picker/dist/style.module.css";
 import { Box, Icon } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+
+interface petSitterValues {
+  petSitterNotAvailableDates: string[];
+}
 
 const customCaption = (props: CaptionProps) => {
   const { goToMonth, nextMonth, previousMonth } = useNavigation();
@@ -40,11 +38,8 @@ const customCaption = (props: CaptionProps) => {
   );
 };
 
-const Calendar = () => {
-  const { id } = useParams();
-  const { data: petOwnerData } = useGetOnePetOwnerQuery(id);
-  const petSitter = petOwnerData?.petSitter;
-  const notAvailableDates = petSitter?.notAvailableDates;
+const PetSitterCalendar = ({ petSitterNotAvailableDates }: petSitterValues) => {
+  const notAvailableDates = petSitterNotAvailableDates;
   const today = new Date();
 
   const notAvailableDatesModifier = {
@@ -52,37 +47,19 @@ const Calendar = () => {
     disabled: (date: Date) => isBefore(date, startOfDay(today)),
   };
 
-  const footer = (
-    <AvailabilityCalendarLegend>
-      <AvailabilityCalendarLegendItem>
-        <AvailabilityCalendarLegendAvailableIcon />
-        <AvailabilityCalendarLegendItemLabel>Available</AvailabilityCalendarLegendItemLabel>
-      </AvailabilityCalendarLegendItem>
-      <AvailabilityCalendarLegendItem>
-        <AvailabilityCalendarLegendNotAvailableIcon />
-        <AvailabilityCalendarLegendItemLabel>Not available</AvailabilityCalendarLegendItemLabel>
-      </AvailabilityCalendarLegendItem>
-    </AvailabilityCalendarLegend>
-  );
-
   return (
     <CalendarContainer>
-      <style>{StyledSetAvailabilityCalendar}</style>
+      <style>{StyledAvailabilityCalendar}</style>
       <DayPicker
         fromDate={today}
-        className="set-availability-calendar"
+        className="availability-calendar"
         modifiers={notAvailableDatesModifier}
-        modifiersStyles={{
-          unavailable: { backgroundColor: "rgb(255, 188, 188)" },
-          disabled: { backgroundColor: "white", color: "rgb(220, 224, 224)" },
-        }}
+        modifiersStyles={StyledModifiersStyles}
         styles={StyledCalendar}
         components={{ Caption: customCaption }}
-        showOutsideDays
-        footer={footer}
       />
     </CalendarContainer>
   );
 };
 
-export default Calendar;
+export default PetSitterCalendar;

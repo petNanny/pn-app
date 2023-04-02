@@ -11,12 +11,20 @@ import ExperienceForm from "./PetSitterProfile/ExperienceForm/ExperienceForm";
 import PaymentForm from "./PetSitterProfile/PaymentForm/PaymentForm";
 import CompleteApplicationForm from "./PetSitterProfile/CompleteApplicationForm/CompleteApplicationForm";
 import ProfileGallery from "./PetSitterProfile/ProfileGallery/ProfileGallery";
+import MyPetForm from "./PetSitterProfile/MyPetForm/MyPetForm";
+import AddNewPet from "./PetSitterProfile/AddNewPet/AddNewPet";
+import EditPet from "./PetSitterProfile/EditPet/EditPet";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 const PetSitter = () => {
   const { formPage, id } = useParams();
   const petOwner = useSelector((state: any) => state.petOwner);
   const hasCreatedPetSitterAccount = petOwner.roles.includes("PetSitter");
+  const petId = useSelector((state: any) => state.pet.petId);
+
+  if (id !== petOwner._id && id !== petId) {
+    return <Navigate to="/error" replace />;
+  }
 
   return (
     <Container maxW="6xl" padding="4">
@@ -43,6 +51,9 @@ const PetSitter = () => {
           {formPage === "payment-information" && id === petOwner._id && <PaymentForm />}
           {formPage === "submission" && id === petOwner._id && <CompleteApplicationForm />}
           {formPage === "profile-gallery" && id === petOwner._id && <ProfileGallery />}
+          {formPage === "my-pets" && id === petOwner._id && <MyPetForm />}
+          {formPage === "new-pet" && id === petOwner._id && <AddNewPet />}
+          {formPage === "edit-pet" && id === petId && <EditPet />}
         </Flex>
       </Flex>
     </Container>

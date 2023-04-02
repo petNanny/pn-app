@@ -1,4 +1,3 @@
-import { Stack, Container, Box, Divider, Button } from "@chakra-ui/react";
 import SetAvailability from "./SetAvailability/SetAvailability";
 import { AvailabilityCalendarContainer } from "./styledAvailabilityCalendar";
 import Calendar from "./Calendar/Calendar";
