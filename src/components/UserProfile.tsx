@@ -14,6 +14,7 @@ import ProfileGallery from "./PetSitterProfile/ProfileGallery/ProfileGallery";
 import MyPetForm from "./PetSitterProfile/MyPetForm/MyPetForm";
 import AddNewPet from "./PetSitterProfile/AddNewPet/AddNewPet";
 import EditPet from "./PetSitterProfile/EditPet/EditPet";
+import LegalRequirement from "./PetSitterProfile/LegalRequirement";
 import { useSelector } from "react-redux";
 import { useParams, Navigate } from "react-router-dom";
 const PetSitter = () => {
@@ -47,10 +48,11 @@ const PetSitter = () => {
           {formPage === "pet-preference" && id === petOwner._id && <PetPreferencesForm />}
           {formPage === "home-area" && id === petOwner._id && <MyHomeAreaForm />}
           {formPage === "description" && id === petOwner._id && <DescriptionForm />}
+          {formPage === "profile-gallery" && id === petOwner._id && <ProfileGallery />}
           {formPage === "experience" && id === petOwner._id && <ExperienceForm />}
           {formPage === "payment-information" && id === petOwner._id && <PaymentForm />}
+          {formPage === "legal-requirement" && id === petOwner._id && <LegalRequirement />}
           {formPage === "submission" && id === petOwner._id && <CompleteApplicationForm />}
-          {formPage === "profile-gallery" && id === petOwner._id && <ProfileGallery />}
           {formPage === "my-pets" && id === petOwner._id && <MyPetForm />}
           {formPage === "new-pet" && id === petOwner._id && <AddNewPet />}
           {formPage === "edit-pet" && id === petId && <EditPet />}
