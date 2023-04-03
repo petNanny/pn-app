@@ -1,4 +1,4 @@
-import { Card, Flex, Avatar, Heading, Text, Box } from "@chakra-ui/react";
+import { Card, Flex, Avatar, Heading, Text, AvatarBadge } from "@chakra-ui/react";
 import styled from "styled-components";
 import { devices } from "../../../styles/breakPoints";
 
@@ -85,5 +85,13 @@ export const CardFooterText = styled(Text)`
     @media ${devices.tablet} {
       display: block;
     }
+  }
+`;
+
+export const AvatarIcon = styled(AvatarBadge)`
+  &&& {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: none;
   }
 `;

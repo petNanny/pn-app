@@ -13,6 +13,7 @@ export interface PetSitter {
   price: number;
   distance: string;
   rating: number;
+  isActivePetSitter: boolean;
 }
 interface CardListProps {
   results: [];
@@ -57,6 +58,7 @@ const PetSitterCardList = ({
             introduction={petSitter.introduction}
             distance={petSitter.distance}
             rating={petSitter.rating || 5}
+            isActivePetSitter={petSitter.isActivePetSitter}
           />
         ))}
         <PetSitterPagination

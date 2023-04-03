@@ -1,4 +1,4 @@
-import { CardHeader, CardBody, CardFooter, Box } from "@chakra-ui/react";
+import { CardHeader, CardBody, CardFooter, Box, AvatarBadge, Text } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 import { PetSitter } from "../PetSitterCardList/PetSitterCardList";
 import {
@@ -14,6 +14,7 @@ import {
   CardFooterText,
 } from "./StyledPetSitterCard";
 import { useNavigate } from "react-router-dom";
+import { MdCheck } from "react-icons/md";
 
 const PetSitterCard = ({
   avatar: petSitterAvatar,
@@ -24,17 +25,26 @@ const PetSitterCard = ({
   distance: petSitterDistance,
   id,
   rating: petSitterRating,
+  isActivePetSitter,
 }: PetSitter) => {
   const navigate = useNavigate();
   const handleClickPetSitter = () => {
     navigate(`/petSitter/${id}`);
   };
+
+  console.log("isActivePetSitter", isActivePetSitter);
   return (
     <PetSitterCardContainer onClick={handleClickPetSitter}>
       <CardHeader>
         <PetSitterCardHeaderContainer>
           <CardHeaderLeft>
-            <UserAvatar alt={petSitterName} src={petSitterAvatar} />
+            <UserAvatar alt={petSitterName} src={petSitterAvatar}>
+              {isActivePetSitter && (
+                <AvatarBadge boxSize="1.25em" bg="transparent" border="none">
+                  <MdCheck color="green" fontSize="2rem" />
+                </AvatarBadge>
+              )}
+            </UserAvatar>
             <Box>
               <CardHeaderMiddle>
                 <UserName>{petSitterName}</UserName>
