@@ -13,7 +13,7 @@ import {
 import { useFormik } from "formik";
 import { petData } from "../../../interfaces/petData";
 import { GenderOptionBtn, StyledCheckbox, CheckItemText } from "./styledAddNewPet";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import addPetSchema from "../../../schemas/addPetValidator";
 import { useUserAddPetMutation, useGetAllPetsQuery } from "../../../redux/petApi";
