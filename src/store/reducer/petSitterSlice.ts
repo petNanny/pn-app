@@ -26,12 +26,7 @@ export interface PetSitterState {
       isActive: boolean;
     }
   ];
-  additionalService: [
-    {
-      service: string;
-      isActive: boolean;
-    }
-  ];
+  additionalService: string[];
   policy: string;
   preference: {
     age: string;
@@ -95,12 +90,7 @@ export const initialState: PetSitterState = {
       isActive: false,
     },
   ],
-  additionalService: [
-    {
-      service: "",
-      isActive: false,
-    },
-  ],
+  additionalService: [],
   policy: "",
   preference: {
     age: "",

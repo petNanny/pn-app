@@ -1,21 +1,7 @@
-import { FormControl, FormLabel, Input, Stack, Text } from "@chakra-ui/react";
+import { FormControl, Input, Stack, Text } from "@chakra-ui/react";
 import FormWrapper from "../../FormWrapper/FormWrapper";
-import { useFormik } from "formik";
 
-const onSubmit = async (values: any, actions: any) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  actions.resetForm();
-};
-
-const HeadLineForm = () => {
-  const { values, handleBlur, handleChange, handleSubmit, isSubmitting, handleReset } = useFormik({
-    initialValues: {
-      headline: "",
-    },
-    onSubmit,
-  });
+const HeadLineForm = (props: any) => {
   return (
     <FormWrapper title={"Headline"}>
       <Stack>
@@ -23,7 +9,14 @@ const HeadLineForm = () => {
           Write an eye-catching headline. Make it short, descriptive, and genuine.
         </Text>
         <FormControl>
-          <Input name="headline" value={values.headline} onChange={handleChange} marginBottom="4" />
+          <Input
+            name="introduction"
+            value={props.values}
+            onChange={props.handleChange}
+            marginBottom="4"
+            height="50px"
+            focusBorderColor="#00C38A"
+          />
         </FormControl>
       </Stack>
     </FormWrapper>
