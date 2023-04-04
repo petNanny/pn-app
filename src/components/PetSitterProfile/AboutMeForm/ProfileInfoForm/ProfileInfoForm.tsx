@@ -18,6 +18,8 @@ const ProfileInfoForm = () => {
   const { id } = useParams();
   const { data } = useGetOnePetOwnerQuery(id);
 
+  console.log("data", data);
+
   const [updatePetOwner] = useUpdateOnePetOwnerMutation();
   const toast = useToast();
 
