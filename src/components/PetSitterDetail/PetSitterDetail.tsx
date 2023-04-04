@@ -1,17 +1,27 @@
-import { ProfileContentContainer, PetSitterPageContainer } from "./styledPetSitterDetail";
-import "yet-another-react-lightbox/styles.css";
+import {
+  ProfileContentContainer,
+  PetSitterPageContainer,
+  ProfileDetailSection,
+  ProfileDetailSectionHeading,
+} from "./styledPetSitterDetail";
 import PetSitterGallery from "./components/PetSitterGallery/PetSitterGallery";
 import PetSitterMobileHeader from "./components/PetSitterMobileHeader/PetSitterMobileHeader";
+import PetSitterSkills from "./components/PetSitterSkills/PetSitterSkills";
 import { useGetOnePetSitterQuery } from "../../redux/petSitterApi";
 import { Stack, Button, Text, Image } from "@chakra-ui/react";
 import { useParams, Navigate } from "react-router-dom";
-import { ErrorContent } from "../../pages/ErrorPage/ErrorPage";
 
 const PetSitterDetail = () => {
   const { id } = useParams();
   const { data: petSitterData, isLoading: isPetSitterLoading } = useGetOnePetSitterQuery(id);
 
-  let petSitterName, petSitterAvatar, petSitterIntro, petSitterSuburb, petSitterId;
+  let petSitterName,
+    petSitterAvatar,
+    petSitterIntro,
+    petSitterSuburb,
+    petSitterId,
+    petSitterSkills,
+    petSitterLanguages;
 
   if (isPetSitterLoading) return <div>Loading...</div>;
 
@@ -21,6 +31,8 @@ const PetSitterDetail = () => {
       introduction: petSitterIntro,
       address: { city: petSitterSuburb },
       _id: petSitterId,
+      experience: petSitterSkills,
+      languages: petSitterLanguages,
     } = petSitterData);
   } else {
     return <Navigate to="/error" replace />;
@@ -37,6 +49,13 @@ const PetSitterDetail = () => {
             petSitterIntro={petSitterIntro}
             petSitterSuburb={petSitterSuburb}
           />
+          <ProfileDetailSection>
+            <ProfileDetailSectionHeading as="h2">Skills</ProfileDetailSectionHeading>
+            <PetSitterSkills
+              petSitterSkills={petSitterSkills}
+              petSitterLanguages={petSitterLanguages}
+            />
+          </ProfileDetailSection>
           <Stack>
             <div>PetSitterDetail</div>
             <Text>petSitterId : {petSitterData?._id}</Text>

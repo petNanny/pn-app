@@ -1,4 +1,4 @@
-import { Input, useToast, Box, Avatar } from "@chakra-ui/react";
+import { Input, Box, Avatar } from "@chakra-ui/react";
 import { useState } from "react";
 import defaultPetAvatar from "../../../../../assets/defaults/defaultPetAvatar.jpg";
 import { StyledFormLabel } from "./styledAddPetAvatar";
