@@ -55,6 +55,13 @@ export const authApi = apiSlice.injectEndpoints({
         },
       }),
     }),
+
+    verifyEmail: builder.query({
+      query: ({ userId, token }) => ({
+        url: `/auth/verify/${userId}/${token}/`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -64,4 +71,5 @@ export const {
   useSendLogoutMutation,
   useRefreshTokenMutation,
   useGoogleLoginMutation,
+  useVerifyEmailQuery,
 } = authApi;
