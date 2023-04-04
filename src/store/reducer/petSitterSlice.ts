@@ -14,6 +14,7 @@ export interface PetSitterState {
     longitude: string;
   };
   images: string[];
+  legalDocs: string[];
   languages: string[];
   introduction: string;
   description: string;
@@ -82,6 +83,7 @@ export const initialState: PetSitterState = {
     longitude: "",
   },
   images: [],
+  legalDocs: [],
   languages: [],
   introduction: "",
   description: "",

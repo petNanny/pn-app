@@ -6,6 +6,7 @@ import {
 } from "./styledPetSitterDetail";
 import PetSitterGallery from "./components/PetSitterGallery/PetSitterGallery";
 import PetSitterMobileHeader from "./components/PetSitterMobileHeader/PetSitterMobileHeader";
+import PetSitterSkills from "./components/PetSitterSkills/PetSitterSkills";
 import { useGetOnePetSitterQuery } from "../../redux/petSitterApi";
 import { Stack, Button, Text, Image, Box } from "@chakra-ui/react";
 import { useParams, Navigate } from "react-router-dom";
@@ -20,6 +21,8 @@ const PetSitterDetail = () => {
     petSitterIntro,
     petSitterSuburb,
     petSitterId,
+    petSitterSkills,
+    petSitterLanguages,
     petSitterNotAvailableDates;
 
   if (isPetSitterLoading) return <div>Loading...</div>;
@@ -30,6 +33,8 @@ const PetSitterDetail = () => {
       introduction: petSitterIntro,
       address: { city: petSitterSuburb },
       _id: petSitterId,
+      experience: petSitterSkills,
+      languages: petSitterLanguages,
       notAvailableDates: petSitterNotAvailableDates,
     } = petSitterData);
   } else {
@@ -47,6 +52,13 @@ const PetSitterDetail = () => {
             petSitterIntro={petSitterIntro}
             petSitterSuburb={petSitterSuburb}
           />
+          <ProfileDetailSection>
+            <ProfileDetailSectionHeading as="h2">Skills</ProfileDetailSectionHeading>
+            <PetSitterSkills
+              petSitterSkills={petSitterSkills}
+              petSitterLanguages={petSitterLanguages}
+            />
+          </ProfileDetailSection>
           <ProfileDetailSection>
             <ProfileDetailSectionHeading as="h2">Availability</ProfileDetailSectionHeading>
             <PetSitterCalendar petSitterNotAvailableDates={petSitterNotAvailableDates} />

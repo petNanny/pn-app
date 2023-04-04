@@ -33,7 +33,7 @@ const AsideMySitterBox = () => {
           <Link to={`/userProfile/payment-information/${petOwner._id}`}>Payout method</Link>
         </ListItem>
         <ListItem cursor="pointer" height="30px">
-          Police check (WIP)
+          <Link to={`/userProfile/legal-requirement/${petOwner._id}`}>Legal requirement</Link>
         </ListItem>
         <ListItem cursor="pointer" height="30px">
           <Link to={`/userProfile/submission/${petOwner._id}`}>Complete sitter application</Link>
