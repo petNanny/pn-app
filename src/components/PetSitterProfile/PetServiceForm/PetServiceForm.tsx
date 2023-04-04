@@ -16,8 +16,9 @@ const PetServiceForm = () => {
   const { data } = useGetOnePetOwnerQuery(id);
 
   const petSitter = data.petSitter;
-  console.log(petSitter);
+
   const [updateServices] = useUpdateOnePetSitterMutation();
+
   const { values, handleSubmit, handleChange, handleBlur, setFieldValue } = useFormik({
     initialValues: {
       service: data.petSitter.service,

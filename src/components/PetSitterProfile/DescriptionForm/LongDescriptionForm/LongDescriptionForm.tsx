@@ -1,26 +1,33 @@
-import React, { useState } from "react";
-import { FormControl, FormLabel, Input, Stack, Text, Box } from "@chakra-ui/react";
+import { useState } from "react";
+import { Stack, Text, Box } from "@chakra-ui/react";
 import FormWrapper from "../../FormWrapper/FormWrapper";
-import { useFormik } from "formik";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Editor } from "react-draft-wysiwyg";
+import { convertToHTML, convertFromHTML } from "draft-convert";
 
-const onSubmit = async (values: any, actions: any) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  actions.resetForm();
+const getDefaultEditorState = (value?: string) => {
+  if (value) {
+    return EditorState.createWithContent(convertFromHTML(value));
+  } else {
+    return EditorState.createEmpty();
+  }
 };
-const LongDescriptionForm = () => {
-  const { values, handleBlur, handleChange, handleSubmit, isSubmitting, handleReset } = useFormik({
-    initialValues: {
-      text: "",
-    },
-    onSubmit,
-  });
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+
+const LongDescriptionForm = (props: any) => {
+  const [editorState, setEditorState] = useState(getDefaultEditorState(props.values));
+
+  const handleEditorChange = (state: any) => {
+    setEditorState(state);
+    convertContentToHTML();
+  };
+  const convertContentToHTML = () => {
+    const currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+    console.log(currentContentAsHTML, "currentContentAsHTML");
+    props.setFieldValue("description", currentContentAsHTML);
+  };
+
   return (
     <FormWrapper title={"Description"}>
       <Stack>
@@ -42,7 +49,7 @@ const LongDescriptionForm = () => {
           <Box padding="2">
             <Editor
               editorState={editorState}
-              onEditorStateChange={setEditorState}
+              onEditorStateChange={handleEditorChange}
               wrapperClassName="wrapper-class"
               editorStyle={{
                 padding: 5,
