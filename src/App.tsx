@@ -14,6 +14,7 @@ import PetSitterDetails from "./pages/PetSitterDetails";
 import PetSitterPage from "./pages/PetSitterPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SearchBar from "./components/SearchBar/SearchBar";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import AuthRoute from "./components/AuthRoute";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
@@ -40,17 +41,21 @@ const App = () => {
           <Route
             path="/login"
             element={
-              <AuthRoute>
-                <LoginPage />
-              </AuthRoute>
+              <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID || ""}>
+                <AuthRoute>
+                  <LoginPage />
+                </AuthRoute>
+              </GoogleOAuthProvider>
             }
           />
           <Route
             path="/register"
             element={
-              <AuthRoute>
-                <RegisterPage />
-              </AuthRoute>
+              <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID || ""}>
+                <AuthRoute>
+                  <RegisterPage />
+                </AuthRoute>
+              </GoogleOAuthProvider>
             }
           />
           <Route
@@ -126,6 +131,14 @@ const App = () => {
         </Route>
         <Route
           path="/error"
+          element={
+            <AuthRoute>
+              <ErrorPage />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="*"
           element={
             <AuthRoute>
               <ErrorPage />

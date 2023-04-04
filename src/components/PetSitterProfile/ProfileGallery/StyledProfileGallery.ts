@@ -1,15 +1,5 @@
 import styled from "styled-components";
-import {
-  Box,
-  Button,
-  Heading,
-  Flex,
-  Stack,
-  Text,
-  Input,
-  FormControl,
-  FormLabel,
-} from "@chakra-ui/react";
+import { Text, FormControl, FormLabel } from "@chakra-ui/react";
 
 export const StyledText = styled(Text)`
   &&& {

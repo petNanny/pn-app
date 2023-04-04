@@ -15,6 +15,7 @@ import { useRegisterMutation } from "../../redux/authApi";
 import SignUpValidator from "./SignUpValidator";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import VerifyModal from "./components/VerifyModal/VerifyModal";
+import { useNavigate } from "react-router-dom";
 
 type FormikValueInputType = {
   firstName: string;
@@ -35,6 +36,7 @@ const SignUp = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [register, { isLoading }] = useRegisterMutation();
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handleFormikSubmit = useCallback(
     async (
@@ -59,6 +61,7 @@ const SignUp = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
+        navigate("/login");
         actions.setSubmitting(false);
         onOpen();
       } catch (err: any) {

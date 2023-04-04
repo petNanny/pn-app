@@ -46,6 +46,16 @@ export const authApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    googleLogin: builder.mutation({
+      query: ({ tokenId }) => ({
+        url: "/auth/google",
+        method: "POST",
+        body: {
+          token: tokenId,
+        },
+      }),
+    }),
+
     verifyEmail: builder.query({
       query: ({ userId, token }) => ({
         url: `/auth/verify/${userId}/${token}/`,
@@ -60,5 +70,6 @@ export const {
   useRegisterMutation,
   useSendLogoutMutation,
   useRefreshTokenMutation,
+  useGoogleLoginMutation,
   useVerifyEmailQuery,
 } = authApi;

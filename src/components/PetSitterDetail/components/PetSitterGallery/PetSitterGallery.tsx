@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import imageNotFound from "../../../../assets/temps/imageNotFound.jpg";
+import imageNotFound from "../../../../assets/defaults/imageNotFound.jpg";
 import {
   PetSitterGalleryContainer,
   PetSitterGalleryImageContainer,

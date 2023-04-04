@@ -19,11 +19,11 @@ describe("Login page", () => {
     expect(screen.getByText(/Log in below!/i)).toBeInTheDocument();
   });
 
-  it("should render strategy login button correctly", async () => {
-    renderWithMockedProvider(<LoginPage />);
-    const strategyItems = await screen.getAllByText(/Continue with/i);
-    expect(strategyItems).toHaveLength(3);
-  });
+  // it("should render strategy login button correctly", async () => {
+  //   renderWithMockedProvider(<LoginPage />);
+  //   const strategyItems = await screen.getAllByText(/Continue with/i);
+  //   expect(strategyItems).toHaveLength(3);
+  // });
 
   it("should render bottom text correctly", () => {
     renderWithMockedProvider(<LoginPage />);

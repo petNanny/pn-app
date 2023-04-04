@@ -205,6 +205,7 @@ const MyMapComponent = ({ results, centerPoint }: GoogleMapProps) => {
   };
   const defaultZoom = 12;
   const minZoom = 10;
+  const gestureHandling = "cooperative";
 
   useEffect(() => {
     //map: google.maps.Map;
@@ -212,6 +213,7 @@ const MyMapComponent = ({ results, centerPoint }: GoogleMapProps) => {
       center: defaultCenter,
       zoom: defaultZoom,
       minZoom: minZoom,
+      gestureHandling: gestureHandling,
     });
 
     const contentString = ``;
