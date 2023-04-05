@@ -17,11 +17,13 @@ import SearchBar from "./components/SearchBar/SearchBar";
 
 import AuthRoute from "./components/AuthRoute";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import { useStoreSelector } from "./store/hook";
 
 const App = () => {
   //TODO: add user status to change the route, e.g. if user not login, user can't access chat page, or you can delete the useState value to null.
   const [user, setUser] = useState("shawn");
-  const [admin, setAdmin] = useState("shawn");
+
+  const AdminHomepage = useStoreSelector((state) => state.adminPage.AdminHomepage);
 
   //Get user login
   return (
@@ -101,11 +103,10 @@ const App = () => {
               </AuthRoute>
             }
           />
+
           <Route path="/adminLogin" element={<AdminLoginPage />} />
-          <Route
-            path="/adminPage"
-            element={admin ? <AdminHomePage /> : <Navigate to="/adminLogin" />}
-          />
+
+          <Route path="/adminPage" element={<AdminHomePage />} />
 
           <Route
             path="/petSitterDetails/:id"
@@ -123,15 +124,15 @@ const App = () => {
               </AuthRoute>
             }
           />
+          <Route
+            path="/error"
+            element={
+              <AuthRoute>
+                <ErrorPage />
+              </AuthRoute>
+            }
+          />
         </Route>
-        <Route
-          path="/error"
-          element={
-            <AuthRoute>
-              <ErrorPage />
-            </AuthRoute>
-          }
-        />
         <Route
           path="*"
           element={
