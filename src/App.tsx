@@ -18,6 +18,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import AuthRoute from "./components/AuthRoute";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import { useStoreSelector } from "./store/hook";
+import AdminAuthRoute from "./components/AdminAuthRoute";
 
 const App = () => {
   //TODO: add user status to change the route, e.g. if user not login, user can't access chat page, or you can delete the useState value to null.
@@ -104,9 +105,23 @@ const App = () => {
             }
           />
 
-          <Route path="/adminLogin" element={<AdminLoginPage />} />
+          <Route
+            path="/adminLogin"
+            element={
+              <AdminAuthRoute>
+                <AdminLoginPage />
+              </AdminAuthRoute>
+            }
+          />
 
-          <Route path="/adminPage" element={<AdminHomePage />} />
+          <Route
+            path="/adminPage"
+            element={
+              <AdminAuthRoute authRequired>
+                <AdminHomePage />
+              </AdminAuthRoute>
+            }
+          />
 
           <Route
             path="/petSitterDetails/:id"

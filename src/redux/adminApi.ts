@@ -35,8 +35,21 @@ export const adminApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getOneAdmin: builder.query({
+      query: (id) => ({
+        url: `/admin/${id}`,
+        method: "GET",
+        validateStatus: (response, result) => response.status === 200 && !result.isError,
+        providesTags: [{ type: "Admin", id: "List" }],
+      }),
+    }),
   }),
 });
 
-export const { useAdminLoginMutation, useAdminSendLogoutMutation, useAdminRefreshTokenMutation } =
-  adminApi;
+export const {
+  useAdminLoginMutation,
+  useAdminSendLogoutMutation,
+  useAdminRefreshTokenMutation,
+  useGetOneAdminQuery,
+} = adminApi;
