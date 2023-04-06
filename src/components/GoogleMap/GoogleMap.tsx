@@ -14,6 +14,7 @@ interface GoogleMapProps {
 }
 
 interface result {
+  _id: string;
   geoCode: {
     coordinates: [longitude: number, latitude: number];
   };
@@ -29,8 +30,9 @@ interface result {
       Rate: number;
     }
   ];
+  distance: string;
 }
-
+//dummy petSitter Data
 const petSitters: petSitterData[] = [
   {
     id: 1,
@@ -224,6 +226,7 @@ const MyMapComponent = ({ results, centerPoint }: GoogleMapProps) => {
 
     results.map(
       ({
+        _id,
         geoCode: {
           coordinates: [longitude, latitude],
         },
@@ -231,6 +234,7 @@ const MyMapComponent = ({ results, centerPoint }: GoogleMapProps) => {
         address: { city: suburb },
         // rating,
         service: [{ Rate: price }],
+        distance,
       }) => {
         const marker = new google.maps.Marker({
           position: {
@@ -243,16 +247,16 @@ const MyMapComponent = ({ results, centerPoint }: GoogleMapProps) => {
 
         marker.addListener("click", () => {
           //dummy distance: 10km
-          const distance = 10;
           const recurringTime = 2;
           const contentString =
             `
+      <a href="/petSitter/${_id}">    
         <div class="Marker_InfoWindow">
           <div class="Avatar_Container">
             <img src=${avatar} alt="${name}'s service">
           </div>
           <p>${name}</p>
-          <p class="Marker_Distance">${distance} km - ${suburb}</p>
+          <p class="Marker_Distance">${distance} - ${suburb}</p>
           <div class="Marker_Star">` +
             `${Array(5)
               .fill('<img alt="star" src=' + star + ">")
@@ -265,6 +269,7 @@ const MyMapComponent = ({ results, centerPoint }: GoogleMapProps) => {
           </div>
           <p>${price} AUD / night</p>
         </div>
+      </a>
         `;
           infowindow.setContent(contentString);
 
@@ -288,11 +293,7 @@ const MyRender = (status: Status): React.ReactElement => {
 const GoogleMap = ({ results, centerPoint }: GoogleMapProps) => {
   return (
     <GoogleMapContainer>
-      <Wrapper
-        apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? ""}
-        render={MyRender}
-        // libraries={["places"]}
-      >
+      <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAP_KEY ?? ""} render={MyRender}>
         <MyMapComponent results={results} centerPoint={centerPoint} />
       </Wrapper>
     </GoogleMapContainer>
