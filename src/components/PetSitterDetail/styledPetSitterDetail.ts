@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { devices } from "../../styles/breakPoints";
 
 export const PetSitterPageContainer = styled(Box)`

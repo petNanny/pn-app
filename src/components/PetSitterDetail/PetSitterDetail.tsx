@@ -8,9 +8,10 @@ import PetSitterGallery from "./components/PetSitterGallery/PetSitterGallery";
 import PetSitterMobileHeader from "./components/PetSitterMobileHeader/PetSitterMobileHeader";
 import PetSitterSkills from "./components/PetSitterSkills/PetSitterSkills";
 import { useGetOnePetSitterQuery } from "../../redux/petSitterApi";
-import { Stack, Button, Text, Image, Box } from "@chakra-ui/react";
 import { useParams, Navigate } from "react-router-dom";
 import PetSitterCalendar from "./components/PetSitterCalendar/PetSitterCalendar";
+import PetSitterServices from "./components/PetSitterServices/PetSitterServices";
+import PetSitterSidebar from "./components/PetSitterSidebar/PetSitterSidebar";
 
 const PetSitterDetail = () => {
   const { id } = useParams();
@@ -23,6 +24,8 @@ const PetSitterDetail = () => {
     petSitterId,
     petSitterSkills,
     petSitterLanguages,
+    petSitterServices,
+    petSitterCancelPolicy,
     petSitterNotAvailableDates;
 
   if (isPetSitterLoading) return <div>Loading...</div>;
@@ -36,6 +39,8 @@ const PetSitterDetail = () => {
       experience: petSitterSkills,
       languages: petSitterLanguages,
       notAvailableDates: petSitterNotAvailableDates,
+      service: petSitterServices,
+      policy: petSitterCancelPolicy,
     } = petSitterData);
   } else {
     return <Navigate to="/error" replace />;
@@ -53,6 +58,15 @@ const PetSitterDetail = () => {
             petSitterSuburb={petSitterSuburb}
           />
           <ProfileDetailSection>
+            <ProfileDetailSectionHeading as="h2">About {petSitterName}</ProfileDetailSectionHeading>
+          </ProfileDetailSection>
+          <ProfileDetailSection id="services">
+            <ProfileDetailSectionHeading as="h2">
+              {petSitterName}&apos;s services
+            </ProfileDetailSectionHeading>
+            <PetSitterServices petSitterServices={petSitterServices} />
+          </ProfileDetailSection>
+          <ProfileDetailSection>
             <ProfileDetailSectionHeading as="h2">Skills</ProfileDetailSectionHeading>
             <PetSitterSkills
               petSitterSkills={petSitterSkills}
@@ -63,16 +77,15 @@ const PetSitterDetail = () => {
             <ProfileDetailSectionHeading as="h2">Availability</ProfileDetailSectionHeading>
             <PetSitterCalendar petSitterNotAvailableDates={petSitterNotAvailableDates} />
           </ProfileDetailSection>
-          <Stack>
-            <div>PetSitterDetail</div>
-            <Text>petSitterId : {petSitterData?._id}</Text>
-            <Text>petSitter userName : {petSitterData?.petOwner?.userName}</Text>
-            <Text>petSitter language : {petSitterData?.languages}</Text>
-            <Image boxSize="150px" src={petSitterData?.petOwner?.avatar} />
-            <Button>Chat with this petSitter</Button>
-            <Button>Order service from this petSitter</Button>
-          </Stack>
         </ProfileContentContainer>
+        <PetSitterSidebar
+          petSitterAvatar={petSitterAvatar}
+          petSitterName={petSitterName}
+          petSitterIntro={petSitterIntro}
+          petSitterSuburb={petSitterSuburb}
+          petSitterServices={petSitterServices}
+          petSitterCancelPolicy={petSitterCancelPolicy}
+        />
       </PetSitterPageContainer>
     </>
   );
