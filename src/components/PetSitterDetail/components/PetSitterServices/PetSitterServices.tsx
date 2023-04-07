@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Icon } from "@chakra-ui/react";
 import {
   ServiceTitle,
   ServiceContainer,
@@ -6,12 +6,23 @@ import {
   ServiceDescContainer,
   ServiceDescContentBox,
   ServicePriceBox,
+  AdditionalServiceBox,
+  AdditionalServiceIcon,
+  AdditionalServiceText,
 } from "./styledPetSitterServices";
 import homeDogBoarding from "../../../../assets/Icons/homeDogBoarding.svg";
 import doggyDayCare from "../../../../assets/Icons/doggyDayCare.svg";
 import dogWalking from "../../../../assets/Icons/dogWalking.svg";
 import homeVisits from "../../../../assets/Icons/homeVisits.svg";
 import houseSitting from "../../../../assets/Icons/houseSitting.svg";
+import {
+  MdDirectionsCar,
+  MdVisibility,
+  MdElectricCar,
+  MdMedicalServices,
+  MdContentCut,
+  MdPets,
+} from "react-icons/md";
 
 interface PetSitterServicesValues {
   petSitterServices: [
@@ -23,9 +34,15 @@ interface PetSitterServicesValues {
       isActive: boolean;
     }
   ];
+  petSitterAdditionalServices: any;
+  petSitterName: string;
 }
 
-const PetSitterServices = ({ petSitterServices }: PetSitterServicesValues) => {
+const PetSitterServices = ({
+  petSitterServices,
+  petSitterAdditionalServices,
+  petSitterName,
+}: PetSitterServicesValues) => {
   if (!petSitterServices) return <div>services not available</div>;
   const serviceNames = [
     "Dog boarding",
@@ -40,6 +57,19 @@ const PetSitterServices = ({ petSitterServices }: PetSitterServicesValues) => {
   const atPetSitterHomeServices = services.slice(0, 2);
   const atPetOwnerHomeServices = services.slice(2, 5);
   const noServices = services.every((service) => service === undefined);
+
+  const additionalServicesNames = [
+    "PickUp",
+    "Supervision",
+    "EmergeTransport",
+    "OralMedication",
+    "InjectedMedication",
+    "FirstAid",
+    "Grooming",
+    "DogTraining",
+  ];
+
+  console.log("perSitterAdditionalServices: ", petSitterAdditionalServices);
 
   return (
     <>
@@ -184,6 +214,64 @@ const PetSitterServices = ({ petSitterServices }: PetSitterServicesValues) => {
               ) : null}
             </ServiceContainer>
           ) : null}
+        </Box>
+        <Box marginBottom="1rem">
+          {petSitterAdditionalServices.length === 0 ? null : (
+            <ServiceTitle as="h3">{petSitterName} also offers</ServiceTitle>
+          )}
+          {petSitterAdditionalServices.includes("PickUp") ? (
+            <AdditionalServiceBox>
+              <AdditionalServiceIcon as={MdDirectionsCar} />
+              <AdditionalServiceText>Pick up / drop off</AdditionalServiceText>
+            </AdditionalServiceBox>
+          ) : null}
+          {petSitterAdditionalServices.includes("Supervision") ? (
+            <AdditionalServiceBox>
+              <AdditionalServiceIcon as={MdVisibility} />
+              <AdditionalServiceText>Constant supervision</AdditionalServiceText>
+            </AdditionalServiceBox>
+          ) : null}
+          {petSitterAdditionalServices.includes("EmergeTransport") ? (
+            <AdditionalServiceBox>
+              <AdditionalServiceIcon as={MdElectricCar} />
+              <AdditionalServiceText>Emergency transport</AdditionalServiceText>
+            </AdditionalServiceBox>
+          ) : null}
+          {petSitterAdditionalServices.includes("OralMedication") ? (
+            <AdditionalServiceBox>
+              <AdditionalServiceIcon as={MdMedicalServices} />
+              <AdditionalServiceText>I can administer oral medications</AdditionalServiceText>
+            </AdditionalServiceBox>
+          ) : null}
+          {petSitterAdditionalServices.includes("InjectedMedication") ? (
+            <AdditionalServiceBox>
+              <AdditionalServiceIcon as={MdMedicalServices} />
+              <AdditionalServiceText>I can administer injected medications</AdditionalServiceText>
+            </AdditionalServiceBox>
+          ) : null}
+          {petSitterAdditionalServices.includes("FirstAid") ? (
+            <AdditionalServiceBox>
+              <AdditionalServiceIcon as={MdMedicalServices} />
+              <AdditionalServiceText>First Aid and CPR for pets</AdditionalServiceText>
+            </AdditionalServiceBox>
+          ) : null}
+          {petSitterAdditionalServices.includes("Grooming") ? (
+            <AdditionalServiceBox>
+              <AdditionalServiceIcon as={MdContentCut} />
+              <AdditionalServiceText>Grooming</AdditionalServiceText>
+            </AdditionalServiceBox>
+          ) : null}
+          {petSitterAdditionalServices.includes("DogTraining") ? (
+            <AdditionalServiceBox>
+              <AdditionalServiceIcon as={MdPets} />
+              <AdditionalServiceText>Dog training</AdditionalServiceText>
+            </AdditionalServiceBox>
+          ) : null}
+          {/* {additionalServicesNames.map((service) => (
+            petSitterAdditionalServices.includes(service) ? (
+              <Box key={service}>{service}</Box>
+            ) : null
+          ))} */}
         </Box>
       </Box>
     </>

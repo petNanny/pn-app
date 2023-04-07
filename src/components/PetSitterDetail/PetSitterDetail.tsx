@@ -26,6 +26,7 @@ const PetSitterDetail = () => {
     petSitterLanguages,
     petSitterServices,
     petSitterCancelPolicy,
+    petSitterAdditionalServices,
     petSitterNotAvailableDates;
 
   if (isPetSitterLoading) return <div>Loading...</div>;
@@ -41,6 +42,7 @@ const PetSitterDetail = () => {
       notAvailableDates: petSitterNotAvailableDates,
       service: petSitterServices,
       policy: petSitterCancelPolicy,
+      additionalService: petSitterAdditionalServices,
     } = petSitterData);
   } else {
     return <Navigate to="/error" replace />;
@@ -64,7 +66,11 @@ const PetSitterDetail = () => {
             <ProfileDetailSectionHeading as="h2">
               {petSitterName}&apos;s services
             </ProfileDetailSectionHeading>
-            <PetSitterServices petSitterServices={petSitterServices} />
+            <PetSitterServices
+              petSitterServices={petSitterServices}
+              petSitterAdditionalServices={petSitterAdditionalServices}
+              petSitterName={petSitterName}
+            />
           </ProfileDetailSection>
           <ProfileDetailSection>
             <ProfileDetailSectionHeading as="h2">Skills</ProfileDetailSectionHeading>

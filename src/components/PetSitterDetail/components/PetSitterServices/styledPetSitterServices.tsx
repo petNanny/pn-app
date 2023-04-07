@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, Icon, Text } from "@chakra-ui/react";
 import { devices } from "../../../../styles/breakPoints";
 
 export const ServiceTitle = styled(Heading)`
@@ -58,5 +58,31 @@ export const ServicePriceBox = styled(Box)`
     min-width: 3rem;
     text-align: center;
     color: rgb(116, 116, 116);
+  }
+`;
+
+export const AdditionalServiceBox = styled(Box)`
+  &&& {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+  }
+`;
+
+export const AdditionalServiceIcon = styled(Icon)`
+  &&& {
+    color: rgb(0, 195, 138);
+    font-size: 1.5rem;
+  }
+`;
+
+export const AdditionalServiceText = styled(Text)`
+  &&& {
+    color: rgb(147, 147, 147);
+    line-height: 1rem;
+    display: flex;
+    align-items: center;
+    margin-left: 0.5rem;
   }
 `;
