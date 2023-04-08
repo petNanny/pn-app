@@ -72,7 +72,6 @@ const PetSitterHome = ({
     dogAges.push({ age: "Senior", info: "8+ years" });
   }
 
-  console.log("petSitterWalkingAreas", petSitterWalkingAreas);
   const leashedAreas = petSitterWalkingAreas.filter((area) => area !== "Nearby Off-Leash Area");
   const leashedAreasString = leashedAreas.join(", ");
 
