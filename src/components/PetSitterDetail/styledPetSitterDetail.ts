@@ -8,7 +8,7 @@ export const PetSitterPageContainer = styled(Box)`
     padding: 1rem 1rem 0;
     display: flex;
     margin: 0 auto;
-    max-width: 1170px;
+    max-width: 1220px;
   }
 `;
 

@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 interface PetSitterDescriptionValues {
   petSitterDescription: string;
@@ -6,8 +6,12 @@ interface PetSitterDescriptionValues {
 
 const PetSitterDescription = ({ petSitterDescription }: PetSitterDescriptionValues) => {
   return (
-    <Box color="rgb(116, 116, 116)" fontSize="1rem">
-      {petSitterDescription}
+    <Box>
+      <Text
+        color="rgb(116, 116, 116)"
+        fontSize="1rem"
+        dangerouslySetInnerHTML={{ __html: petSitterDescription }}
+      ></Text>
     </Box>
   );
 };
