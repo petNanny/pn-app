@@ -8,9 +8,9 @@ import PetSitterGallery from "./components/PetSitterGallery/PetSitterGallery";
 import PetSitterMobileHeader from "./components/PetSitterMobileHeader/PetSitterMobileHeader";
 import PetSitterSkills from "./components/PetSitterSkills/PetSitterSkills";
 import { useGetOnePetSitterQuery } from "../../redux/petSitterApi";
-import { Stack, Button, Text, Image, Box } from "@chakra-ui/react";
 import { useParams, Navigate } from "react-router-dom";
 import PetSitterCalendar from "./components/PetSitterCalendar/PetSitterCalendar";
+import PetSitterPets from "./components/PetSitterPets/PetSitterPets";
 
 const PetSitterDetail = () => {
   const { id } = useParams();
@@ -63,15 +63,12 @@ const PetSitterDetail = () => {
             <ProfileDetailSectionHeading as="h2">Availability</ProfileDetailSectionHeading>
             <PetSitterCalendar petSitterNotAvailableDates={petSitterNotAvailableDates} />
           </ProfileDetailSection>
-          <Stack>
-            <div>PetSitterDetail</div>
-            <Text>petSitterId : {petSitterData?._id}</Text>
-            <Text>petSitter userName : {petSitterData?.petOwner?.userName}</Text>
-            <Text>petSitter language : {petSitterData?.languages}</Text>
-            <Image boxSize="150px" src={petSitterData?.petOwner?.avatar} />
-            <Button>Chat with this petSitter</Button>
-            <Button>Order service from this petSitter</Button>
-          </Stack>
+          <ProfileDetailSection>
+            <ProfileDetailSectionHeading as="h2">
+              {petSitterName}&apos;s Pets
+            </ProfileDetailSectionHeading>
+            <PetSitterPets />
+          </ProfileDetailSection>
         </ProfileContentContainer>
       </PetSitterPageContainer>
     </>
