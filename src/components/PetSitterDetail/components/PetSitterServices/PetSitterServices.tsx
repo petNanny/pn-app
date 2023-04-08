@@ -1,4 +1,4 @@
-import { Box, Text, Icon } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import {
   ServiceTitle,
   ServiceContainer,
@@ -68,8 +68,6 @@ const PetSitterServices = ({
     "Grooming",
     "DogTraining",
   ];
-
-  console.log("perSitterAdditionalServices: ", petSitterAdditionalServices);
 
   return (
     <>

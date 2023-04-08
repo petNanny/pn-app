@@ -12,7 +12,6 @@ const WalkingArea = (props: any) => {
       props.setFieldValue("WalkingAreas", [...props.values, event.target.value]);
     }
   };
-  //console.log(props.values);
   return (
     <FormWrapper title="Walking areas">
       <CheckboxGroup colorScheme="green" size="lg" defaultValue={props.values}>
