@@ -1,19 +1,18 @@
 import PageLayout from "../components/Layout/PageLayout";
-import { Stack, Container, Box, Divider, Button } from "@chakra-ui/react";
-
+import { Box } from "@chakra-ui/react";
+import Hero from "../components/BecomePetSitter/Hero/Hero";
+import Introduction from "../components/BecomePetSitter/Introduction/Introduction";
+import Instruction from "../components/BecomePetSitter/Instruction/Instruction";
 //TODO:this page is https://www.pawshake.com.au/become-a-sitter
 
 const BecomePetSitter = () => {
   return (
     <PageLayout>
-      <Button bg="#00C38A" color="#ffffff" fontWeight="md" padding="2.5" height="50px">
-        Apply to become a pet sitter
-      </Button>
-      {/* hero component
-    JoinUs! component
-    PetSitterWorkFlow component
-    ...
-    Ready to make some new furry pals? Sign up now /component */}
+      <Hero />
+      <Introduction />
+      <Box backgroundColor="#F9F9F9">
+        <Instruction />
+      </Box>
     </PageLayout>
   );
 };

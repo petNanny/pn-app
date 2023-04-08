@@ -45,6 +45,8 @@ const Navbar = () => {
   const hasPetOwner = useSelector((state: any) => !!state.petOwner._id);
   const petOwner = useSelector((state: any) => state.petOwner);
 
+  const hasPetSitter = petOwner.roles.includes("PetSitter");
+
   const [sendLogout, { isSuccess }] = useSendLogoutMutation();
 
   useEffect(() => {
@@ -145,12 +147,16 @@ const Navbar = () => {
         <NavbarSearchSittersButton>
           <Text className="navSearchSittersButton__text__color">Search Sitters</Text>
         </NavbarSearchSittersButton>
-
+        {!hasPetSitter && (
+          <NavLink to="/becomePetSitter">
+            <NavLinkText>Become a Sitter</NavLinkText>
+          </NavLink>
+        )}
         {!hasPetOwner && (
           <HStack spacing="1.5rem">
-            <NavLink to="/becomePetSitter">
+            {/* <NavLink to="/becomePetSitter">
               <NavLinkText>Become a Sitter</NavLinkText>
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/register">
               <NavLinkText>Sign up</NavLinkText>
             </NavLink>
