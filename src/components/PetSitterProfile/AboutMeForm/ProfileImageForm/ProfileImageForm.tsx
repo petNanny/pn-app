@@ -21,9 +21,6 @@ const ProfileImageFrom = () => {
   const [open, setOpen] = useState(false);
   const [newImgBlob, setNewImgBlob] = useState<File | null>(null);
 
-  console.log("petOwnerData.avatar", petOwnerData.avatar);
-  console.log("image", image);
-
   const { handleSubmit } = useFormik({
     initialValues: {
       avatar: petOwnerData.avatar,
