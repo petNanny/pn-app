@@ -32,6 +32,15 @@ export const petOwnerApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "PetOwner", id: arg.id }],
     }),
+
+    uploadPetOwnerAvatar: builder.mutation({
+      query: ({ body, petOwnerId }) => ({
+        url: `petOwners/uploadAvatar/${petOwnerId}`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "PetOwner", id: arg.id }],
+    }),
   }),
 });
 
@@ -39,4 +48,5 @@ export const {
   useGetOnePetOwnerQuery,
   useUpdateOnePetOwnerMutation,
   useDeleteOnePetOwnerMutation,
+  useUploadPetOwnerAvatarMutation,
 } = petOwnerApi;
