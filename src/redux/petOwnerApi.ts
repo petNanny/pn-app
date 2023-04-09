@@ -1,9 +1,9 @@
-import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
+// import { createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
 
-const petOwnerAdapter = createEntityAdapter({});
+// const petOwnerAdapter = createEntityAdapter({});
 
-const initialState = petOwnerAdapter.getInitialState();
+// const initialState = petOwnerAdapter.getInitialState();
 
 export const petOwnerApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

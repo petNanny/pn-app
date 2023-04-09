@@ -58,16 +58,16 @@ const PetSitterServices = ({
   const atPetOwnerHomeServices = services.slice(2, 5);
   const noServices = services.every((service) => service === undefined);
 
-  const additionalServicesNames = [
-    "PickUp",
-    "Supervision",
-    "EmergeTransport",
-    "OralMedication",
-    "InjectedMedication",
-    "FirstAid",
-    "Grooming",
-    "DogTraining",
-  ];
+  // const additionalServicesNames = [
+  //   "PickUp",
+  //   "Supervision",
+  //   "EmergeTransport",
+  //   "OralMedication",
+  //   "InjectedMedication",
+  //   "FirstAid",
+  //   "Grooming",
+  //   "DogTraining",
+  // ];
 
   return (
     <>
