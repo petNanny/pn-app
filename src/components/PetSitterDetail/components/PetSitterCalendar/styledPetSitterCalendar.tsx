@@ -89,3 +89,50 @@ export const StyledModifiersStyles = {
   },
   disabled: { backgroundColor: "white", color: "rgb(220, 224, 224)" },
 };
+
+export const AvailabilityCalendarLegend = styled(Box)`
+  &&& {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
+`;
+
+export const AvailabilityCalendarLegendItem = styled(Box)`
+  &&& {
+    display: flex;
+    margin-right: 1rem;
+    align-items: center;
+  }
+`;
+
+export const AvailabilityCalendarLegendAvailableIcon = styled(Box)`
+  &&& {
+    background-color: rgb(178, 235, 221);
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid rgb(239, 239, 239);
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 0.5rem;
+  }
+`;
+
+export const AvailabilityCalendarLegendNotAvailableIcon = styled(Box)`
+  &&& {
+    background-color: rgb(255, 188, 188);
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid rgb(239, 239, 239);
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 0.5rem;
+  }
+`;
+
+export const AvailabilityCalendarLegendItemLabel = styled(Text)`
+  &&& {
+    font-size: 1rem;
+    color: rgb(116, 116, 116);
+  }
+`;

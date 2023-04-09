@@ -206,6 +206,7 @@ const DateSelect = () => {
                         pagedNavigation
                         numberOfMonths={1}
                         fromDate={today}
+                        toDate={add(today, { months: 6 })}
                       />
                     )}
                     <DatesSelectModeBox>

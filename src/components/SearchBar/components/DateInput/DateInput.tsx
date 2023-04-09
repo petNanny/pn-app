@@ -140,6 +140,7 @@ const DateInput = ({ formik }: DateInputProps) => {
                           pagedNavigation
                           numberOfMonths={1}
                           fromDate={today}
+                          toDate={add(today, { months: 3 })}
                         />
                       )}
                       <DatesSelectModeBox>
