@@ -34,6 +34,7 @@ const PetSitterDetail = () => {
     petSitterPreference,
     petSitterHome,
     petSitterWalkingAreas,
+    petSitterCoordinates,
     petSitterDescription,
     petSitterNotAvailableDates;
 
@@ -54,6 +55,7 @@ const PetSitterDetail = () => {
       preference: petSitterPreference,
       home: petSitterHome,
       walkingAreas: petSitterWalkingAreas,
+      geoCode: { coordinates: petSitterCoordinates },
       description: petSitterDescription,
     } = petSitterData);
   } else {
@@ -100,6 +102,7 @@ const PetSitterDetail = () => {
               petSitterPreference={petSitterPreference}
               petSitterHome={petSitterHome}
               petSitterWalkingAreas={petSitterWalkingAreas}
+              petSitterCoordinates={petSitterCoordinates}
             />
           </ProfileDetailSection>
           <ProfileDetailSection>

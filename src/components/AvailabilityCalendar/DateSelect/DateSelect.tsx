@@ -47,7 +47,7 @@ const DateSelect = () => {
   const petOwner = useSelector((state: RootState) => state.petOwner);
   const petSitter = petOwner.petSitter;
   const [updateAvailabilityCalendar] = useUpdateOnePetSitterMutation();
-  const { data, refetch: refetchPetOwner } = useGetOnePetOwnerQuery(id);
+  const { refetch: refetchPetOwner } = useGetOnePetOwnerQuery(id);
 
   const formik: FormikProps<DateSelectVales> = useFormik<DateSelectVales>({
     initialValues: {
