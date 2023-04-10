@@ -93,6 +93,7 @@ export const AvailabilityCalendarLegendItem = styled(Box)`
     display: flex;
     margin-bottom: 1rem;
     margin-right: 1rem;
+    align-items: center;
   }
 `;
 

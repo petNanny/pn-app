@@ -64,8 +64,6 @@ const LegalRequirement = () => {
     e.currentTarget.value = "";
   };
 
-  console.log("newDocUploaded:", newDocUploaded);
-
   return (
     <FormWrapper title="Legal requirement">
       <StyledUnorderdList>

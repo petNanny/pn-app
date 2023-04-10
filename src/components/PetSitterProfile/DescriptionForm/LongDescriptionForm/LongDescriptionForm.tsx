@@ -24,7 +24,6 @@ const LongDescriptionForm = (props: any) => {
   };
   const convertContentToHTML = () => {
     const currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-    console.log(currentContentAsHTML, "currentContentAsHTML");
     props.setFieldValue("description", currentContentAsHTML);
   };
 

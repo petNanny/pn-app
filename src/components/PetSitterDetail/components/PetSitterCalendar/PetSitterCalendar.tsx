@@ -1,4 +1,4 @@
-import { isBefore, startOfDay, format } from "date-fns";
+import { isBefore, startOfDay, format, add } from "date-fns";
 import { DayPicker, CaptionProps, useNavigation } from "react-day-picker";
 import {
   CalendarContainer,
@@ -8,6 +8,11 @@ import {
   TodayBtn,
   StyledAvailabilityCalendar,
   StyledModifiersStyles,
+  AvailabilityCalendarLegend,
+  AvailabilityCalendarLegendItem,
+  AvailabilityCalendarLegendAvailableIcon,
+  AvailabilityCalendarLegendNotAvailableIcon,
+  AvailabilityCalendarLegendItemLabel,
 } from "./styledPetSitterCalendar";
 import "react-day-picker/dist/style.module.css";
 import { Box, Icon } from "@chakra-ui/react";
@@ -41,11 +46,25 @@ const customCaption = (props: CaptionProps) => {
 const PetSitterCalendar = ({ petSitterNotAvailableDates }: petSitterValues) => {
   const notAvailableDates = petSitterNotAvailableDates;
   const today = new Date();
+  const toDate = add(today, { months: 3 });
 
   const notAvailableDatesModifier = {
     unavailable: notAvailableDates.map((dateString: string) => new Date(dateString)),
     disabled: (date: Date) => isBefore(date, startOfDay(today)),
   };
+
+  const footer = (
+    <AvailabilityCalendarLegend>
+      <AvailabilityCalendarLegendItem>
+        <AvailabilityCalendarLegendAvailableIcon />
+        <AvailabilityCalendarLegendItemLabel>Available</AvailabilityCalendarLegendItemLabel>
+      </AvailabilityCalendarLegendItem>
+      <AvailabilityCalendarLegendItem>
+        <AvailabilityCalendarLegendNotAvailableIcon />
+        <AvailabilityCalendarLegendItemLabel>Not available</AvailabilityCalendarLegendItemLabel>
+      </AvailabilityCalendarLegendItem>
+    </AvailabilityCalendarLegend>
+  );
 
   return (
     <CalendarContainer>
@@ -57,6 +76,8 @@ const PetSitterCalendar = ({ petSitterNotAvailableDates }: petSitterValues) => {
         modifiersStyles={StyledModifiersStyles}
         styles={StyledCalendar}
         components={{ Caption: customCaption }}
+        toDate={toDate}
+        footer={footer}
       />
     </CalendarContainer>
   );

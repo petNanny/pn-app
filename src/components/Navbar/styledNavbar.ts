@@ -30,6 +30,7 @@ export const NavbarLogoButton = styled(Button)`
 export const NavLinkText = styled(Text)`
   &&& {
     color: ${theme.colors.fontcolor.primary};
+    margin-right: 10px;
   }
 `;
 

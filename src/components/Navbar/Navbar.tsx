@@ -17,6 +17,7 @@ import {
   DrawerOverlay,
   DrawerContent,
   useDisclosure,
+  Box,
 } from "@chakra-ui/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import theme from "../../styles/theme";
@@ -33,7 +34,6 @@ import {
   SidebarFunction,
 } from "./styledNavbar";
 import { useSendLogoutMutation } from "../../redux/authApi";
-import { useGetOnePetOwnerQuery } from "../../redux/petOwnerApi";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import RedPoint from "./RedPoint";
@@ -44,6 +44,8 @@ const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const hasPetOwner = useSelector((state: any) => !!state.petOwner._id);
   const petOwner = useSelector((state: any) => state.petOwner);
+
+  const hasPetSitter = petOwner.roles.includes("PetSitter");
 
   const [sendLogout, { isSuccess }] = useSendLogoutMutation();
 
@@ -145,12 +147,16 @@ const Navbar = () => {
         <NavbarSearchSittersButton>
           <Text className="navSearchSittersButton__text__color">Search Sitters</Text>
         </NavbarSearchSittersButton>
-
+        {!hasPetSitter && (
+          <NavLink to="/becomePetSitter">
+            <NavLinkText>Become a Sitter</NavLinkText>
+          </NavLink>
+        )}
         {!hasPetOwner && (
           <HStack spacing="1.5rem">
-            <NavLink to="/becomePetSitter">
+            {/* <NavLink to="/becomePetSitter">
               <NavLinkText>Become a Sitter</NavLinkText>
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/register">
               <NavLinkText>Sign up</NavLinkText>
             </NavLink>
@@ -165,7 +171,7 @@ const Navbar = () => {
 
         {petOwner && hasPetOwner && (
           <HStack spacing="1rem">
-            <HStack spacing="0.5rem">
+            <Box display="flex" alignItems="center">
               <Menu>
                 {({ isOpen }) => (
                   <>
@@ -211,7 +217,7 @@ const Navbar = () => {
                   </>
                 )}
               </Menu>
-            </HStack>
+            </Box>
             <Button bg="#5CACE2">
               <Icon as={AiOutlineMail} boxSize={6} color="white" />
             </Button>
