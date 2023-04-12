@@ -49,7 +49,7 @@ const AdminLogin = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
-        navigate("/adminPage");
+        navigate("/adminPage/about-admin");
         actions.setSubmitting(false);
       } catch (err) {
         toast({

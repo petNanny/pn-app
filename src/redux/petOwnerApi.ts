@@ -16,6 +16,15 @@ export const petOwnerApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    getAllPetOwners: builder.query({
+      query: (page) => ({
+        url: `/petOwners/?page=${page}`,
+        method: "GET",
+        validateStatus: (response, result) => response.status === 200 && !result.isError,
+        providesTags: [{ type: "PetOwner", id: "List" }],
+      }),
+    }),
+
     updateOnePetOwner: builder.mutation({
       query: (petOwner) => ({
         url: `/petOwners/${petOwner._id}`,
@@ -37,6 +46,7 @@ export const petOwnerApi = apiSlice.injectEndpoints({
 
 export const {
   useGetOnePetOwnerQuery,
+  useGetAllPetOwnersQuery,
   useUpdateOnePetOwnerMutation,
   useDeleteOnePetOwnerMutation,
 } = petOwnerApi;

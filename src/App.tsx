@@ -115,6 +115,15 @@ const App = () => {
           />
 
           <Route
+            path="/adminPage/"
+            element={
+              <AdminAuthRoute authRequired>
+                <AdminHomePage />
+              </AdminAuthRoute>
+            }
+          />
+
+          <Route
             path="/adminPage/:formPage"
             element={
               <AdminAuthRoute authRequired>
