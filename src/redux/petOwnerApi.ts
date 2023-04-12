@@ -1,9 +1,9 @@
-import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
+// import { createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
 
-const petOwnerAdapter = createEntityAdapter({});
+// const petOwnerAdapter = createEntityAdapter({});
 
-const initialState = petOwnerAdapter.getInitialState();
+// const initialState = petOwnerAdapter.getInitialState();
 
 export const petOwnerApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -41,6 +41,15 @@ export const petOwnerApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "PetOwner", id: arg.id }],
     }),
+
+    uploadPetOwnerAvatar: builder.mutation({
+      query: ({ body, petOwnerId }) => ({
+        url: `petOwners/uploadAvatar/${petOwnerId}`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "PetOwner", id: arg.id }],
+    }),
   }),
 });
 
@@ -49,4 +58,5 @@ export const {
   useGetAllPetOwnersQuery,
   useUpdateOnePetOwnerMutation,
   useDeleteOnePetOwnerMutation,
+  useUploadPetOwnerAvatarMutation,
 } = petOwnerApi;

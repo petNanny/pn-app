@@ -58,7 +58,13 @@ const AddressModal = ({ isOpen, onClose }: Props) => {
           coordinates: [getAddress?.longitude, getAddress?.latitude],
         },
       });
-      dispatch(updatePetSitterInfo({ ...petSitter, address: getAddress }));
+      dispatch(
+        updatePetSitterInfo({
+          ...petSitter,
+          address: getAddress,
+          geoCode: { type: "Point", coordinates: [getAddress?.longitude, getAddress?.latitude] },
+        })
+      );
       toast({
         title: "Address changed.",
         description: "We've changed your address for you.",

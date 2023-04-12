@@ -14,6 +14,7 @@ export interface PetSitterState {
     longitude: string;
   };
   images: string[];
+  legalDocs: string[];
   languages: string[];
   introduction: string;
   description: string;
@@ -25,12 +26,7 @@ export interface PetSitterState {
       isActive: boolean;
     }
   ];
-  additionalService: [
-    {
-      service: string;
-      isActive: boolean;
-    }
-  ];
+  additionalService: string[];
   policy: string;
   preference: {
     age: string;
@@ -61,6 +57,12 @@ export interface PetSitterState {
   isActivePetSitter: boolean;
   createdAt: string;
   updatedAt: string;
+  geoCode: {
+    type: string;
+    coordinates: number[];
+  };
+  notAvailableDates: string[];
+  lastUpdateCalendarTime: Date;
 }
 
 export const initialState: PetSitterState = {
@@ -76,6 +78,7 @@ export const initialState: PetSitterState = {
     longitude: "",
   },
   images: [],
+  legalDocs: [],
   languages: [],
   introduction: "",
   description: "",
@@ -87,12 +90,7 @@ export const initialState: PetSitterState = {
       isActive: false,
     },
   ],
-  additionalService: [
-    {
-      service: "",
-      isActive: false,
-    },
-  ],
+  additionalService: [],
   policy: "",
   preference: {
     age: "",
@@ -123,6 +121,12 @@ export const initialState: PetSitterState = {
   isActivePetSitter: false,
   createdAt: "",
   updatedAt: "",
+  geoCode: {
+    type: "Point",
+    coordinates: [151.2092955, -33.8688197],
+  },
+  notAvailableDates: [],
+  lastUpdateCalendarTime: new Date(),
 };
 
 export const petSitterSlice = createSlice({

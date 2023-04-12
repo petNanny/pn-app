@@ -15,7 +15,7 @@ const HomePage = () => {
   const [centerPoint, setCenterPoint] = useState<number[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 2;
+  const pageSize = 10;
 
   return (
     <PageLayout>

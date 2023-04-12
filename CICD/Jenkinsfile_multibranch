@@ -7,12 +7,13 @@ pipeline {
         REACT_APP_GOOGLE_MAP_API_KEY = credentials('REACT_APP_GOOGLE_MAP_API_KEY')
         REACT_APP_GOOGLE_MAP_KEY = credentials('REACT_APP_GOOGLE_MAP_KEY')
         REACT_APP_BASE_URL = 'https://uat.backend.petnanny.live/api'
+        REACT_APP_GOOGLE_OAUTH_CLIENT_ID = credentials('REACT_APP_GOOGLE_OAUTH_CLIENT_ID')
     }
 
-    triggers {
-        cron '''TZ=Australia/Sydney
-        H H(9-17)/3 * * 1-7'''
-    }
+    // triggers {
+    //     cron '''TZ=Australia/Sydney
+    //     H H(9-17)/3 * * 1-7'''
+    // }
 
     tools {nodejs "NodeJS"}
 
@@ -43,9 +44,9 @@ pipeline {
             }
         
         stage('Deploy to UAT') {
-            when {
-                branch 'dev'
-            }
+            // when {
+            //     branch 'dev'
+            // }
 
             steps {
                 echo "Deploying to UAT"
@@ -58,21 +59,21 @@ pipeline {
             }
         }
 
-        stage('Deploy to Production') {
-            when {
-                branch 'main'
-            }
+        // stage('Deploy to Production') {
+        //     when {
+        //         branch 'main'
+        //     }
             
-            steps {
-                echo "Deploying to Production"
-                withAWS(credentials: 'aws_pn', region: 'ap-southeast-2') {
-                    //clean the bucket
-                    sh 'aws s3 rm s3://prod.petnanny.live --recursive'
-                    //copy the all files
-                    sh 'aws s3 sync ./build s3://prod.petnanny.live'
-                }
-            }
-        }
+        //     steps {
+        //         echo "Deploying to Production"
+        //         withAWS(credentials: 'aws_pn', region: 'ap-southeast-2') {
+        //             //clean the bucket
+        //             sh 'aws s3 rm s3://prod.petnanny.live --recursive'
+        //             //copy the all files
+        //             sh 'aws s3 sync ./build s3://prod.petnanny.live'
+        //         }
+        //     }
+        // }
 
         // stage('Invalidate Cache') {
         //     steps {

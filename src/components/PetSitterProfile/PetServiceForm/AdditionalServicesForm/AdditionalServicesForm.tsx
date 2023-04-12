@@ -2,7 +2,6 @@ import { Checkbox, CheckboxGroup, Stack } from "@chakra-ui/react";
 import FormWrapper from "../../FormWrapper/FormWrapper";
 
 const AdditionalServicesForm = (props: any) => {
-  console.log(props.values);
   const handleUpdate = (value: any) => {
     if (props?.values?.includes(value.target.value)) {
       props.setFieldValue(

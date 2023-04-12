@@ -41,7 +41,12 @@ const PetSitterCardList = ({
       </UserCardContainer>
     );
   }
-  if (isResultsLoading) return <CircularProgress isIndeterminate color="green.300" />;
+  if (isResultsLoading)
+    return (
+      <UserCardContainer>
+        <CircularProgress isIndeterminate color="green.300" />
+      </UserCardContainer>
+    );
 
   return (
     <>
