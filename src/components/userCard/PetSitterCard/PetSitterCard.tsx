@@ -14,6 +14,7 @@ import {
   CardFooterText,
 } from "./StyledPetSitterCard";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const PetSitterCard = ({
   avatar: petSitterAvatar,
@@ -29,6 +30,11 @@ const PetSitterCard = ({
   const handleClickPetSitter = () => {
     navigate(`/petSitter/${id}`);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <PetSitterCardContainer onClick={handleClickPetSitter}>
       <CardHeader>
