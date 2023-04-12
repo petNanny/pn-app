@@ -52,8 +52,6 @@ export const PetSitterSidebar = ({
   const petOwner = useSelector((state: any) => state.petOwner);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log(conversationData);
-
   useEffect(() => {
     if (!petOwner) {
       setIsDisabledBtn(true);

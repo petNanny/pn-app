@@ -9,7 +9,16 @@ export const messageApi = apiSlice.injectEndpoints({
         body,
       }),
     }),
+
+    userOneConversationMessages: builder.query({
+      query: (id) => ({
+        url: `/messages/getMessages/${id}`,
+        method: "GET",
+        validateStatus: (response, result) => response.status === 200 && !result.isError,
+        providesTags: [{ type: "Conversation", id: "List" }],
+      }),
+    }),
   }),
 });
 
-export const { useSendMessageMutation } = messageApi;
+export const { useSendMessageMutation, useUserOneConversationMessagesQuery } = messageApi;

@@ -9,7 +9,17 @@ export const conversationApi = apiSlice.injectEndpoints({
         body,
       }),
     }),
+
+    userGetAllConversations: builder.query({
+      query: (id) => ({
+        url: `/conversations/getAll/${id}`,
+        method: "GET",
+        validateStatus: (response, result) => response.status === 200 && !result.isError,
+        providesTags: [{ type: "Conversation", id: "List" }],
+      }),
+    }),
   }),
 });
 
-export const { usePetOwnerStartConversationMutation } = conversationApi;
+export const { usePetOwnerStartConversationMutation, useUserGetAllConversationsQuery } =
+  conversationApi;
