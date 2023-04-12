@@ -1,11 +1,10 @@
 import PageLayout from "../components/Layout/PageLayout";
-import styled from "styled-components";
-import { Box } from "@chakra-ui/react";
+import Chat from "../components/Chat/Chat";
 
 const ChatPage = () => {
   return (
     <PageLayout>
-      <Box>chat</Box>
+      <Chat />
     </PageLayout>
   );
 };

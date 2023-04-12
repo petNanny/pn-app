@@ -23,9 +23,22 @@ const PetSitter = () => {
   const hasCreatedPetSitterAccount = petOwner.roles.includes("PetSitter");
   const petId = useSelector((state: any) => state.pet.petId);
 
-  if (id !== petOwner._id && id !== petId) {
-    return <Navigate to="/error" replace />;
-  }
+  const formPages = [
+    "about-me",
+    "address",
+    "pet-service",
+    "pet-preference",
+    "home-area",
+    "description",
+    "profile-gallery",
+    "experience",
+    "payment-information",
+    "legal-requirement",
+    "submission",
+    "my-pets",
+    "add-new-pet",
+    "edit-pet",
+  ];
 
   return (
     <Container maxW="6xl" padding="4">
@@ -56,6 +69,12 @@ const PetSitter = () => {
           {formPage === "my-pets" && id === petOwner._id && <MyPetForm />}
           {formPage === "new-pet" && id === petOwner._id && <AddNewPet />}
           {formPage === "edit-pet" && id === petId && <EditPet />}
+          {formPage ? (
+            !formPages.includes(formPage) ? (
+              <Navigate to="/error" replace />
+            ) : null
+          ) : null}
+          {/* {id ? !petOwner._id ? <Navigate to="/error" replace /> : null : null} */}
         </Flex>
       </Flex>
     </Container>

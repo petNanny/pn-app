@@ -35,13 +35,14 @@ const PetSitterDetail = () => {
     petSitterHome,
     petSitterWalkingAreas,
     petSitterDescription,
-    petSitterNotAvailableDates;
+    petSitterNotAvailableDates,
+    petSitterAsPetOwnerId;
 
   if (isPetSitterLoading) return <div>Loading...</div>;
 
   if (petSitterData) {
     ({
-      petOwner: { userName: petSitterName, avatar: petSitterAvatar },
+      petOwner: { userName: petSitterName, avatar: petSitterAvatar, _id: petSitterAsPetOwnerId },
       introduction: petSitterIntro,
       address: { city: petSitterSuburb },
       _id: petSitterId,
@@ -117,6 +118,7 @@ const PetSitterDetail = () => {
           petSitterSuburb={petSitterSuburb}
           petSitterServices={petSitterServices}
           petSitterCancelPolicy={petSitterCancelPolicy}
+          petSitterAsPetOwnerId={petSitterAsPetOwnerId}
         />
       </PetSitterPageContainer>
     </>
