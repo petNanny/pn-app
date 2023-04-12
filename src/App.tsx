@@ -161,14 +161,14 @@ const App = () => {
               </AuthRoute>
             }
           />
-        <Route
-          path="/userProfile/availability/:id"
-          element={
-            <AuthRoute authRequired>
-              <CalendarPage />
-            </AuthRoute>
-          }
-        />
+          <Route
+            path="/userProfile/availability/:id"
+            element={
+              <AuthRoute authRequired>
+                <CalendarPage />
+              </AuthRoute>
+            }
+          />
         </Route>
         <Route
           path="*"
