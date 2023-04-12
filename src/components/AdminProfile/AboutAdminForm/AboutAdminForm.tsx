@@ -1,4 +1,4 @@
-import { Flex, ListItem, OrderedList } from "@chakra-ui/react";
+import { ListItem, OrderedList } from "@chakra-ui/react";
 import FormWrapper from "../../PetSitterProfile/FormWrapper/FormWrapper";
 
 const AboutAdminForm = () => {

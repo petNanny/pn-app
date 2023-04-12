@@ -4,7 +4,6 @@ import { useStoreSelector } from "../../../store/hook";
 import FormWrapper from "../../PetSitterProfile/FormWrapper/FormWrapper";
 
 const AsideAdminProfileBox = () => {
-  const admin = useStoreSelector((state) => state.adminUser);
   return (
     <FormWrapper title={"My admin"}>
       <UnorderedList listStyleType="none" margin="0" color="#00AFED">

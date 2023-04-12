@@ -12,7 +12,6 @@ const PetSitterCardList = () => {
   let petSitterData;
   let numberOfCurrentPage;
   let numberOfPage;
-  console.log(queryData);
   if (isPetSitterLoading) return <div>Loading...</div>;
   if (queryData) {
     ({
@@ -23,9 +22,6 @@ const PetSitterCardList = () => {
   } else {
     return <Navigate to="/error" replace />;
   }
-  console.log(petSitterData);
-  console.log(numberOfCurrentPage);
-  // console.log(numberOfPage);
 
   return (
     <PetSitterContainer>

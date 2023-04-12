@@ -5,7 +5,6 @@ import {
   AccordionIcon,
   AccordionPanel,
   Box,
-  Flex,
 } from "@chakra-ui/react";
 import { PetOwnerLi } from "./styledPetOwnerCard";
 
