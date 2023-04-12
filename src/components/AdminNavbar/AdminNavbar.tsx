@@ -11,7 +11,6 @@ import {
   MenuItem,
   MenuList,
   Spacer,
-  Text,
   Drawer,
   DrawerHeader,
   DrawerOverlay,
@@ -106,18 +105,6 @@ const Navbar = () => {
                 </DrawerHeader>
                 <SidebarLinkText statusColor>{adminUser.userName}</SidebarLinkText>
                 <NavLink to="#">
-                  <SidebarLinkText>Dashboard</SidebarLinkText>
-                </NavLink>
-                <NavLink to={`/message/${adminUser._id}`}>
-                  <SidebarLinkText>Messages</SidebarLinkText>
-                </NavLink>
-                <NavLink to={`/userProfile/about-me/${adminUser._id}`}>
-                  <SidebarLinkText>Profile</SidebarLinkText>
-                </NavLink>
-                <NavLink to="#">
-                  <SidebarLinkText>Review</SidebarLinkText>
-                </NavLink>
-                <NavLink to="#">
                   <SidebarLinkText onClick={logout}>Logout</SidebarLinkText>
                 </NavLink>
                 <NavLink to="/">
@@ -140,10 +127,6 @@ const Navbar = () => {
       <Spacer />
 
       <NavbarFunction>
-        <NavbarSearchSittersButton>
-          <Text className="navSearchSittersButton__text__color">Search Sitters</Text>
-        </NavbarSearchSittersButton>
-
         {!hasAdminUser && (
           <HStack spacing="1.5rem">
             <NavLink to="/becomePetSitter">
@@ -188,16 +171,7 @@ const Navbar = () => {
                     </MenuButton>
                     <MenuList>
                       <MenuItem>
-                        <NavLink to="#">Dashboard</NavLink>
-                      </MenuItem>
-                      <MenuItem onClick={() => navigate(`/message/${adminUser._id}`)}>
-                        Messages
-                      </MenuItem>
-                      <MenuItem onClick={() => navigate(`/userProfile/about-me/${adminUser._id}`)}>
-                        Profile
-                      </MenuItem>
-                      <MenuItem>
-                        <NavLink to="#">Review</NavLink>
+                        <NavLink to="#">{adminUser.userName}</NavLink>
                       </MenuItem>
                       <MenuItem onClick={logout}>Logout</MenuItem>
                     </MenuList>

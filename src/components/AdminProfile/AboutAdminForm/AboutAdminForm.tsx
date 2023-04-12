@@ -6,53 +6,55 @@ const AboutAdminForm = () => {
     <FormWrapper title={"Admin Rules"}>
       <OrderedList>
         <ListItem>
-          Authority and Responsibility: Administrators should work within the scope of their
-          authorized permissions and take full responsibility for their actions and decisions.
+          <strong>Authority and Responsibility:</strong> Administrators should work within the scope
+          of their authorized permissions and take full responsibility for their actions and
+          decisions.
         </ListItem>
         <ListItem>
-          Fairness and Impartiality: Administrators should maintain fairness and impartiality when
-          managing and overseeing user activities, treating all users equally without being
-          influenced by personal emotions or biases.
+          <strong>Fairness and Impartiality:</strong> Administrators should maintain fairness and
+          impartiality when managing and overseeing user activities, treating all users equally
+          without being influenced by personal emotions or biases.
         </ListItem>
         <ListItem>
-          Protection of User Privacy: Administrators should strictly protect users&apos; privacy
-          information, refrain from disclosing, abusing, or accessing users&apos; personal
-          information without authorization.
+          <strong>Protection of User Privacy:</strong> Administrators should strictly protect
+          users&apos; privacy information, refrain from disclosing, abusing, or accessing
+          users&apos; personal information without authorization.
         </ListItem>
         <ListItem>
-          Enforcement of Community Guidelines: Administrators should actively enforce the community
-          guidelines, ensuring that users comply with the prescribed code of conduct, and take
-          appropriate measures against users who violate the rules, including warnings, content
-          deletion, muting, or account banning.
+          <strong>Enforcement of Community Guidelines:</strong> Administrators should actively
+          enforce the community guidelines, ensuring that users comply with the prescribed code of
+          conduct, and take appropriate measures against users who violate the rules, including
+          warnings, content deletion, muting, or account banning.
         </ListItem>
         <ListItem>
-          Communication and Collaboration: Administrators should maintain good communication and
-          collaboration with other administrators and team members, working together to uphold the
-          operation and management of the community.
+          <strong>Communication and Collaboration:</strong> Administrators should maintain good
+          communication and collaboration with other administrators and team members, working
+          together to uphold the operation and management of the community.
         </ListItem>
         <ListItem>
-          Enforcement of Community Guidelines: Administrators should actively enforce the community
-          guidelines, ensuring that users comply with the prescribed code of conduct, and take
-          appropriate measures against users who violate the rules, including warnings, content
-          deletion, muting, or account banning.
+          <strong>Enforcement of Community Guidelines:</strong> Administrators should actively
+          enforce the community guidelines, ensuring that users comply with the prescribed code of
+          conduct, and take appropriate measures against users who violate the rules, including
+          warnings, content deletion, muting, or account banning.
         </ListItem>
         <ListItem>
-          Self-Management and Restraint: Administrators should avoid engaging in arguments, getting
-          emotional, or engaging in heated debates with users, and should maintain a calm,
-          objective, and professional attitude.
+          <strong>Self-Management and Restraint:</strong> Administrators should avoid engaging in
+          arguments, getting emotional, or engaging in heated debates with users, and should
+          maintain a calm, objective, and professional attitude.
         </ListItem>
         <ListItem>
-          Feedback and Improvement: Administrators should accept feedback from users and team
-          members, and continuously improve their management work based on feedback received.
+          <strong>Feedback and Improvement:</strong> Administrators should accept feedback from
+          users and team members, and continuously improve their management work based on feedback
+          received.
         </ListItem>
         <ListItem>
-          Legality and Compliance: Administrators should comply with all applicable laws and
-          regulations, and refrain from engaging in illegal or prohibited activities.
+          <strong>Legality and Compliance:</strong> Administrators should comply with all applicable
+          laws and regulations, and refrain from engaging in illegal or prohibited activities.
         </ListItem>
         <ListItem>
-          Confidentiality and Non-Disclosure: Administrators should maintain the confidentiality of
-          internal information regarding the community and the team, and should not disclose it to
-          unauthorized individuals or organizations.
+          <strong>Confidentiality and Non-Disclosure:</strong> Administrators should maintain the
+          confidentiality of internal information regarding the community and the team, and should
+          not disclose it to unauthorized individuals or organizations.
         </ListItem>
       </OrderedList>
     </FormWrapper>
