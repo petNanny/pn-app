@@ -10,13 +10,15 @@ import { useToast, ListItem } from "@chakra-ui/react";
 import buttonStyles from "../../../styles/components/buttonStyles";
 import { useSelector } from "react-redux";
 import { useUploadLegalDocMutation } from "../../../redux/legalRequirementApi";
+import { RootState } from "../../../store";
 import LegalDocuments from "./LegalDocuments";
 
 const LegalRequirement = () => {
   const [newDocUploaded, setNewDocUploaded] = useState(false);
   const [uploadLegalDoc] = useUploadLegalDocMutation();
   const toast = useToast();
-  const petOwner = useSelector((state: any) => state.petOwner);
+  // const petOwner = useSelector((state: any) => state.petOwner);
+  const petOwner = useSelector((state: RootState) => state.petOwner);
   const { petSitter } = petOwner;
   const uploadSuccessId = "uploadSuccess";
   const uploadFailId = "uploadFail";

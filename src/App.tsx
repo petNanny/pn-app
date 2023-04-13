@@ -18,6 +18,15 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import AuthRoute from "./components/AuthRoute";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import PetPage from "./pages/PetPage";
+import { useEffect, useLayoutEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+// Scroll to top when route change (not working for now)
+// const location = useLocation();
+// useLayoutEffect(() => {
+//   window.scrollTo(0, 0);
+// }, [location.pathname]);
 
 const App = () => {
   //TODO: add user status to change the route, e.g. if user not login, user can't access chat page, or you can delete the useState value to null.
@@ -111,12 +120,19 @@ const App = () => {
             path="/adminPage"
             element={admin ? <AdminHomePage /> : <Navigate to="/adminLogin" />}
           />
-
           <Route
             path="/petSitterDetails/:id"
             element={
               <AuthRoute>
                 <PetSitterDetails />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/pet/:id"
+            element={
+              <AuthRoute>
+                <PetPage />
               </AuthRoute>
             }
           />

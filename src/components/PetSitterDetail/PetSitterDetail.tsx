@@ -16,6 +16,7 @@ import PetSitterHome from "./components/PetSitterHome/PetSitterHome";
 import PetSitterDescription from "./components/PetSitterDescription/PetSitterDescription";
 import { Box } from "@chakra-ui/react";
 import PetSitterMobileService from "./components/PetSitterMobileService/PetSitterMobileService";
+import PetSitterPets from "./components/PetSitterPets/PetSitterPets";
 
 const PetSitterDetail = () => {
   const { id } = useParams();
@@ -34,6 +35,7 @@ const PetSitterDetail = () => {
     petSitterPreference,
     petSitterHome,
     petSitterWalkingAreas,
+    petSitterCoordinates,
     petSitterDescription,
     petSitterNotAvailableDates,
     petSitterAsPetOwnerId;
@@ -55,6 +57,7 @@ const PetSitterDetail = () => {
       preference: petSitterPreference,
       home: petSitterHome,
       walkingAreas: petSitterWalkingAreas,
+      geoCode: { coordinates: petSitterCoordinates },
       description: petSitterDescription,
     } = petSitterData);
   } else {
@@ -94,6 +97,12 @@ const PetSitterDetail = () => {
           </ProfileDetailSection>
           <ProfileDetailSection>
             <ProfileDetailSectionHeading as="h2">
+              {petSitterName}&apos;s Pets
+            </ProfileDetailSectionHeading>
+            <PetSitterPets />
+          </ProfileDetailSection>
+          <ProfileDetailSection>
+            <ProfileDetailSectionHeading as="h2">
               About {petSitterName}&apos;s home
             </ProfileDetailSectionHeading>
             <PetSitterHome
@@ -101,6 +110,7 @@ const PetSitterDetail = () => {
               petSitterPreference={petSitterPreference}
               petSitterHome={petSitterHome}
               petSitterWalkingAreas={petSitterWalkingAreas}
+              petSitterCoordinates={petSitterCoordinates}
             />
           </ProfileDetailSection>
           <ProfileDetailSection>

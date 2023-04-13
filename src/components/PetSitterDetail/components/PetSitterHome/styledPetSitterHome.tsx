@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Box, Heading, Text, Icon } from "@chakra-ui/react";
+import { Box, Heading, Text, Icon, Image } from "@chakra-ui/react";
 import { devices } from "../../../../styles/breakPoints";
 
 export const HomeSubTitle = styled(Heading)`
@@ -73,4 +73,26 @@ export const HomeInfo = styled(Text)`
     line-height: 1rem;
     margin-left: 0.5rem;
   }
+`;
+
+export const PetSitterHomeMapContainer = styled(Box)`
+  position: relative;
+`;
+
+export const PetSitterHomeMapImg = styled(Image)`
+  width: 100%;
+  border-radius: 0.5rem;
+`;
+
+export const PetSitterHomeMapCircle = styled(Box)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20%;
+  height: 40%;
+  border-radius: 100%;
+  background-color: #00afed;
+  opacity: 0.25;
+  margin: -10%;
+  border: 3px solid blue;
 `;

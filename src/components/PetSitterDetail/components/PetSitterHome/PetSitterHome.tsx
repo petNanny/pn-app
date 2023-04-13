@@ -11,6 +11,7 @@ import {
 import { GiRabbit, GiHighGrass } from "react-icons/gi";
 import { FaDog, FaCat, FaChild } from "react-icons/fa";
 import { TbFence } from "react-icons/tb";
+import PetSitterHomeMap from "./PetSitterHomeMap";
 
 interface PetSitterValues {
   petSitterName: string;
@@ -26,6 +27,7 @@ interface PetSitterValues {
     kids: string;
   };
   petSitterWalkingAreas: [string];
+  petSitterCoordinates: number[];
 }
 
 const PetSitterHome = ({
@@ -33,6 +35,7 @@ const PetSitterHome = ({
   petSitterPreference,
   petSitterHome,
   petSitterWalkingAreas,
+  petSitterCoordinates,
 }: PetSitterValues) => {
   if (!petSitterPreference) {
     return (
@@ -174,6 +177,7 @@ const PetSitterHome = ({
           </Box>
         </Box>
       </Box>
+      <PetSitterHomeMap petSitterCoordinates={petSitterCoordinates} />
     </>
   );
 };

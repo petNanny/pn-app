@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Stack, Text, Box } from "@chakra-ui/react";
 import FormWrapper from "../../FormWrapper/FormWrapper";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Editor } from "react-draft-wysiwyg";
