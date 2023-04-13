@@ -1,7 +1,7 @@
 import { useUserGetAllConversationsQuery } from "../../redux/conversationApi";
 import { useParams } from "react-router-dom";
 import { Spinner, Box, Card, Flex, Input, Button } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { Navigate } from "react-router-dom";
 import { PageContent } from "./styledMessage";
 import { useGetOnePetOwnerQuery } from "../../redux/petOwnerApi";
@@ -10,6 +10,12 @@ import { io } from "socket.io-client";
 import { useSendMessageMutation } from "../../redux/messageApi";
 
 const Message = () => {
+  const [newMessage, setNewMessage] = useState("");
+  const [messages, setMessages] = useState([""]);
+  const [arrivalMessage, setArrivalMessage] = useState<any>();
+  const [currentChat, setCurrentChat] = useState<any>();
+  const [otherMemberName, setOtherMemberName] = useState<string | null>(null);
+  const [sendMessage] = useSendMessageMutation();
   const { id } = useParams();
   const { data: conversationData, isLoading: isConversationLoading } =
     useUserGetAllConversationsQuery(id);
@@ -20,20 +26,50 @@ const Message = () => {
     refetch: refetchMessages,
   } = useUserOneConversationMessagesQuery(displayConversationId);
   console.log("messageData: ", messageData);
-
-  const [otherMemberName, setOtherMemberName] = useState<string | null>(null);
-  const [newMessage, setNewMessage] = useState("");
-  const [sendMessage] = useSendMessageMutation();
+  const socket = io(process.env.REACT_APP_CHAT_URL || "http://localhost:5000");
+  useEffect(() => {
+    socket.on("getMessage", (data: any) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+      console.log("get Data", data);
+    });
+    console.log("arrivalMessage: ", arrivalMessage);
+  }, []);
+  useEffect(() => {
+    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
+  useEffect(() => {
+    socket.emit("addUser", id);
+  }, []);
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        const res = await conversationData;
+        console.log("res: ", res);
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    };
+    getConversations();
+  }, [id]);
+  // useEffect(() => {
+  //   const getMessages = async () => {
+  //     try {
+  //       const res = await messageData;
+  //       console.log("res: ", res);
+  //     } catch (error) {
+  //       console.log("error: ", error);
+  //     }
+  //   };
+  //   getMessages();
+  // }, [displayConversationId]);
 
   if (isConversationLoading) return <Spinner />;
 
   console.log("conversationData: ", conversationData);
-
-  // const socket = io(process.env.REACT_APP_CHAT_URL || "http://localhost:5000");
-
-  // useEffect(() => {
-  //   socket.emit("addUser", currentUserId);
-  // }, []);
 
   if (!conversationData || conversationData.length === 0)
     return (
@@ -47,12 +83,12 @@ const Message = () => {
     );
 
   const currentUserId = id;
-  const contactNames = conversationData.map((conversation: any) => {
-    const otherMember = conversation.members.find(
-      (member: { _id: string }) => member._id !== currentUserId
-    );
-    return otherMember ? otherMember.userName : "";
-  });
+  // const contactNames = conversationData.map((conversation: any) => {
+  //   const otherMember = conversation.members.find(
+  //     (member: { _id: string }) => member._id !== currentUserId
+  //   );
+  //   return otherMember ? otherMember.userName : "";
+  // });
 
   const handleConversationClick = (conversationId: string) => {
     console.log("conversationId: ", conversationId);
@@ -70,9 +106,36 @@ const Message = () => {
       sender: currentUserId,
       text: newMessage,
     };
-    const receiverId = messageData?.members?.find(
-      (member: { _id: string }) => member._id !== currentUserId
-    )._id;
+    if (messageData && messageData.length > 0 && messageData[0].members) {
+      const receiverId = messageData[0].conversationId.members.find(
+        (member: { _id: string }) => member._id !== currentUserId
+      )._id;
+      console.log("receiverId: ", receiverId);
+      socket.emit("sendMessage", {
+        senderId: currentUserId,
+        receiverId,
+        text: newMessage,
+      });
+    }
+    let receiverId: string;
+    const targetConversation = conversationData.find(
+      (conversation: any) => conversation._id === displayConversationId
+    );
+    if (targetConversation) {
+      const targetMember = targetConversation.members.find(
+        (member: any) => member._id !== currentUserId
+      );
+      if (targetMember) {
+        receiverId = targetMember._id;
+        console.log("receiverId: ", receiverId);
+        socket.emit("sendMessage", {
+          senderId: currentUserId,
+          receiverId,
+          text: newMessage,
+        });
+      }
+    }
+    // console.log("receiverId: ", receiverId);
     // socket.emit("sendMessage", {
     //   senderId: currentUserId,
     //   receiverId,
@@ -80,11 +143,13 @@ const Message = () => {
     // });
     try {
       await sendMessage({ body: message });
-      refetchMessages();
+      // refetchMessages();
     } catch (error) {
       console.log("error: ", error);
     }
   };
+
+  console.log("messages", messages);
 
   return (
     <PageContent>
@@ -120,9 +185,34 @@ const Message = () => {
         </Box>
         <Box width="100%" paddingLeft="3rem">
           <Box color="red">{displayConversationId}</Box>
-          <Box>
+          {/* <Box>
             {messageData && messageData.length > 0 ? (
               messageData.map((message: any, index: number) => (
+                <Box key={index} height="3rem" width="100%" marginBottom="1rem">
+                  {message.sender === currentUserId ? (
+                    <Box display="flex" justifyContent="flex-end">
+                      <Box display="flex" flexDirection="column">
+                        <Box>{message.sender}</Box>
+                        <Box>Message: {message.text}</Box>
+                      </Box>
+                    </Box>
+                  ) : (
+                    <Box display="flex" justifyContent="flex-start">
+                      <Box display="flex" flexDirection="column">
+                        <Box>{message.sender}</Box>
+                        <Box>Message: {message.text}</Box>
+                      </Box>
+                    </Box>
+                  )}
+                </Box>
+              ))
+            ) : (
+              <p></p>
+            )}
+          </Box> */}
+          <Box>
+            {messages && messages.length > 0 ? (
+              messages.map((message: any, index: number) => (
                 <Box key={index} height="3rem" width="100%" marginBottom="1rem">
                   {message.sender === currentUserId ? (
                     <Box display="flex" justifyContent="flex-end">
