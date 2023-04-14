@@ -3,38 +3,32 @@ import {
   useUserGetOneConversationQuery,
 } from "../../redux/conversationApi";
 import { useParams } from "react-router-dom";
-import { Spinner, Box, Card, Flex, Input, Button, useToast, Text, Avatar } from "@chakra-ui/react";
-import { useEffect, useMemo, useState, useRef } from "react";
-import { Navigate } from "react-router-dom";
+import { Box, Card, Button, useToast, Text, Avatar, Icon } from "@chakra-ui/react";
+import { useEffect, useState, useRef } from "react";
 import { PageContent } from "./styledMessage";
 import {
   useUserOneConversationMessagesQuery,
   useSendMessageMutation,
 } from "../../redux/messageApi";
 import { io } from "socket.io-client";
+import TextareaAutosize from "react-textarea-autosize";
+import { FiExternalLink } from "react-icons/fi";
 
 const Message = () => {
   const toast = useToast();
-  const [conversations, setConversations] = useState([]);
-  const [currentChat, setCurrentChat] = useState<any>();
+  const [isOtherMemberBtnHidden, setIsOtherMemberBtnHidden] = useState(true);
   const [messages, setMessages] = useState<any>();
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState<any>();
-  const [onlineUsers, setOnlineUsers] = useState([]);
   const [displayConversationId, setDisplayConversationId] = useState<string | null>(null);
-  const scrollRef = useRef<any>();
+  const messageContainerRef = useRef<any>();
   const { id } = useParams();
   const socket = io(process.env.REACT_APP_CHAT_URL || "http://localhost:5000");
-  const { data: conversationData, isLoading: isConversationLoading } =
-    useUserGetAllConversationsQuery(id);
-  const {
-    data: messageData,
-    isLoading: isMessageLoading,
-    refetch: refetchMessages,
-  } = useUserOneConversationMessagesQuery(displayConversationId);
-  const { data: currentConversationData, isLoading: isCurrentConversationLoading } =
-    useUserGetOneConversationQuery(displayConversationId);
-  const [sendMessage] = useSendMessageMutation();
+  const { data: conversationData } = useUserGetAllConversationsQuery(id);
+  const { data: messageData, refetch: refetchMessages } =
+    useUserOneConversationMessagesQuery(displayConversationId);
+  const { data: currentConversationData } = useUserGetOneConversationQuery(displayConversationId);
+  const [sendMessage, { isLoading: isMessageSubmitting }] = useSendMessageMutation();
 
   useEffect(() => {
     socket.on("getMessage", (data: any) => {
@@ -48,7 +42,9 @@ const Message = () => {
   useEffect(() => {
     arrivalMessage &&
       currentConversationData?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev: any) => [...prev, arrivalMessage]);
+      setMessages((prev: any) =>
+        Array.isArray(prev) ? [...prev, arrivalMessage] : [arrivalMessage]
+      );
   }, [arrivalMessage, currentConversationData]);
 
   useEffect(() => {
@@ -59,8 +55,15 @@ const Message = () => {
     setMessages(messageData);
   }, [messageData]);
 
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   const handleConversationClick = (conversationId: string) => {
     setDisplayConversationId(conversationId);
+    setIsOtherMemberBtnHidden(false);
   };
 
   const handleSubmit = async (e: any) => {
@@ -103,10 +106,6 @@ const Message = () => {
     }
   };
 
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
   if (!conversationData || conversationData.length === 0)
     return (
       <PageContent>
@@ -119,6 +118,8 @@ const Message = () => {
     );
 
   let otherMemberName = "";
+  let otherMemberAvatar = "";
+  let otherMemberPetSitterId = "";
   const targetConversation = conversationData.find(
     (conversation: { _id: string }) => conversation._id === displayConversationId
   );
@@ -128,8 +129,15 @@ const Message = () => {
     );
     if (targetMember) {
       otherMemberName = targetMember.userName;
+      otherMemberAvatar = targetMember.avatar;
+      otherMemberPetSitterId = targetMember.petSitter;
     }
   }
+
+  const otherMemberUrl = `/petSitter/${otherMemberPetSitterId}`;
+  const handleOtherMemberClick = () => {
+    window.open(otherMemberUrl, "_blank");
+  };
 
   return (
     <PageContent>
@@ -137,7 +145,7 @@ const Message = () => {
         <Box
           display="flex"
           flexDirection="column"
-          width="30%"
+          width="35%"
           overflowY="scroll"
           css={{
             "&::-webkit-scrollbar": { display: "none" },
@@ -152,55 +160,121 @@ const Message = () => {
               cursor="pointer"
               justifyContent="center"
               borderRadius="0"
+              border="none"
+              shadow="none"
               color="rgb(0, 175, 237)"
-              fontWeight={conversation._id === displayConversationId ? "bold" : "normal"}
+              backgroundColor={conversation._id === displayConversationId ? "#d5e7f5" : "white"}
               onClick={() => handleConversationClick(conversation._id)}
             >
               <Box display="flex" alignItems="center">
                 <Avatar
-                  marginLeft="2rem"
+                  margin="0 1rem"
                   src={
                     conversation.members[0]._id === id
                       ? conversation.members[1].avatar
                       : conversation.members[0].avatar
                   }
                 />
-                <Text marginLeft="3rem">
-                  {conversation.members[0]._id === id
-                    ? conversation.members[1].userName
-                    : conversation.members[0].userName}
-                </Text>
+                <Box display="flex" flexDirection="column">
+                  <Text>
+                    {conversation.members[0]._id === id
+                      ? conversation.members[1].userName
+                      : conversation.members[0].userName}
+                  </Text>
+                </Box>
               </Box>
             </Card>
           ))}
         </Box>
         <Box display="flex" width="100%" paddingLeft="3rem" flexDirection="column">
-          <Box margin="0 auto 1rem">{otherMemberName}</Box>
+          <Button
+            margin="0 auto 0 0"
+            height="100%"
+            background="transparent"
+            padding="1rem"
+            _hover={{ background: "transparent" }}
+            onClick={handleOtherMemberClick}
+            hidden={isOtherMemberBtnHidden ? true : false}
+          >
+            <Box display="flex" alignItems="center">
+              <Avatar src={otherMemberAvatar} />
+              <Box marginLeft="1rem">{otherMemberName}</Box>
+              <Icon as={FiExternalLink} marginLeft="0.5rem" />
+            </Box>
+          </Button>
           <Box>
             {currentConversationData ? (
               <>
-                <Box border="1px solid black" padding="1rem" height="60vh" overflowY="scroll">
+                <Box
+                  border="1px solid black"
+                  padding="1rem"
+                  height="60vh"
+                  overflowY="scroll"
+                  ref={messageContainerRef}
+                  display="flex"
+                  flexDirection="column-reverse"
+                >
                   {messages &&
                     messages.length > 0 &&
-                    messages.map((m: { sender: string; text: string; _id: string }) => (
-                      <Box key={m._id}>
-                        <Box
-                          color={m.sender === id ? "red" : "green"}
-                          justifyContent={m.sender === id ? "flex-end" : "flex-start"}
-                          display="flex"
-                        >
-                          {m.text}
+                    messages.map(
+                      (
+                        m: { sender: string; text: string; _id: string; createdAt: Date },
+                        index: number
+                      ) => (
+                        <Box key={index}>
+                          <Box
+                            color="rgba(0, 0, 0, 0.87)"
+                            justifyContent={m.sender === id ? "flex-end" : "flex-start"}
+                            display="flex"
+                            key={index}
+                            margin="0.2rem 0 0"
+                          >
+                            <Box
+                              display="flex"
+                              flexDirection="column"
+                              alignItems={m.sender === id ? "flex-end" : "flex-start"}
+                            >
+                              <Box
+                                borderRadius={
+                                  m.sender === id ? "0.6rem 0 0 0.6rem" : "0 0.6rem 0.6rem 0"
+                                }
+                                backgroundColor={m.sender === id ? "#6ea9d7" : "#c6e3fa"}
+                                padding="0.5rem 1rem"
+                                maxWidth="80%"
+                              >
+                                {m.text}
+                              </Box>
+                              <Box fontSize="0.8rem">{new Date(m.createdAt).toLocaleString()}</Box>
+                            </Box>
+                          </Box>
                         </Box>
-                      </Box>
-                    ))}
+                      )
+                    )}
                 </Box>
-                <Box padding="1rem" height="5rem">
-                  <Input
-                    placeholder="leave your message here..."
-                    onChange={(e) => setNewMessage(e.target.value)}
+                <Box padding="0.5rem 0" height="4rem" display="flex">
+                  <TextareaAutosize
+                    style={{
+                      backgroundColor: "#c6e3fa",
+                      borderRadius: "0.5rem",
+                      width: "100%",
+                      padding: "0.5rem 1rem",
+                      outline: "none",
+                    }}
+                    minRows={1}
+                    maxRows={3}
+                    placeholder="write your message here..."
+                    cacheMeasurements
                     value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
                   />
-                  <button onClick={handleSubmit}>Send</button>
+                  <Button
+                    onClick={handleSubmit}
+                    isDisabled={newMessage ? false : true}
+                    backgroundColor="transparent"
+                    isLoading={isMessageSubmitting ? true : false}
+                  >
+                    Send
+                  </Button>
                 </Box>
               </>
             ) : (
