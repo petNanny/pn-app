@@ -3,7 +3,7 @@ import {
   useUserGetOneConversationQuery,
 } from "../../redux/conversationApi";
 import { useParams } from "react-router-dom";
-import { Spinner, Box, Card, Flex, Input, Button } from "@chakra-ui/react";
+import { Spinner, Box, Card, Flex, Input, Button, useToast, Text, Avatar } from "@chakra-ui/react";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Navigate } from "react-router-dom";
 import { PageContent } from "./styledMessage";
@@ -12,9 +12,9 @@ import {
   useSendMessageMutation,
 } from "../../redux/messageApi";
 import { io } from "socket.io-client";
-import Messages from "./Messages/Messages";
 
 const Message = () => {
+  const toast = useToast();
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState<any>();
   const [messages, setMessages] = useState<any>();
@@ -60,7 +60,6 @@ const Message = () => {
   }, [messageData]);
 
   const handleConversationClick = (conversationId: string) => {
-    console.log("conversationId: ", conversationId);
     setDisplayConversationId(conversationId);
   };
 
@@ -71,26 +70,16 @@ const Message = () => {
       sender: id,
       text: newMessage,
     };
-    if (messageData && messageData.length > 0 && messageData[0].members) {
-      const receiverId = messageData[0].conversationId.members.find(
-        (member: { _id: string }) => member._id !== id
-      )._id;
-      console.log("receiverId: ", receiverId);
-      socket.emit("sendMessage", {
-        senderId: id,
-        receiverId,
-        text: newMessage,
-      });
-    }
     let receiverId: string;
     const targetConversation = conversationData.find(
-      (conversation: any) => conversation._id === displayConversationId
+      (conversation: { _id: string }) => conversation._id === displayConversationId
     );
     if (targetConversation) {
-      const targetMember = targetConversation.members.find((member: any) => member._id !== id);
+      const targetMember = targetConversation.members.find(
+        (member: { _id: string }) => member._id !== id
+      );
       if (targetMember) {
         receiverId = targetMember._id;
-        console.log("receiverId: ", receiverId);
         socket.emit("sendMessage", {
           senderId: id,
           receiverId,
@@ -104,7 +93,13 @@ const Message = () => {
       setNewMessage("");
       await refetchMessages();
     } catch (error) {
-      console.log("error: ", error);
+      toast({
+        title: "Failed to send message",
+        description: "Something went wrong. Please try again later.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -123,61 +118,95 @@ const Message = () => {
       </PageContent>
     );
 
-  console.log("conversationData: ", conversationData);
+  let otherMemberName = "";
+  const targetConversation = conversationData.find(
+    (conversation: { _id: string }) => conversation._id === displayConversationId
+  );
+  if (targetConversation) {
+    const targetMember = targetConversation.members.find(
+      (member: { _id: string }) => member._id !== id
+    );
+    if (targetMember) {
+      otherMemberName = targetMember.userName;
+    }
+  }
 
   return (
     <PageContent>
       <Box display="flex" justifyContent="space-between">
-        <Box display="flex" flexDirection="column" width="30%">
-          {conversationData.map((conversation: any, index: number) => (
+        <Box
+          display="flex"
+          flexDirection="column"
+          width="30%"
+          overflowY="scroll"
+          css={{
+            "&::-webkit-scrollbar": { display: "none" },
+            overflow: "auto",
+          }}
+        >
+          {conversationData.map((conversation: any) => (
             <Card
-              key={index}
-              height="3rem"
+              key={conversation._id}
+              height="5rem"
               width="100%"
               cursor="pointer"
               justifyContent="center"
               borderRadius="0"
+              color="rgb(0, 175, 237)"
+              fontWeight={conversation._id === displayConversationId ? "bold" : "normal"}
               onClick={() => handleConversationClick(conversation._id)}
             >
-              <Box display="flex" justifyContent="space-evenly" alignItems="center">
-                <p>
+              <Box display="flex" alignItems="center">
+                <Avatar
+                  marginLeft="2rem"
+                  src={
+                    conversation.members[0]._id === id
+                      ? conversation.members[1].avatar
+                      : conversation.members[0].avatar
+                  }
+                />
+                <Text marginLeft="3rem">
                   {conversation.members[0]._id === id
                     ? conversation.members[1].userName
                     : conversation.members[0].userName}
-                </p>
+                </Text>
               </Box>
             </Card>
           ))}
         </Box>
-        <Box display="flex" width="100%" paddingLeft="3rem">
-          <div>
+        <Box display="flex" width="100%" paddingLeft="3rem" flexDirection="column">
+          <Box margin="0 auto 1rem">{otherMemberName}</Box>
+          <Box>
             {currentConversationData ? (
               <>
-                <div>
+                <Box border="1px solid black" padding="1rem" height="60vh" overflowY="scroll">
                   {messages &&
                     messages.length > 0 &&
-                    messages.map((m: any, index: number) => (
-                      <div key={index}>
-                        {/* <Messages message={m} own={m.sender === id} /> */}
-                        <div style={{ color: m.sender === id ? "red" : "green" }}>
-                          message: {m.text}
-                        </div>
-                      </div>
+                    messages.map((m: { sender: string; text: string; _id: string }) => (
+                      <Box key={m._id}>
+                        <Box
+                          color={m.sender === id ? "red" : "green"}
+                          justifyContent={m.sender === id ? "flex-end" : "flex-start"}
+                          display="flex"
+                        >
+                          {m.text}
+                        </Box>
+                      </Box>
                     ))}
-                </div>
-                <div>
-                  <textarea
-                    placeholder="write something..."
+                </Box>
+                <Box padding="1rem" height="5rem">
+                  <Input
+                    placeholder="leave your message here..."
                     onChange={(e) => setNewMessage(e.target.value)}
                     value={newMessage}
-                  ></textarea>
+                  />
                   <button onClick={handleSubmit}>Send</button>
-                </div>
+                </Box>
               </>
             ) : (
               <span>Open a conversation to start a chat.</span>
             )}
-          </div>
+          </Box>
         </Box>
       </Box>
     </PageContent>
