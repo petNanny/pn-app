@@ -13,9 +13,13 @@ const baseQuery = fetchBaseQuery({
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = localStorage.getItem("token");
+    const adminToken = localStorage.getItem("adminToken");
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
+    }
+    if (adminToken) {
+      headers.set("authorization", `Bearer ${adminToken}`);
     }
     return headers;
   },
