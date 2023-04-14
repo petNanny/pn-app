@@ -81,7 +81,7 @@ const Navbar = () => {
                   <SidebarLinkText>Login</SidebarLinkText>
                 </NavLink>
                 <SidebarLine />
-                <NavLink to="/adminPage">
+                <NavLink to="/adminLogin">
                   <SidebarLinkText>Admin</SidebarLinkText>
                 </NavLink>
                 <SidebarLogo>
@@ -163,7 +163,7 @@ const Navbar = () => {
             <NavLink to="/login">
               <NavLinkText>Login</NavLinkText>
             </NavLink>
-            <NavLink to="/adminPage">
+            <NavLink to="/adminLogin">
               <NavLinkText>Admin</NavLinkText>
             </NavLink>
           </HStack>

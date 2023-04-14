@@ -1,11 +1,12 @@
 import React from "react";
-import PageLayout from "../components/Layout/PageLayout";
+import AdminPageLayout from "../components/Layout/AdminPageLayout";
+import AdminHome from "../components/AdminHome";
 
 const AdminHomePage = () => {
   return (
-    <PageLayout>
-      <div>AdminHomePage</div>
-    </PageLayout>
+    <AdminPageLayout>
+      <AdminHome />
+    </AdminPageLayout>
   );
 };
 

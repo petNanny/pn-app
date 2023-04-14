@@ -5,6 +5,9 @@ import boardingPageReducer from "./reducer/boardingPageSlice";
 import petOwnerReducer from "./reducer/petOwnerSlice";
 import petSitterReducer from "./reducer/petSitterSlice";
 import petReducer from "./reducer/petSlice";
+import adminPageReducer from "./reducer/adminSlice";
+import adminAuthReducer from "./reducer/adminAuthSlice";
+import adminUserReducer from "./reducer/adminUserSlice";
 
 export const store = configureStore({
   reducer: (state, action) => {
@@ -13,13 +16,21 @@ export const store = configureStore({
       localStorage.removeItem("token");
       localStorage.removeItem("currentPetOwnerId");
     }
+    if (action.type === "admin/logout") {
+      state = undefined;
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("currentAdminId");
+    }
     return combineReducers({
       [apiSlice.reducerPath]: apiSlice.reducer,
       auth: authReducer,
+      adminAuth: adminAuthReducer,
       petOwner: petOwnerReducer,
       boardingPage: boardingPageReducer,
       petSitter: petSitterReducer,
       pet: petReducer,
+      adminPage: adminPageReducer,
+      adminUser: adminUserReducer,
     })(state, action);
   },
   middleware: (getDefaultMiddleware) =>
