@@ -21,6 +21,7 @@ import { SearchFormValues } from "../../interfaces/searchForm";
 import { toggleShowMapOrCard } from "../../store/reducer/boardingPageSlice";
 import { useStoreDispatch, useStoreSelector } from "../../store/hook";
 import { useFilterPetSitterMutation } from "../../redux/petSitterApi";
+import { useLocation } from "react-router-dom";
 
 interface SearchBarProps {
   getResults: React.Dispatch<React.SetStateAction<[]>>;
@@ -50,6 +51,12 @@ const SearchBar = ({
   const [catNum, setCatNum] = useState(0);
   const [smallAnimalNum, setSmallAnimalNum] = useState(0);
   const [showFilter, setShowFilter] = useState(true);
+
+  const searchParams = new URLSearchParams(useLocation().search);
+  const landingPagePetService = searchParams.get("petService") || "Dog boarding";
+  const landingPageLongitude = Number(searchParams.get("longitude")) || 151.2092955;
+  const landingPageLatitude = Number(searchParams.get("latitude")) || -33.8688197;
+  const landingPageLocation = searchParams.get("location") || "Sydney NSW, Australia";
 
   useEffect(() => {
     setTotalPetsNum(
@@ -81,10 +88,10 @@ const SearchBar = ({
 
   const formik: FormikProps<SearchFormValues> = useFormik<SearchFormValues>({
     initialValues: {
-      location: "Sydney NSW, Australia",
-      latitude: -33.8688197,
-      longitude: 151.2092955,
-      petService: "Dog boarding",
+      location: landingPageLocation,
+      latitude: landingPageLatitude,
+      longitude: landingPageLongitude,
+      petService: landingPagePetService,
       selectedDates: [],
       noDogs: false,
       noChildren: false,
