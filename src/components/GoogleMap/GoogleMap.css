@@ -44,6 +44,8 @@
 .Avatar_Container img {
   border-radius: 50%;
   width: 75px;
+  height: 75px;
+  object-fit: cover;
 }
 
 .Marker_Distance {
