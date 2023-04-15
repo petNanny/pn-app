@@ -13,6 +13,7 @@ import {
 import { io } from "socket.io-client";
 import TextareaAutosize from "react-textarea-autosize";
 import { FiExternalLink } from "react-icons/fi";
+import { TbRefresh } from "react-icons/tb";
 
 const Message = () => {
   const toast = useToast();
@@ -23,7 +24,7 @@ const Message = () => {
   const [displayConversationId, setDisplayConversationId] = useState<string | null>(null);
   const messageContainerRef = useRef<any>();
   const { id } = useParams();
-  const socket = io(process.env.REACT_APP_CHAT_URL || "http://localhost:5000");
+  const socket = io(process.env.REACT_APP_CHAT_URL || "");
   const { data: conversationData } = useUserGetAllConversationsQuery(id);
   const { data: messageData, refetch: refetchMessages } =
     useUserOneConversationMessagesQuery(displayConversationId);
@@ -36,16 +37,23 @@ const Message = () => {
         sender: data.senderId,
         text: data.text,
       });
+      refetchMessages();
     });
-  }, [socket]);
+  }, []);
 
+  // useEffect(() => {
+  //   arrivalMessage &&
+  //     currentConversationData?.members.includes(arrivalMessage.sender) &&
+  //     setMessages((prev: any) =>
+  //       Array.isArray(prev) ? [...prev, arrivalMessage] : [arrivalMessage]
+  //     );
+  // }, [arrivalMessage, currentConversationData]);
   useEffect(() => {
     arrivalMessage &&
-      currentConversationData?.members.includes(arrivalMessage.sender) &&
       setMessages((prev: any) =>
         Array.isArray(prev) ? [...prev, arrivalMessage] : [arrivalMessage]
       );
-  }, [arrivalMessage, currentConversationData]);
+  }, [arrivalMessage]);
 
   useEffect(() => {
     socket.emit("addUser", id);
@@ -61,9 +69,17 @@ const Message = () => {
     }
   }, [messages]);
 
+  useEffect(() => {
+    arrivalMessage && refetchMessages();
+  }, [arrivalMessage]);
+
   const handleConversationClick = (conversationId: string) => {
     setDisplayConversationId(conversationId);
     setIsOtherMemberBtnHidden(false);
+  };
+
+  const handleRefreshMessages = () => {
+    refetchMessages();
   };
 
   const handleSubmit = async (e: any) => {
@@ -92,7 +108,7 @@ const Message = () => {
     }
     try {
       const res = await sendMessage({ body: message });
-      await setMessages([...messages, res]);
+      setMessages([...messages, res]);
       setNewMessage("");
       await refetchMessages();
     } catch (error) {
@@ -187,21 +203,25 @@ const Message = () => {
           ))}
         </Box>
         <Box display="flex" width="100%" paddingLeft="3rem" flexDirection="column">
-          <Button
-            margin="0 auto 0 0"
-            height="100%"
-            background="transparent"
-            padding="1rem"
-            _hover={{ background: "transparent" }}
-            onClick={handleOtherMemberClick}
-            hidden={isOtherMemberBtnHidden ? true : false}
-          >
-            <Box display="flex" alignItems="center">
-              <Avatar src={otherMemberAvatar} />
-              <Box marginLeft="1rem">{otherMemberName}</Box>
-              <Icon as={FiExternalLink} marginLeft="0.5rem" />
-            </Box>
-          </Button>
+          <Box display="flex" alignItems="center" hidden={isOtherMemberBtnHidden ? true : false}>
+            <Button
+              margin="0 auto 0 0"
+              height="100%"
+              background="transparent"
+              padding="1rem"
+              _hover={{ background: "transparent" }}
+              onClick={handleOtherMemberClick}
+            >
+              <Box display="flex" alignItems="center">
+                <Avatar src={otherMemberAvatar} />
+                <Box marginLeft="1rem">{otherMemberName}</Box>
+                <Icon as={FiExternalLink} marginLeft="0.5rem" />
+              </Box>
+            </Button>
+            <Button background="transparent" onClick={handleRefreshMessages}>
+              <Icon as={TbRefresh} fontSize="1.5rem" marginLeft="0.5rem" />
+            </Button>
+          </Box>
           <Box>
             {currentConversationData ? (
               <>
@@ -262,7 +282,7 @@ const Message = () => {
                     }}
                     minRows={1}
                     maxRows={3}
-                    placeholder="write your message here..."
+                    placeholder="say something..."
                     cacheMeasurements
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
@@ -278,7 +298,7 @@ const Message = () => {
                 </Box>
               </>
             ) : (
-              <span>Open a conversation to start a chat.</span>
+              <Box paddingTop="1.5rem">Click a username to start a chat.</Box>
             )}
           </Box>
         </Box>
