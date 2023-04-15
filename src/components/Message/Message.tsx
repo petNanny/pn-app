@@ -39,21 +39,21 @@ const Message = () => {
       });
       refetchMessages();
     });
-  }, []);
+  }, [arrivalMessage, socket]);
 
-  // useEffect(() => {
-  //   arrivalMessage &&
-  //     currentConversationData?.members.includes(arrivalMessage.sender) &&
-  //     setMessages((prev: any) =>
-  //       Array.isArray(prev) ? [...prev, arrivalMessage] : [arrivalMessage]
-  //     );
-  // }, [arrivalMessage, currentConversationData]);
   useEffect(() => {
     arrivalMessage &&
+      currentConversationData?.members.includes(arrivalMessage.sender) &&
       setMessages((prev: any) =>
         Array.isArray(prev) ? [...prev, arrivalMessage] : [arrivalMessage]
       );
-  }, [arrivalMessage]);
+  }, [arrivalMessage, currentConversationData]);
+  // useEffect(() => {
+  //   arrivalMessage &&
+  //     setMessages((prev: any) =>
+  //       Array.isArray(prev) ? [...prev, arrivalMessage] : [arrivalMessage]
+  //     );
+  // }, [arrivalMessage]);
 
   useEffect(() => {
     socket.emit("addUser", id);
