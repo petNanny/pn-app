@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 
 const ExperienceForm = () => {
   const { id } = useParams();
-  const { data } = useGetOnePetOwnerQuery(id);
+  const { data, refetch: refetchPetOwnerData } = useGetOnePetOwnerQuery(id);
   const petSitter = data.petSitter;
   const [updateExperience] = useUpdateOnePetSitterMutation();
   const toast = useToast();
@@ -33,6 +33,7 @@ const ExperienceForm = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
+        refetchPetOwnerData();
       } catch (error) {
         toast({
           title: "Experiences and languages changed failure.",
