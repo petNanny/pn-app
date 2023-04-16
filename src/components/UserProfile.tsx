@@ -23,10 +23,6 @@ const PetSitter = () => {
   const hasCreatedPetSitterAccount = petOwner.roles.includes("PetSitter");
   const petId = useSelector((state: any) => state.pet.petId);
 
-  if (id !== petOwner._id && id !== petId) {
-    return <Navigate to="/error" replace />;
-  }
-
   return (
     <Container maxW="6xl" padding="4">
       <Flex>
