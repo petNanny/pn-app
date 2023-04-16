@@ -1,4 +1,4 @@
-import { Container, Flex } from "@chakra-ui/react";
+import { Container, Flex, Box } from "@chakra-ui/react";
 import AsideMyProfileBox from "./PetSitterProfile/AsideMyProfileBox/AsideMyProfileBox";
 import AsideMySitterBox from "./PetSitterProfile/AsideMySitterBox/AsideMySitterBox";
 import AboutMeForm from "./PetSitterProfile/AboutMeForm/AboutMeForm";
@@ -16,7 +16,25 @@ import AddNewPet from "./PetSitterProfile/AddNewPet/AddNewPet";
 import EditPet from "./PetSitterProfile/EditPet/EditPet";
 import LegalRequirement from "./PetSitterProfile/LegalRequirement";
 import { useSelector } from "react-redux";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { devices } from "../styles/breakPoints";
+
+const MyProfileContainer = styled(Box)`
+  &&& {
+    display: none;
+    @media ${devices.tablet} {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-right: 2rem;
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0%;
+    }
+  }
+`;
+
 const PetSitter = () => {
   const { formPage, id } = useParams();
   const petOwner = useSelector((state: any) => state.petOwner);
@@ -26,17 +44,10 @@ const PetSitter = () => {
   return (
     <Container maxW="6xl" padding="4">
       <Flex>
-        <Flex
-          flexDirection="column"
-          gap="5"
-          marginRight="2rem"
-          flexGrow="1"
-          flexShrink="1"
-          flexBasis="0%"
-        >
+        <MyProfileContainer>
           <AsideMyProfileBox />
           {hasCreatedPetSitterAccount && <AsideMySitterBox />}
-        </Flex>
+        </MyProfileContainer>
         <Flex flexGrow="3" flexShrink="1" flexBasis="0%">
           {formPage === "about-me" && id === petOwner._id && <AboutMeForm />}
           {formPage === "address" && id === petOwner._id && <AddressForm />}
