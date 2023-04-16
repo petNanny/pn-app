@@ -13,9 +13,11 @@ const PetServiceForm = () => {
   const dispatch = useDispatch();
   const toast = useToast();
   const { id } = useParams();
-  const { data } = useGetOnePetOwnerQuery(id);
+  const { data, refetch: refetchPetOwnerData } = useGetOnePetOwnerQuery(id);
 
   const petSitter = data.petSitter;
+
+  if (!petSitter || !petSitter.service) return <div>loading...</div>;
 
   const [updateServices] = useUpdateOnePetSitterMutation();
 
@@ -29,7 +31,7 @@ const PetServiceForm = () => {
       try {
         updateServices({ ...petSitter, ...values });
         //will change later
-        //dispatch(updatePetOwnerInfo({ ...petSitter, ...values }));
+        // dispatch(updatePetOwnerInfo({ ...petSitter, ...values }));
         toast({
           title: "Services changed.",
           description: "We've changed your service details for you.",
@@ -38,6 +40,7 @@ const PetServiceForm = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
+        refetchPetOwnerData();
       } catch (error) {
         toast({
           title: "Services changed failure.",
