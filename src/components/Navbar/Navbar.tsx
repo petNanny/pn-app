@@ -18,6 +18,11 @@ import {
   DrawerContent,
   useDisclosure,
   Box,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from "@chakra-ui/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import theme from "../../styles/theme";
@@ -32,6 +37,7 @@ import {
   ProfileImage,
   NavbarFunction,
   SidebarFunction,
+  SidebarProfileLinkText,
 } from "./styledNavbar";
 import { useSendLogoutMutation } from "../../redux/authApi";
 import { useSelector } from "react-redux";
@@ -115,9 +121,87 @@ const Navbar = () => {
                 <NavLink to={`/message/${petOwner._id}`}>
                   <SidebarLinkText>Messages</SidebarLinkText>
                 </NavLink>
-                <NavLink to={`/userProfile/about-me/${petOwner._id}`}>
-                  <SidebarLinkText>Profile</SidebarLinkText>
-                </NavLink>
+                <Box max-height="500px" overflow="auto">
+                  <Accordion allowToggle>
+                    <AccordionItem border="none">
+                      <AccordionButton>
+                        <Box flex="1" textAlign="left">
+                          <SidebarProfileLinkText>Profile</SidebarProfileLinkText>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                      <AccordionPanel pb={4}>
+                        <NavLink to={`/userProfile/about-me/${petOwner._id}`} onClick={onClose}>
+                          <SidebarLinkText>About me</SidebarLinkText>
+                        </NavLink>
+                        <NavLink to={`/userProfile/my-pets/${petOwner._id}`} onClick={onClose}>
+                          <SidebarLinkText>My pets</SidebarLinkText>
+                        </NavLink>
+                        {hasPetSitter && (
+                          <>
+                            <NavLink to={`/userProfile/address/${petOwner._id}`} onClick={onClose}>
+                              <SidebarLinkText>My address</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/pet-service/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>Services</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/pet-preference/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>Pet preferences</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/home-area/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>My home and area</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/description/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>Description</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/profile-gallery/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>Profile gallery</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/experience/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>Experience</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/payment-information/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>Payout method</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/legal-requirement/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>Legal requirement</SidebarLinkText>
+                            </NavLink>
+                            <NavLink
+                              to={`/userProfile/submission/${petOwner._id}`}
+                              onClick={onClose}
+                            >
+                              <SidebarLinkText>Complete sitter application</SidebarLinkText>
+                            </NavLink>
+                          </>
+                        )}
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
+                </Box>
                 <NavLink to="#">
                   <SidebarLinkText>Review</SidebarLinkText>
                 </NavLink>
