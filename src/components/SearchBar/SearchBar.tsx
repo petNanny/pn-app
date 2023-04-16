@@ -69,8 +69,6 @@ const SearchBar = ({
   const [smallAnimalNum, setSmallAnimalNum] = useState(0);
   const [showFilter, setShowFilter] = useState(true);
 
-  console.log("landingPagePetService", landingPagePetService);
-
   useEffect(() => {
     setTotalPetsNum(
       smallDogNum + mediumDogNum + largeDogNum + giantDogNum + catNum + smallAnimalNum
