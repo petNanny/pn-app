@@ -121,7 +121,7 @@ const Navbar = () => {
                 <NavLink to={`/message/${petOwner._id}`}>
                   <SidebarLinkText>Messages</SidebarLinkText>
                 </NavLink>
-                <Box max-height="500px" overflow="auto">
+                <Box maxHeight="500px" overflow="auto" minHeight="50px">
                   <Accordion allowToggle>
                     <AccordionItem border="none">
                       <AccordionButton>

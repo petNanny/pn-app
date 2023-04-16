@@ -104,13 +104,12 @@ const AdvancedInput = ({ formik }: AdvancedInputProps) => {
   };
 
   const [isTablet] = useMediaQuery("(max-width: 768px)", { ssr: true, fallback: false });
-  const [isMobile] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 
   return (
     <>
       <AdvancedInputContainer>
         <FormControl>
-          {isMobile ? <StyledFormLabel>Advanced filters</StyledFormLabel> : null}
+          <StyledFormLabel>Advanced filters</StyledFormLabel>
           <Menu matchWidth={isTablet ? true : false} autoSelect={false}>
             <MenuBtn>
               <MenuBtnInBox>

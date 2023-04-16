@@ -144,13 +144,12 @@ const PetNumInput = ({
   ];
 
   const [isTablet] = useMediaQuery("(max-width: 768px)", { ssr: true, fallback: false });
-  const [isMobile] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 
   return (
     <>
       <PetNumInputContainer>
         <FormControl width="100%">
-          {isMobile ? <StyledFormLabel>Pets</StyledFormLabel> : null}
+          <StyledFormLabel>Pets</StyledFormLabel>
           <Menu matchWidth={isTablet ? true : false} autoSelect={false}>
             <StyledMenuButton>
               <BoxInMenuButton>

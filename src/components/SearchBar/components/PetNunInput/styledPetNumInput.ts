@@ -24,6 +24,9 @@ export const StyledFormLabel = styled(FormLabel)`
   &&& {
     color: rgb(147, 147, 147);
     line-height: 1.9rem;
+    @media ${devices.laptop} {
+      display: none;
+    }
   }
 `;
 

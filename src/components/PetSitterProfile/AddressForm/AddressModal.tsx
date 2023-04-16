@@ -17,6 +17,8 @@ import { useDispatch } from "react-redux";
 import PlacesAutocomplete from "./SearchPanel/SearchPanel";
 import { useUpdateOnePetSitterMutation } from "../../../redux/petSitterApi";
 import { useSelector } from "react-redux";
+import { useGetOnePetOwnerQuery } from "../../../redux/petOwnerApi";
+import { useParams } from "react-router-dom";
 
 interface Props {
   isOpen: boolean;
@@ -39,8 +41,10 @@ const AddressModal = ({ isOpen, onClose }: Props) => {
   const [getAddress, setGetAddress] = useState<IAddress | null>(null);
   const petOwner = useSelector((state: RootState) => state.petOwner);
   const petSitter = petOwner.petSitter;
+  const { id } = useParams();
+  const { refetch: refetchPetOwnerData } = useGetOnePetOwnerQuery(id);
 
-  const [updateAddress, { isLoading, isSuccess, isError, error }] = useUpdateOnePetSitterMutation();
+  const [updateAddress] = useUpdateOnePetSitterMutation();
   const dispatch = useDispatch();
   const toast = useToast();
 
@@ -65,6 +69,7 @@ const AddressModal = ({ isOpen, onClose }: Props) => {
           geoCode: { type: "Point", coordinates: [getAddress?.longitude, getAddress?.latitude] },
         })
       );
+      refetchPetOwnerData();
       toast({
         title: "Address changed.",
         description: "We've changed your address for you.",

@@ -1,4 +1,4 @@
-import { useMergeRefs, FormControl, useMediaQuery } from "@chakra-ui/react";
+import { useMergeRefs, FormControl } from "@chakra-ui/react";
 import { MdOutlineSearch } from "react-icons/md";
 import { usePlacesWidget } from "react-google-autocomplete";
 import {
@@ -39,13 +39,11 @@ const AddressInput = ({ changeLocation, formik }: AddressInputProps) => {
 
   const refs = useMergeRefs(ref);
 
-  const [isMobile] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
-
   return (
     <>
       <AddressInputContainer>
         <FormControl>
-          {isMobile ? <StyledFormLabel>Near</StyledFormLabel> : null}
+          <StyledFormLabel>Near</StyledFormLabel>
           <StyledInputGroup>
             <StyledInputLeftElement>
               <StyledIcon as={MdOutlineSearch} />

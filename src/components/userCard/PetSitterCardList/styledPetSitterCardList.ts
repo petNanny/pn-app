@@ -8,6 +8,7 @@ export const UserCardContainer = styled.div`
       width: 60%;
       height: 800px;
       overflow: scroll;
+      overflow-x: hidden;
     }
   }
 `;

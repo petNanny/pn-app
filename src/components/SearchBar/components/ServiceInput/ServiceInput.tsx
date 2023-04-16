@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   Portal,
 } from "@chakra-ui/react";
-import { MdArrowDropDown } from "react-icons/md";
+import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import homeDogBoarding from "../../../../assets/Icons/homeDogBoarding.svg";
 import doggyDayCare from "../../../../assets/Icons/doggyDayCare.svg";
 import dogWalking from "../../../../assets/Icons/dogWalking.svg";
@@ -35,6 +35,7 @@ import {
 } from "./styledServiceInput";
 import { FormikProps } from "formik";
 import { SearchFormValues } from "../../../../interfaces/searchForm";
+import { useLocation } from "react-router-dom";
 
 interface ServiceInputProps {
   changeServiceHeading: (value: string) => void;
@@ -68,7 +69,10 @@ const ServiceInfo = {
 
 const ServiceInput = ({ changeServiceHeading, changeServiceDetail, formik }: ServiceInputProps) => {
   const [img, setImg] = useState(homeDogBoarding);
-  const [text, setText] = useState("Dog boarding");
+  const searchParams = new URLSearchParams(useLocation().search);
+  const landingPagePetService = searchParams.get("petService") || "Dog boarding";
+  const [text, setText] = useState(landingPagePetService);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleClickDogBoarding = () => {
     changeServiceHeading(ServiceType.DogBoarding);
@@ -164,14 +168,18 @@ const ServiceInput = ({ changeServiceHeading, changeServiceDetail, formik }: Ser
   ];
 
   const [isTablet] = useMediaQuery("(max-width: 768px)", { ssr: true, fallback: false });
-  const [isLaptop] = useMediaQuery("(max-width: 1024px)", { ssr: true, fallback: false });
 
   return (
     <>
       <ServiceInputContainer>
         <FormControl>
-          {isLaptop ? <StyledFormLabel>I&apos;m looking for</StyledFormLabel> : null}
-          <Menu matchWidth={isTablet ? true : false} autoSelect={false}>
+          <StyledFormLabel>I&apos;m looking for</StyledFormLabel>
+          <Menu
+            matchWidth={isTablet ? true : false}
+            autoSelect={false}
+            onOpen={() => setIsMenuOpen(true)}
+            onClose={() => setIsMenuOpen(false)}
+          >
             <StyledMenuButton>
               <BoxInMenuButton>
                 <Box>
@@ -180,7 +188,7 @@ const ServiceInput = ({ changeServiceHeading, changeServiceDetail, formik }: Ser
                     <StyledSetServiceText>{text}</StyledSetServiceText>
                   </SetServiceTextBox>
                 </Box>
-                <MenuBtnIcon as={MdArrowDropDown} />
+                <MenuBtnIcon as={isMenuOpen ? MdArrowDropUp : MdArrowDropDown} />
               </BoxInMenuButton>
             </StyledMenuButton>
             <Portal>

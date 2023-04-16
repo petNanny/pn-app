@@ -21,6 +21,7 @@ import { SearchFormValues } from "../../interfaces/searchForm";
 import { toggleShowMapOrCard } from "../../store/reducer/boardingPageSlice";
 import { useStoreDispatch, useStoreSelector } from "../../store/hook";
 import { useFilterPetSitterMutation } from "../../redux/petSitterApi";
+import { useLocation } from "react-router-dom";
 
 interface SearchBarProps {
   getResults: React.Dispatch<React.SetStateAction<[]>>;
@@ -39,9 +40,26 @@ const SearchBar = ({
   currentPage,
   pageSize,
 }: SearchBarProps) => {
-  const [serviceHeading, setServiceHeading] = useState("Dog Boarding");
-  const [serviceDetail, setServiceDetail] = useState("Overnight stay at the sitter's home.");
-  const [location, setLocation] = useState("Sydney NSW, Australia");
+  const searchParams = new URLSearchParams(useLocation().search);
+  const landingPagePetService = searchParams.get("petService") || "Dog boarding";
+  const landingPageLongitude = Number(searchParams.get("longitude")) || 151.2092955;
+  const landingPageLatitude = Number(searchParams.get("latitude")) || -33.8688197;
+  const landingPageLocation = searchParams.get("location") || "Sydney NSW, Australia";
+
+  const displayedServiceDetail: { [key: string]: string } = {
+    "Dog boarding": "Overnight stay at the sitter's home.",
+    "Doggy day care": "Daytime care for your dog at the sitter's home.",
+    "Dog walking":
+      "An experienced dog walker will pick up your dog from your home for a 30 mins walk.",
+    "Home visits": "Drop in visits at your home for your pet.",
+    "House sitting": "A sitter stays overnight in your home and cares for your pet.",
+  };
+  const selectedServiceDetail =
+    displayedServiceDetail[landingPagePetService] || "Overnight stay at the sitter's home.";
+
+  const [serviceHeading, setServiceHeading] = useState(landingPagePetService);
+  const [serviceDetail, setServiceDetail] = useState(selectedServiceDetail);
+  const [location, setLocation] = useState(landingPageLocation);
   const [totalPetsNum, setTotalPetsNum] = useState(0);
   const [smallDogNum, setSmallDogNum] = useState(0);
   const [mediumDogNum, setMediumDogNum] = useState(0);
@@ -50,6 +68,8 @@ const SearchBar = ({
   const [catNum, setCatNum] = useState(0);
   const [smallAnimalNum, setSmallAnimalNum] = useState(0);
   const [showFilter, setShowFilter] = useState(true);
+
+  console.log("landingPagePetService", landingPagePetService);
 
   useEffect(() => {
     setTotalPetsNum(
@@ -81,10 +101,10 @@ const SearchBar = ({
 
   const formik: FormikProps<SearchFormValues> = useFormik<SearchFormValues>({
     initialValues: {
-      location: "Sydney NSW, Australia",
-      latitude: -33.8688197,
-      longitude: 151.2092955,
-      petService: "Dog boarding",
+      location: landingPageLocation,
+      latitude: landingPageLatitude,
+      longitude: landingPageLongitude,
+      petService: landingPagePetService,
       selectedDates: [],
       noDogs: false,
       noChildren: false,
@@ -114,6 +134,10 @@ const SearchBar = ({
       await filter({ body: values });
     },
   });
+
+  useEffect(() => {
+    formik.handleSubmit();
+  }, [formik.values.selectedDates]);
 
   useEffect(() => {
     const getResultOnLoad = async () => {

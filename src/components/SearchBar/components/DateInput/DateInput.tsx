@@ -20,6 +20,7 @@ import { DateRange, DayPicker } from "react-day-picker";
 import { Popover, PopoverTrigger, PopoverContent } from "@chakra-ui/react";
 import "react-day-picker/dist/style.css";
 import { SearchFormValues } from "../../../../interfaces/searchForm";
+import { useLocation } from "react-router-dom";
 
 interface DateInputProps {
   formik: FormikProps<SearchFormValues>;
@@ -28,10 +29,29 @@ interface DateInputProps {
 const DateInput = ({ formik }: DateInputProps) => {
   const today = new Date();
   const initRef = useRef<any>();
+  const searchParams = new URLSearchParams(useLocation().search);
+  const landingPageStartDate = searchParams.get("startDate");
+  const landingPageEndDate = searchParams.get("endDate");
 
-  const [rangeDays, setRangeDays] = useState<DateRange | undefined>();
+  const landingPageSelectedDates: DateRange = {
+    from: new Date(landingPageStartDate || today),
+    to: new Date(landingPageEndDate || today),
+  };
+
+  const [rangeDays, setRangeDays] = useState<DateRange | undefined>(landingPageSelectedDates);
   const [multiDays, setMultiDays] = useState<Date[]>();
   const [isMultiMode, setIsMultiMode] = useState(false);
+
+  useEffect(() => {
+    if (!rangeDays) {
+      setRangeDays({
+        from: new Date(landingPageStartDate || today),
+        to: new Date(landingPageEndDate || today),
+      });
+    }
+    formik.setFieldValue("selectedDates", getDatesInRange());
+    formik.handleSubmit();
+  }, [rangeDays]);
 
   let rangeModeInputText = <p>start date &gt; end date</p>;
   if (rangeDays?.from) {

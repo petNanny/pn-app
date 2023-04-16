@@ -39,7 +39,6 @@ const PlacesAutocomplete = ({ handleGetAddress }: any) => {
       getGeocode({ address: description }).then((results) => {
         const selectedAddress: GeocodeResult = results[0];
         const { lat, lng } = getLatLng(selectedAddress);
-        console.log("📍 Coordinates: ", { lat, lng });
         const address = selectedAddress.address_components.reduce((acc: any, address_component) => {
           const newAcc = { ...acc };
           [
