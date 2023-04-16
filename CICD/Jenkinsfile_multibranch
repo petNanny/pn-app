@@ -7,6 +7,7 @@ pipeline {
         REACT_APP_GOOGLE_MAP_API_KEY = credentials('REACT_APP_GOOGLE_MAP_API_KEY')
         REACT_APP_GOOGLE_MAP_KEY = credentials('REACT_APP_GOOGLE_MAP_KEY')
         REACT_APP_BASE_URL = 'https://uat.backend.petnanny.live/api'
+        REACT_APP_CHAT_URL = 'https://uat.backend.petnanny.live'
         REACT_APP_GOOGLE_OAUTH_CLIENT_ID = credentials('REACT_APP_GOOGLE_OAUTH_CLIENT_ID')
     }
 
