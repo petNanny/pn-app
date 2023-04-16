@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   Portal,
 } from "@chakra-ui/react";
-import { MdArrowDropDown } from "react-icons/md";
+import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import homeDogBoarding from "../../../../assets/Icons/homeDogBoarding.svg";
 import doggyDayCare from "../../../../assets/Icons/doggyDayCare.svg";
 import dogWalking from "../../../../assets/Icons/dogWalking.svg";
@@ -72,6 +72,7 @@ const ServiceInput = ({ changeServiceHeading, changeServiceDetail, formik }: Ser
   const searchParams = new URLSearchParams(useLocation().search);
   const landingPagePetService = searchParams.get("petService") || "Dog boarding";
   const [text, setText] = useState(landingPagePetService);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleClickDogBoarding = () => {
     changeServiceHeading(ServiceType.DogBoarding);
@@ -173,7 +174,12 @@ const ServiceInput = ({ changeServiceHeading, changeServiceDetail, formik }: Ser
       <ServiceInputContainer>
         <FormControl>
           <StyledFormLabel>I&apos;m looking for</StyledFormLabel>
-          <Menu matchWidth={isTablet ? true : false} autoSelect={false}>
+          <Menu
+            matchWidth={isTablet ? true : false}
+            autoSelect={false}
+            onOpen={() => setIsMenuOpen(true)}
+            onClose={() => setIsMenuOpen(false)}
+          >
             <StyledMenuButton>
               <BoxInMenuButton>
                 <Box>
@@ -182,7 +188,7 @@ const ServiceInput = ({ changeServiceHeading, changeServiceDetail, formik }: Ser
                     <StyledSetServiceText>{text}</StyledSetServiceText>
                   </SetServiceTextBox>
                 </Box>
-                <MenuBtnIcon as={MdArrowDropDown} />
+                <MenuBtnIcon as={isMenuOpen ? MdArrowDropUp : MdArrowDropDown} />
               </BoxInMenuButton>
             </StyledMenuButton>
             <Portal>
