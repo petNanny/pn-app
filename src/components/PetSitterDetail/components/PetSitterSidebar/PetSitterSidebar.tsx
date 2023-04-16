@@ -80,12 +80,6 @@ export const PetSitterSidebar = ({
             receiverId: petSitterAsPetOwnerId,
           },
         });
-        toast({
-          title: `Your message has been sent to ${petSitterName}.`,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
         onOpen();
       } catch (error) {
         toast({

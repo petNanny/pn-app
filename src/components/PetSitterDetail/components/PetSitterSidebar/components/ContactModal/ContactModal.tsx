@@ -9,6 +9,7 @@ import {
   Button,
   Input,
   FormLabel,
+  useToast,
 } from "@chakra-ui/react";
 import { useSendMessageMutation } from "../../../../../../redux/messageApi";
 import { useFormik, FormikProps } from "formik";
@@ -43,20 +44,38 @@ const ContactModal = ({
   }, [conversationData]);
 
   const [sendMessage] = useSendMessageMutation();
+  const toast = useToast();
   const formik: FormikProps<FormValues> = useFormik<FormValues>({
     initialValues: {
       message: "",
     },
     onSubmit: (values) => {
-      sendMessage({
-        body: {
-          conversationId: conversationData._id,
-          sender: senderId,
-          text: values.message,
-        },
-      });
-      formik.resetForm();
-      onClose();
+      try {
+        sendMessage({
+          body: {
+            conversationId: conversationData._id,
+            sender: senderId,
+            text: values.message,
+          },
+        });
+        formik.resetForm();
+        onClose();
+        toast({
+          title: `Your message has been send to ${petSitterName}.`,
+          description: "You can check your messages on message page.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
+        });
+      } catch (error) {
+        toast({
+          title: `Failed to contact with ${petSitterName}.`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
     },
   });
 
@@ -82,10 +101,7 @@ const ContactModal = ({
               />
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Close
-              </Button>
-              <Button variant="ghost" type="submit">
+              <Button backgroundColor="#00C38A" color="white" mr={3} type="submit">
                 Send
               </Button>
             </ModalFooter>
