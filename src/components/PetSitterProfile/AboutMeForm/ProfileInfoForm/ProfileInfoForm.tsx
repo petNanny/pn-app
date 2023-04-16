@@ -16,7 +16,7 @@ interface Values {
 
 const ProfileInfoForm = () => {
   const { id } = useParams();
-  const { data } = useGetOnePetOwnerQuery(id);
+  const { data, refetch } = useGetOnePetOwnerQuery(id);
 
   const [updatePetOwner] = useUpdateOnePetOwnerMutation();
   const toast = useToast();
@@ -36,6 +36,7 @@ const ProfileInfoForm = () => {
           lastName: values.lastName,
           userName: values.userName,
         }).unwrap();
+        refetch();
         toast({
           title: "Your info changed.",
           description: "We've changed your info for you.",
