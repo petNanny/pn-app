@@ -61,6 +61,15 @@ export const SidebarLinkText = styled(Text)`
   }
 `;
 
+export const SidebarProfileLinkText = styled(Text)`
+  &&& {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(242, 242, 242);
+  }
+`;
+
 export const SidebarLogo = styled(Box)`
   &&& {
     height: 120px;
