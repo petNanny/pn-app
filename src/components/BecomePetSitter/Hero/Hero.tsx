@@ -4,12 +4,14 @@ import googlePlayButton from "../../../assets/becomePetSitter/playstore.svg";
 import appleStoreButton from "../../../assets/becomePetSitter/appstore.svg";
 import reviewAD from "../../../assets/becomePetSitter/trustpilot_v2.svg";
 import { useCreateOnePetSitterMutation } from "../../../redux/petSitterApi";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
 import { useNavigate } from "react-router-dom";
+import { updatePetOwnerInfo } from "../../../store/reducer/petOwnerSlice";
 
 const Hero = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const toast = useToast();
   const petOwner = useSelector((state: RootState) => state.petOwner);
   const [createOnePetSitter] = useCreateOnePetSitterMutation();
@@ -29,7 +31,7 @@ const Hero = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
-
+        dispatch(updatePetOwnerInfo({ ...petOwner, roles: ["PetOwner", "PetSitter"] }));
         navigate(`/userProfile/about-me/${petOwner._id}`);
       } catch (err) {
         toast({

@@ -302,7 +302,7 @@ const Navbar = () => {
                 )}
               </Menu>
             </Box>
-            <Button bg="#5CACE2">
+            <Button bg="#5CACE2" onClick={() => navigate(`/message/${petOwner._id}`)}>
               <Icon as={AiOutlineMail} boxSize={6} color="white" />
             </Button>
             <Button bg="#5CACE2">

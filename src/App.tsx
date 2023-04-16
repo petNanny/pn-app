@@ -1,7 +1,6 @@
 import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage/HomePage";
-import ChatPage from "./pages/ChatPage";
 import MessagePage from "./pages/MessagePage";
 import RegisterPage from "./pages/RegisterPage";
 import PaymentPage from "./pages/PaymentPage";
@@ -158,14 +157,6 @@ const App = () => {
             element={
               <AuthRoute>
                 <PetPage />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="/chat/:id"
-            element={
-              <AuthRoute>
-                <ChatPage />
               </AuthRoute>
             }
           />

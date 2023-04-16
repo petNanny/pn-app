@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import { differenceInMinutes, differenceInHours, differenceInDays } from "date-fns";
 import { useGetOnePetOwnerQuery } from "../../../redux/petOwnerApi";
 import { useParams } from "react-router-dom";
+import Chat from "../Chat/Chat";
 
 const SetAvailability = () => {
   const [timeOfDay, setTimeOfDay] = useState<string>("morning");
@@ -85,6 +86,7 @@ const SetAvailability = () => {
             <CheckItemText>Away mode</CheckItemText>
           </StyledCheckbox>
         </AwayModeContainer> */}
+        <Chat />
       </SetAvailabilityContainer>
     </>
   );

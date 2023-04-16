@@ -4,7 +4,7 @@ const buttonStyles = {
       bg: "background.secondary",
       color: "fontcolor.primary",
       height: "50px",
-      lineHeights: "40",
+      lineHeight: "40",
       margin: "16px 0px",
       width: { base: "300px", sm: "480px" },
       _hover: { bg: "background.secondary", opacity: "0.80" },

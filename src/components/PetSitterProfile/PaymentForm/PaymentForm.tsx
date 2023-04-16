@@ -16,9 +16,9 @@ const PaymentForm = () => {
 
   const { values, handleChange, handleSubmit, setFieldValue, errors, touched } = useFormik({
     initialValues: {
-      abn: petSitter.abn || "",
-      bsb: petSitter.bankAccount.bsb || "",
-      accountNumber: petSitter.bankAccount.accountNumber || "",
+      abn: "",
+      bsb: "",
+      accountNumber: "",
     },
     validationSchema: paymentMethodValidator,
     onSubmit: (values) => {

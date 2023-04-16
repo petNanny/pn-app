@@ -12,9 +12,13 @@ import {
   SidebarPolicyInfo,
   SidebarPolicyInfoText,
 } from "./styledPetSitterSidebar";
-import { Avatar, Box } from "@chakra-ui/react";
+import { Avatar, Box, useToast, useDisclosure } from "@chakra-ui/react";
 import { MdFavoriteBorder } from "react-icons/md";
 import SidebarService from "./components/SidebarService/SidebarService";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { usePetOwnerStartConversationMutation } from "../../../../redux/conversationApi";
+import ContactModal from "./components/ContactModal/ContactModal";
 
 interface PetSitterSidebarValues {
   petSitterAvatar: string;
@@ -31,6 +35,7 @@ interface PetSitterSidebarValues {
     }
   ];
   petSitterCancelPolicy: string;
+  petSitterAsPetOwnerId: string;
 }
 
 export const PetSitterSidebar = ({
@@ -40,7 +45,53 @@ export const PetSitterSidebar = ({
   petSitterSuburb,
   petSitterServices,
   petSitterCancelPolicy,
+  petSitterAsPetOwnerId,
 }: PetSitterSidebarValues) => {
+  const [startConversation, { data: conversationData }] = usePetOwnerStartConversationMutation();
+  const [isDisabledBtn, setIsDisabledBtn] = useState(true);
+  const petOwner = useSelector((state: any) => state.petOwner);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (!petOwner) {
+      setIsDisabledBtn(true);
+    }
+    if (petOwner) {
+      setIsDisabledBtn(false);
+    }
+  }, [petOwner]);
+
+  const toast = useToast();
+  const handleContactBtn = async () => {
+    if (!petOwner._id) {
+      toast({
+        title: "Please sign in to contact the pet sitter.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (petOwner._id) {
+      try {
+        await startConversation({
+          body: {
+            senderId: petOwner._id,
+            receiverId: petSitterAsPetOwnerId,
+          },
+        });
+        onOpen();
+      } catch (error) {
+        toast({
+          title: `Failed to contact with ${petSitterName}.`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
+
   return (
     <ProfileSidebar>
       <SidebarInfoContainer>
@@ -54,7 +105,17 @@ export const PetSitterSidebar = ({
           <SidebarLikeBtn leftIcon={<MdFavoriteBorder fontSize="2rem" />} />
         </SidebarPetSitterInfoContainer>
         <SidebarService petSitterServices={petSitterServices} />
-        <ContactBtn>Contact {petSitterName}</ContactBtn>
+        <ContactBtn isDisabled={isDisabledBtn} onClick={handleContactBtn}>
+          Contact {petSitterName}
+        </ContactBtn>
+        <ContactModal
+          isOpen={isOpen}
+          onClose={onClose}
+          petSitterName={petSitterName}
+          senderId={petOwner._id}
+          receiverId={petSitterAsPetOwnerId}
+          conversationData={conversationData}
+        />
         <SidebarPolicyContainer>
           <SidebarPolicyTitle as="h3">
             Cancelation policy: {petSitterCancelPolicy}

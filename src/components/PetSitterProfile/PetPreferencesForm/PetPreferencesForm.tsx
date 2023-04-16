@@ -7,8 +7,7 @@ import { useGetOnePetOwnerQuery } from "../../../redux/petOwnerApi";
 
 const PetPreferencesForm = () => {
   const { id } = useParams();
-
-  const { data } = useGetOnePetOwnerQuery(id);
+  const { data, refetch: refetchPetOwnerData } = useGetOnePetOwnerQuery(id);
   const petSitter = data.petSitter;
   const toast = useToast();
   const [updatePetPreference] = useUpdateOnePetSitterMutation();
@@ -32,6 +31,7 @@ const PetPreferencesForm = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
+        refetchPetOwnerData();
       } catch (error) {
         toast({
           title: "Pet Preferences changed failure.",
