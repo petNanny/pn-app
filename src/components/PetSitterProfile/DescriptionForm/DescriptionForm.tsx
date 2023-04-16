@@ -11,7 +11,7 @@ const DescriptionForm = () => {
   const toast = useToast();
 
   const { id } = useParams();
-  const { data } = useGetOnePetOwnerQuery(id);
+  const { data, refetch: refetchPetOwnerData } = useGetOnePetOwnerQuery(id);
   const petSitter = data.petSitter;
   const [updateDesc] = useUpdateOnePetSitterMutation();
 
@@ -37,6 +37,7 @@ const DescriptionForm = () => {
           isClosable: true,
           containerStyle: { fontSize: "20px", maxWidth: "400px", padding: "10px" },
         });
+        refetchPetOwnerData();
       } catch (error) {
         toast({
           title: "Introduction and description changed failure.",
