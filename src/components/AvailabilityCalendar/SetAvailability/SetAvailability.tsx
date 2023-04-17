@@ -57,7 +57,6 @@ const SetAvailability = () => {
   } else {
     displayTimeDiff = "You have not set any unavailability dates. Please update your calendar";
   }
-  console.log("displayTimeDiff", displayTimeDiff);
 
   return (
     <>
