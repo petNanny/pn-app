@@ -79,7 +79,7 @@ const LegalRequirement = () => {
         </ListItem>
       </StyledUnorderdList>
       <StyledFormControl>
-        <StyledFormLabel {...buttonStyles.variants.submitBtn}>Add files</StyledFormLabel>
+        <StyledFormLabel>Add files</StyledFormLabel>
         <StyledInput
           type="file"
           accept="image/*,.pdf"

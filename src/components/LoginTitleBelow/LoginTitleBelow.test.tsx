@@ -7,7 +7,7 @@ import * as router from "react-router";
 describe("Login bottom title", () => {
   it("should render bottom text correctly", () => {
     renderWithMockedProvider(<LoginTitleBelow />);
-    expect(screen.getByText(/Not signed up on Pawshake yet?/i)).toBeInTheDocument();
+    expect(screen.getByText(/Not signed up on PetNanny yet?/i)).toBeInTheDocument();
     expect(screen.getByText(/Sign up/i)).toBeInTheDocument();
   });
 

@@ -228,9 +228,18 @@ const Navbar = () => {
       <Spacer />
 
       <NavbarFunction>
-        <NavbarSearchSittersButton>
-          <Text className="navSearchSittersButton__text__color">Search Sitters</Text>
-        </NavbarSearchSittersButton>
+        <NavLink to="/">
+          <Text
+            backgroundColor="#edf2f7"
+            marginRight="1.5rem"
+            padding="0.5rem 1rem"
+            borderRadius="0.375rem"
+            color={theme.colors.background.primary}
+            fontWeight="bold"
+          >
+            Search Sitters
+          </Text>
+        </NavLink>
         {!hasPetSitter && (
           <NavLink to="/becomePetSitter">
             <NavLinkText>Become a Sitter</NavLinkText>
@@ -302,10 +311,10 @@ const Navbar = () => {
                 )}
               </Menu>
             </Box>
-            <Button bg="#5CACE2" onClick={() => navigate(`/message/${petOwner._id}`)}>
+            <Button bg="#21bdbd" onClick={() => navigate(`/message/${petOwner._id}`)}>
               <Icon as={AiOutlineMail} boxSize={6} color="white" />
             </Button>
-            <Button bg="#5CACE2">
+            <Button bg="#21bdbd">
               <Icon as={AiOutlineBell} boxSize={6} color="white" />
             </Button>
           </HStack>

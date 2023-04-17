@@ -16,6 +16,8 @@ export const StyledFormLabel = styled(FormLabel)`
   width: 100%;
   text-align: center;
   line-height: 50px;
+  background-color: #00c38a;
+  color: #fff;
 `;
 
 export const StyledInput = styled(Input)`

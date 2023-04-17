@@ -74,9 +74,8 @@ export const SidebarPetSitterSuburb = styled(Text)`
 export const ContactBtn = styled(Button)`
   &&& {
     text-align: center;
-    border: 1px solid rgb(0, 195, 138);
     border-radius: 4px;
-    background-color: rgb(0, 195, 138);
+    background-color: #5cace2;
     touch-action: manipulation;
     width: 100%;
     color: white;

@@ -4,7 +4,7 @@ const LoginTitleBelow = () => {
   const navigate = useNavigate();
   return (
     <>
-      <StyledLoginBelowTitle>Not signed up on Pawshake yet?</StyledLoginBelowTitle>
+      <StyledLoginBelowTitle>Not signed up on PetNanny yet?</StyledLoginBelowTitle>
       <StyledLoginBelowSecondaryTitle onClick={() => navigate("/register")}>
         Sign up
       </StyledLoginBelowSecondaryTitle>

@@ -47,8 +47,15 @@ const Calendar = () => {
   const notAvailableDates = petSitter?.notAvailableDates;
   const today = new Date();
 
+  let unavailable;
+  if (notAvailableDates) {
+    unavailable = notAvailableDates.map((dateString: string) => new Date(dateString));
+  } else {
+    unavailable = [];
+  }
+
   const notAvailableDatesModifier = {
-    unavailable: notAvailableDates.map((dateString: string) => new Date(dateString)),
+    unavailable: unavailable,
     disabled: (date: Date) => isBefore(date, startOfDay(today)),
   };
 

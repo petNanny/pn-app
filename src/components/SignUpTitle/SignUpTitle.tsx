@@ -3,7 +3,7 @@ import { StyledSignUpTitle, StyledSignUpSecondaryTitle } from "./styledSignUpTit
 const SignUpTitle = () => {
   return (
     <>
-      <StyledSignUpTitle>Sign up for Pawshake</StyledSignUpTitle>
+      <StyledSignUpTitle>Sign up for PetNanny</StyledSignUpTitle>
       <StyledSignUpSecondaryTitle>{`It's free!`}</StyledSignUpSecondaryTitle>
     </>
   );
