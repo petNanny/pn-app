@@ -83,7 +83,7 @@ export const MobileButtonsContainer = styled(Box)`
 
 export const StyledMobileBtn = styled(Button)`
   &&& {
-    color: rgb(0, 175, 237);
+    color: #21bdbd;
     background-color: transparent;
     border: 0;
     padding: 0;
@@ -96,9 +96,9 @@ export const StyledMobileBtn = styled(Button)`
 
 export const MobileSearchBtn = styled(Button)`
   &&& {
-    border: 1px solid rgb(0, 195, 138);
+    border: 1px solid #5cace2;
     border-radius: 4px;
-    background-color: rgb(0, 195, 138);
+    background-color: #5cace2;
     touch-action: manipulation;
     width: 100%;
     color: white;

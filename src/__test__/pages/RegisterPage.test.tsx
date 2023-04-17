@@ -7,7 +7,7 @@ import * as router from "react-router";
 describe("Register page", () => {
   it("should render top text correctly", () => {
     renderWithMockedProvider(<RegisterPage />);
-    expect(screen.getByText(/Sign up for Pawshake/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sign up for PetNanny/i)).toBeInTheDocument();
     expect(screen.getByText(/It's free!/i)).toBeInTheDocument();
   });
 
@@ -24,7 +24,7 @@ describe("Register page", () => {
 
   it("should render bottom text correctly", () => {
     renderWithMockedProvider(<RegisterPage />);
-    expect(screen.getByText(/Already have a Pawshake account?/i)).toBeInTheDocument();
+    expect(screen.getByText(/Already have a PetNanny account?/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Login/i)).toHaveLength(2);
   });
 
