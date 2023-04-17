@@ -21,10 +21,10 @@ const styles = {
 
 const colors = {
   background: {
-    primary: "#5CACE2",
+    primary: "#21bdbd",
     secondary: "#00C38A",
     tertiary: "#F9F9F9",
-    quaternary: "#5197C6",
+    quaternary: "#1BAEAE",
     error: "#EB4335",
     lightgrey: "#CECECE",
     grey: "#808080",

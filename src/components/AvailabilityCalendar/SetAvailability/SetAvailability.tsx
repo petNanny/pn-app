@@ -13,7 +13,7 @@ import DateSelect from "../DateSelect/DateSelect";
 import { useState, useEffect } from "react";
 import { differenceInMinutes, differenceInHours, differenceInDays } from "date-fns";
 import { useGetOnePetOwnerQuery } from "../../../redux/petOwnerApi";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate, generatePath } from "react-router-dom";
 
 const SetAvailability = () => {
   const [timeOfDay, setTimeOfDay] = useState<string>("morning");
@@ -40,23 +40,31 @@ const SetAvailability = () => {
     const diffInDays = differenceInDays(to, from);
     if (diffInMins < 1) {
       return "just now";
-    } else if (diffInMins < 60) {
-      return diffInMins + " minute(s) ago";
-    } else if (diffInMins < 1440) {
-      return diffInHours + " hour(s) ago";
-    } else {
-      return diffInDays + " day(s) ago";
+    }
+    if (diffInMins < 60) {
+      return `Your calendar was last updated ${diffInMins} minute(s) ago`;
+    }
+    if (diffInMins < 1440) {
+      return `Your calendar was last updated ${diffInHours} hour(s) ago`;
+    }
+    if (diffInMins >= 1440) {
+      return `Your calendar was last updated ${diffInDays}  day(s) ago`;
     }
   };
+  let displayTimeDiff;
+  if (timeDiff(lastUpdateCalendarTime, nowTime)) {
+    displayTimeDiff = timeDiff(lastUpdateCalendarTime, nowTime);
+  } else {
+    displayTimeDiff = "You have not set any unavailability dates. Please update your calendar";
+  }
+  console.log("displayTimeDiff", displayTimeDiff);
 
   return (
     <>
       <SetAvailabilityContainer>
         <SetHeading as="h2">Good {timeOfDay}, Tong</SetHeading>
         <TextWrapper>
-          <NormalText>
-            Your calendar was last updated {timeDiff(lastUpdateCalendarTime, nowTime)}
-          </NormalText>
+          <NormalText>{displayTimeDiff}</NormalText>
           <NormalText>Our top sitters update their calendar twice a week.</NormalText>
         </TextWrapper>
         {/* <TextWrapper>
