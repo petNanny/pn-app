@@ -42,7 +42,8 @@ const AddressModal = ({ isOpen, onClose }: Props) => {
   const petOwner = useSelector((state: RootState) => state.petOwner);
   const petSitter = petOwner.petSitter;
   const { id } = useParams();
-  const { refetch: refetchPetOwnerData } = useGetOnePetOwnerQuery(id);
+  const { data: petOwnerData, refetch: refetchPetOwnerData } = useGetOnePetOwnerQuery(id);
+  const petSitterData = petOwnerData?.petSitter;
 
   const [updateAddress] = useUpdateOnePetSitterMutation();
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const AddressModal = ({ isOpen, onClose }: Props) => {
   const handleAddressSave = useCallback((petSitter: any, getAddress: IAddress | null) => {
     try {
       updateAddress({
-        ...petSitter,
+        ...petSitterData,
         address: getAddress,
         geoCode: {
           type: "Point",
@@ -64,7 +65,7 @@ const AddressModal = ({ isOpen, onClose }: Props) => {
       });
       dispatch(
         updatePetSitterInfo({
-          ...petSitter,
+          ...petSitterData,
           address: getAddress,
           geoCode: { type: "Point", coordinates: [getAddress?.longitude, getAddress?.latitude] },
         })
