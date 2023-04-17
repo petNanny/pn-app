@@ -71,7 +71,7 @@ const ContactSitter = () => {
       <StyledImageBox>{image}</StyledImageBox>
       <Box className="guarantee">
         <Text>
-          Book via Pawshake to enjoy The <Link>Pawshake Guarantee,</Link> in-house customer support,
+          Book via PetNanny to enjoy The <Link>PetNanny Guarantee,</Link> in-house customer support,
           booking guarantee, safe cashless payments, no booking fees, no change fees, daily updates
           and more!
         </Text>

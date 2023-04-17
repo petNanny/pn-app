@@ -5,7 +5,7 @@ import SignUpTitle from "./SignUpTitle";
 describe("Sign up top title", () => {
   it("should render top text correctly", () => {
     renderWithMockedProvider(<SignUpTitle />);
-    expect(screen.getByText(/Sign up for Pawshake/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sign up for PetNanny/i)).toBeInTheDocument();
     expect(screen.getByText(/It's free!/i)).toBeInTheDocument();
   });
 });

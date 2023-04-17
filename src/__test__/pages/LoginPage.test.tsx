@@ -15,7 +15,7 @@ describe("Login page", () => {
 
   it("should render top text correctly", () => {
     renderWithMockedProvider(<LoginPage />);
-    expect(screen.getByText(/Already a Pawshake member?/i)).toBeInTheDocument();
+    expect(screen.getByText(/Already a PetNanny member?/i)).toBeInTheDocument();
     expect(screen.getByText(/Log in below!/i)).toBeInTheDocument();
   });
 
@@ -27,7 +27,7 @@ describe("Login page", () => {
 
   it("should render bottom text correctly", () => {
     renderWithMockedProvider(<LoginPage />);
-    expect(screen.getByText(/Not signed up on Pawshake yet?/i)).toBeInTheDocument();
+    expect(screen.getByText(/Not signed up on PetNanny yet?/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Sign up/i)).toHaveLength(2);
   });
 
