@@ -228,9 +228,18 @@ const Navbar = () => {
       <Spacer />
 
       <NavbarFunction>
-        <NavbarSearchSittersButton>
-          <Text className="navSearchSittersButton__text__color">Search Sitters</Text>
-        </NavbarSearchSittersButton>
+        <NavLink to="/">
+          <Text
+            backgroundColor="#edf2f7"
+            marginRight="1.5rem"
+            padding="0.5rem 1rem"
+            borderRadius="0.375rem"
+            color={theme.colors.background.primary}
+            fontWeight="bold"
+          >
+            Search Sitters
+          </Text>
+        </NavLink>
         {!hasPetSitter && (
           <NavLink to="/becomePetSitter">
             <NavLinkText>Become a Sitter</NavLinkText>
