@@ -39,7 +39,7 @@ const SetAvailability = () => {
     const diffInHours = differenceInHours(to, from, { roundingMethod: "ceil" });
     const diffInDays = differenceInDays(to, from);
     if (diffInMins < 1) {
-      return "just now";
+      return "Your calendar was last updated just now";
     }
     if (diffInMins < 60) {
       return `Your calendar was last updated ${diffInMins} minute(s) ago`;
