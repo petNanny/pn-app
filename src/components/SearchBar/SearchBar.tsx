@@ -51,6 +51,14 @@ const SearchBar = ({
   const [smallAnimalNum, setSmallAnimalNum] = useState(0);
   const [showFilter, setShowFilter] = useState(true);
 
+  const queryParameters = new URLSearchParams(window.location.search);
+  const petService = queryParameters.get("petService");
+  const latitude = queryParameters.get("latitude");
+  const longitude = queryParameters.get("longitude");
+  const landingPageLocation = queryParameters.get("location");
+  const startDate = queryParameters.get("startDate");
+  const endDate = queryParameters.get("endDate");
+
   useEffect(() => {
     setTotalPetsNum(
       smallDogNum + mediumDogNum + largeDogNum + giantDogNum + catNum + smallAnimalNum
@@ -174,6 +182,12 @@ const SearchBar = ({
             {serviceHeading} {location}
           </Heading1>
           <Heading2 as="h2">{serviceDetail}</Heading2>
+          <Heading2 as="h2">petService:{petService}</Heading2>
+          <Heading2 as="h2">latitude:{latitude}</Heading2>
+          <Heading2 as="h2">longitude:{longitude}</Heading2>
+          <Heading2 as="h2">landingPageLocation:{landingPageLocation}</Heading2>
+          <Heading2 as="h2">startDate:{startDate}</Heading2>
+          <Heading2 as="h2">endDate:{endDate}</Heading2>
         </HeadingContainer>
         {showFilter && (
           <InputsContainer>
